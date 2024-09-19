@@ -1,0 +1,282 @@
+"Games"
+{
+    "nmrih"
+    {
+
+        "Offsets"
+        {
+            /* --- General --- */
+            "OS"
+            {
+                "windows"   "0"
+                "linux"     "1"
+                "mac"       "2"
+            }
+
+            "CBaseEntity::IsMoving"
+            {
+                "windows"   "77"
+                "linux"     "78"
+            }
+
+            "CBaseCombatCharacter::GetAliveDuration"
+            {
+                "windows"   "283"
+                "linux"     "284"
+            }
+
+            // CBaseCombatCharacter::HasEverBeenInjured(int) const
+            // CBaseCombatCharacter::GetTimeSinceLastInjury(int) const
+
+            "CSDKPlayer::FlashlightIsOn"
+            {
+                "windows"   "372"
+                "linux"     "373"
+            }
+
+            "CSDKPlayer::FlashlightTurnOn"
+            {
+                "windows"   "373"
+                "linux"     "374"
+            }
+
+            "CSDKPlayer::FlashlightTurnOff"
+            {
+                "windows"   "374"
+                "linux"     "375"
+            }
+
+            "CBasePlayer::IsValidObserverTarget"
+            {
+                "windows"   "398"
+                "linux"     "399"
+            }
+
+            "CNMRiH_Player::CanSprint"
+            {
+                "windows"   "495"
+                "linux"     "496"
+            }
+
+            "CNMRiH_Player::HasFlashlight"
+            {
+                "windows"   "502"
+                "linux"     "503"
+            }
+
+            "CNMRiH_Player::HasWalkieTalkie"
+            {
+                "windows"   "503"
+                "linux"     "504"
+            }
+
+            "CNMRiH_Player::EnableSprint"
+            {
+                "windows"   "509"
+                "linux"     "510"
+            }
+
+            "CNMRiH_Player::GetLastObserverMode"
+            {
+                "windows"   "514"
+                "linux"     "515"
+            }
+
+            "CNMRiH_Player::IsBarricading"
+            {
+                "windows"   "515"
+                "linux"     "516"
+            }
+        }
+
+        "Signatures"
+        {
+            "CNMRiH_Player::CureInfection"
+            {
+                "library"   "server"
+                "windows"   "\x55\x8B\xEC\x83\xEC\x20\x56\x8B\xF1\xE8\x2A\x2A\x2A\x2A\x8D\x4D\xE0"
+                "linux"     "@_ZN13CNMRiH_Player13CureInfectionEv"
+            }
+
+            "CNMRiH_Player::BecomeInfected"
+            {
+                "library"   "server"
+                "windows"   "\x55\x8B\xEC\x83\xEC\x20\x56\x8B\xF1\xF7\x86\x08\x01\x00\x00\x00\x80\x00\x00"
+                "linux"     "@_ZN13CNMRiH_Player14BecomeInfectedEv"
+            }
+
+            "CNMRiH_Player::TakePills"
+            {
+                "library"   "server"
+                "windows"   "\x56\x8B\xF1\x8B\x06\x8B\x80\x38\x05\x00\x00"
+                "linux"     "@_ZN13CNMRiH_Player9TakePillsEv"
+            }
+
+            "CNMRiH_Player::OnGrabbedBegin"
+            {
+                "library"   "server"
+                "windows"   "\x55\x8B\xEC\x51\x56\x8B\xF1\xC6\x45\xFF\x01\x8D\x4D\xFF\x57\x8A\x86\x32\x13\x00\x00"
+                "linux"     "@_ZN13CNMRiH_Player14OnGrabbedBeginEP11CBaseEntity"
+            }
+
+            "CNMRiH_Player::ApplyBandage"
+            {
+                "library"   "server"
+                "windows"   "\x56\x8B\xF1\x80\xBE\x33\x13\x00\x00\x00\x74\x2A"
+                "linux"     "@_ZN13CNMRiH_Player12ApplyBandageEv"
+            }
+
+            "CNMRiH_Player::ApplyFirstAidKit"
+            {
+                "library"   "server"
+                "windows"   "\x55\x8B\xEC\x51\xA1\x2A\x2A\x2A\x2A\x56\x8B\xF1\x57\x8B\x78\x30"
+                "linux"     "@_ZN13CNMRiH_Player16ApplyFirstAidKitEv"
+            }
+
+            "CNMRiH_Player::ApplyVaccine"
+            {
+                "library"   "server"
+                "windows"   "\x55\x8B\xEC\x83\xEC\x10\x53\x8B\xD9\xC6\x45\xFF\x01"
+                "linux"     "@_ZN13CNMRiH_Player12ApplyVaccineEv"
+            }
+
+            "CNMRiH_Player::BleedOut"
+            {
+                "library"   "server"
+                "windows"   "\x55\x8B\xEC\x83\xEC\x74\x56\x8B\xF1\x80\xBE\x33\x13\x00\x00\x00"
+                "linux"     "@_ZN13CNMRiH_Player8BleedOutEv.part.124"
+            }
+
+            "CNMRiH_Player::StopBleedingOut"
+            {
+                "library"   "server"
+                "windows"   "\x55\x8B\xEC\x51\x56\x57\x8B\xF9\xC6\x45\xFF\x00\x8D\x4D\xFF\x8A\x87\x33\x13\x00\x00\x3A\x01\x74\x2A\x8B\xCF\x80\x79\x54\x00\x74\x2A\x80\x49\x58\x01\xEB\x2A\x8B\x51\x18\x85\xD2\x74\x2A\x8D\x87\x33\x13\x00\x00\x2B\xC1\x8B\xCA\x50\xE8\x2A\x2A\x2A\x2A\xC6\x87\x33\x13\x00\x00\x00\xD9\xEE\x68\x2A\x2A\x2A\x2A\x51\xD9\x1C\x24\x6A\x00\x8B\xCF\xE8\x2A\x2A\x2A\x2A\x5F"
+                "linux"     "@_ZN13CNMRiH_Player15StopBleedingOutEv"
+            }
+        }
+
+        "Functions"
+        {
+            "CNMRiH_Player::CureInfection"
+            {
+                "signature"     "CNMRiH_Player::CureInfection"
+                "callconv"      "thiscall"
+                "return"        "void"
+                "this"          "entity"
+                "arguments"     {}
+            }
+
+            "CNMRiH_Player::BecomeInfected"
+            {
+                "signature"     "CNMRiH_Player::BecomeInfected"
+                "callconv"      "thiscall"
+                "return"        "void"
+                "this"          "entity"
+                "arguments"     {}
+            }
+
+            "CNMRiH_Player::TakePills"
+            {
+                "signature"     "CNMRiH_Player::TakePills"
+                "callconv"      "thiscall"
+                "return"        "void"
+                "this"          "entity"
+                "arguments"     {}
+            }
+
+            "CNMRiH_Player::OnGrabbedBegin"
+            {
+                "signature"     "CNMRiH_Player::OnGrabbedBegin"
+                "callconv"      "thiscall"
+                "return"        "void"
+                "this"          "entity"
+                "arguments"
+                {
+                    "causer"
+                    {
+                        "type"      "cbaseentity"
+                    }
+                }
+            }
+
+            "CNMRiH_Player::ApplyBandage"
+            {
+                "signature"     "CNMRiH_Player::ApplyBandage"
+                "callconv"      "cdecl"
+                "return"        "void"
+                "this"          "ignore"
+                "arguments"
+                {
+                    "client"
+                    {
+                        "type"      "cbaseentity"
+                    }
+                }
+            }
+
+            "CNMRiH_Player::ApplyFirstAidKit"
+            {
+                "signature"     "CNMRiH_Player::ApplyFirstAidKit"
+                "callconv"      "cdecl"
+                "return"        "void"
+                "this"          "ignore"
+                "arguments"
+                {
+                    "client"
+                    {
+                        "type"      "cbaseentity"
+                    }
+                }
+            }
+
+            "CNMRiH_Player::ApplyVaccine"
+            {
+                "signature"     "CNMRiH_Player::ApplyVaccine"
+                "callconv"      "cdecl"
+                "return"        "void"
+                "this"          "ignore"
+                "arguments"
+                {
+                    "client"
+                    {
+                        "type"      "cbaseentity"
+                    }
+                }
+            }
+
+            "CNMRiH_Player::BleedOut"
+            {
+                "signature"     "CNMRiH_Player::BleedOut"
+                "callconv"      "cdecl"
+                "return"        "void"
+                "this"          "ignore"
+                "arguments"
+                {
+                    "client"
+                    {
+                        "type"      "cbaseentity"
+                        "linux"
+                        {
+                            "register"      "eax"
+                        }
+                    }
+                }
+            }
+
+            "CNMRiH_Player::StopBleedingOut"
+            {
+                "signature"     "CNMRiH_Player::StopBleedingOut"
+                "callconv"      "cdecl"
+                "return"        "void"
+                "this"          "ignore"
+                "arguments"
+                {
+                    "client"
+                    {
+                        "type"      "cbaseentity"
+                    }
+                }
+            }
+        }
+    }
+}
