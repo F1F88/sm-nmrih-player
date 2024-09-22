@@ -1183,8 +1183,18 @@ methodmap NMR_Player {
 
     /**
      * Resets infection time.
+     *
+     * @note 未感染时调用无效
      */
     public native void TakePills();
+
+    /**
+     * 使用药丸的效果，类似于闪光弹造成的白屏，但时间很短。
+     *
+     * @note 未感染时调用也有效
+     * @note 暂不支持 windows
+     */
+    public native void TakePillsEffects();
 
     public native bool IsValidObserverTarget(int entity);
 

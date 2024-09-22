@@ -112,6 +112,13 @@
                 "linux"     "@_ZN13CNMRiH_Player9TakePillsEv"
             }
 
+            "CNMRiH_Player::TakePillsEffects"
+            {
+                "library"   "server"
+                // "windows"   ""
+                "linux"     "@_ZN13CNMRiH_Player16TakePillsEffectsEv"
+            }
+
             "CNMRiH_Player::OnGrabbedBegin"
             {
                 "library"   "server"

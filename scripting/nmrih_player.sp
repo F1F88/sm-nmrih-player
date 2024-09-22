@@ -5,7 +5,7 @@
 
 #define PLUGIN_NAME        "CNMRIH_Player_Utils"
 #define PLUGIN_DESCRIPTION "CNMRIH_Player Utils"
-#define PLUGIN_VERSION     "1.5.0"
+#define PLUGIN_VERSION     "1.6.0"
 
 public Plugin myinfo =
 {
