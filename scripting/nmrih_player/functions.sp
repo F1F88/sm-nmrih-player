@@ -16,6 +16,7 @@ enum
     HDL_CureInfection,
     HDL_BecomeInfected,
     HDL_TakePills,
+    HDL_TakePillsInner,
     HDL_TakePillsEffects,
 
     HDL_IsValidObserverTarget,
@@ -125,6 +126,7 @@ void LoadFunctionsNatives()
     CreateNative("NMR_Player.CureInfection", Native_CureInfection);
     CreateNative("NMR_Player.BecomeInfected", Native_BecomeInfected);
     CreateNative("NMR_Player.TakePills", Native_TakePills);
+    CreateNative("NMR_Player.TakePillsInner", Native_TakePillsInner);
     CreateNative("NMR_Player.TakePillsEffects", Native_TakePillsEffects);
     CreateNative("NMR_Player.IsValidObserverTarget", Native_IsValidObserverTarget);
     CreateNative("NMR_Player.CanSprint", Native_CanSprint);
@@ -221,6 +223,11 @@ void LoadFunctionsCalls(GameData gamedata)
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::TakePills");
     if ((hCallers[HDL_TakePills] = EndPrepSDKCall()) == null)
         SetFailState("Failed to load offset CNMRiH_Player::TakePills");
+
+    StartPrepSDKCall(SDKCall_Player);
+    PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CInfectableCharacter::TakePills");
+    if ((hCallers[HDL_TakePillsInner] = EndPrepSDKCall()) == null)
+        SetFailState("Failed to load offset CInfectableCharacter::TakePills");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::TakePillsEffects");
@@ -1133,6 +1140,15 @@ static any Native_TakePills(Handle plugin, int numParams)
         ThrowCallNativeError(SP_ERROR_PARAM, plugin, "invalid player %d", player);
 
     return SDKCall(hCallers[HDL_TakePills], player);
+}
+
+static any Native_TakePillsInner(Handle plugin, int numParams)
+{
+    int player = GetNativeCell(1);
+    if (!IsValidClient(player))
+        ThrowCallNativeError(SP_ERROR_PARAM, plugin, "invalid player %d", player);
+
+    return SDKCall(hCallers[HDL_TakePillsInner], player);
 }
 
 static any Native_TakePillsEffects(Handle plugin, int numParams)

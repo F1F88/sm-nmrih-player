@@ -112,6 +112,13 @@
                 "linux"     "@_ZN13CNMRiH_Player9TakePillsEv"
             }
 
+            "CInfectableCharacter::TakePills"
+            {
+                "library"   "server"
+                // "windows"   ""
+                "linux"     "@_ZN20CInfectableCharacter9TakePillsEv"
+            }
+
             "CNMRiH_Player::TakePillsEffects"
             {
                 "library"   "server"

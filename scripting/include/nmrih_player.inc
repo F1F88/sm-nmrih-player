@@ -1189,6 +1189,12 @@ methodmap NMR_Player {
     public native void TakePills();
 
     /**
+     * CNMRiH_Player::TakePills 内部实际调用的是 CInfectableCharacter::TakePills
+     * 以及处理效果和发送事件等琐碎
+     */
+    public native void TakePillsInner();
+
+    /**
      * 使用药丸的效果，类似于闪光弹造成的白屏，但时间很短。
      *
      * @note 未感染时调用也有效
