@@ -115,14 +115,14 @@
             "CInfectableCharacter::TakePills"
             {
                 "library"   "server"
-                // "windows"   ""
+                "windows"   "\x56\x8B\xF1\x8B\x06\x8B\x80\x38\x05\x00\x00"
                 "linux"     "@_ZN20CInfectableCharacter9TakePillsEv"
             }
 
             "CNMRiH_Player::TakePillsEffects"
             {
                 "library"   "server"
-                // "windows"   ""
+                "windows"   "\x55\x8B\xEC\x83\xEC\x24\xD9\x05\x2A\x2A\x2A\x2A"
                 "linux"     "@_ZN13CNMRiH_Player16TakePillsEffectsEv"
             }
 
