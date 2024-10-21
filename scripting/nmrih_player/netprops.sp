@@ -37,17 +37,17 @@ enum // Networkable Send Property Offset
     OFS_m_iFOVStart,                    // 2952
     OFS_m_flFOVTime,                    // 2956
     OFS_m_iDefaultFOV,                  // 2948
-    OFS_m_iHideHUD,                     // 60
-    OFS_m_flFOVRate,                    // 64
-    OFS_m_bDucked,                      // 80
-    OFS_m_bDucking,                     // 81
-    OFS_m_bInDuckJump,                  // 82
-    OFS_m_flDucktime,                   // 84
-    OFS_m_flDuckJumpTime,               // 88
-    OFS_m_flJumpTime,                   // 92
-    OFS_m_flFallVelocity,               // 100
-    OFS_m_bPoisoned,                    // 138
-    OFS_m_flStepSize,                   // 140
+    OFS_m_iHideHUD,                     // 2296
+    OFS_m_flFOVRate,                    // 2300
+    OFS_m_bDucked,                      // 2316
+    OFS_m_bDucking,                     // 2317
+    OFS_m_bInDuckJump,                  // 2318
+    OFS_m_flDucktime,                   // 2320
+    OFS_m_flDuckJumpTime,               // 2324
+    OFS_m_flJumpTime,                   // 2328
+    OFS_m_flFallVelocity,               // 2336
+    OFS_m_bPoisoned,                    // 2374
+    OFS_m_flStepSize,                   // 2376
     OFS_m_vecViewOffset_0,              // 824
     OFS_m_vecViewOffset_1,              // 828
     OFS_m_vecViewOffset_2,              // 832
@@ -60,8 +60,8 @@ enum // Networkable Send Property Offset
     OFS_m_flDeathTime,                  // 2932
     OFS_m_nWaterLevel,                  // 527
     OFS_m_flLaggedMovementValue,        // 3764
-    OFS_m_flStamina,                    // 8
-    OFS_m_bIsSprinting,                 // 4
+    OFS_m_flStamina,                    // 4820
+    OFS_m_bIsSprinting,                 // 4816
     OFS_m_bTalkingWalkie,               // 4932
     OFS_m_bSprintEnabled,               // 4936
     OFS_m_bStickyIronsight,             // 4933
@@ -74,17 +74,17 @@ enum // Networkable Send Property Offset
     OFS_m_iDeaths,                      // 4924
     OFS__usingToolSecondary,            // 4941
     OFS__contemplatingSuicide,          // 4940
-    OFS__playerModelIndex,              // 5012
-    OFS__nextRespawnTime,               // 4948
+    OFS__playerModelIndex,              // 5016
+    OFS__nextRespawnTime,               // 4952
     OFS__vaccinated,                    // 4935
     OFS_m_bGrabbedByCrawler,            // 4943
-    OFS_m_flPartialBlindnessEffectEnd,  // 4956
+    OFS_m_flPartialBlindnessEffectEnd,  // 4960
     OFS_m_bIsExtracted,                 // 4934
     OFS_m_bUsingProgressTrigger,        // 4942
     OFS_m_bLevelTransition,             // 4944
-    OFS_m_flSpeedModifier,              // 5028
-    OFS_m_flSpeedOverride,              // 5032
-    OFS_m_flTriggerSpeedModifier,       // 5036
+    OFS_m_flSpeedModifier,              // 5032
+    OFS_m_flSpeedOverride,              // 5036
+    OFS_m_flTriggerSpeedModifier,       // 5040
     OFS_m_ArmorValue,                   // 3460
     OFS_m_flNextAttack,                 // 1728
     OFS_m_nBody,                        // 944
@@ -2237,7 +2237,7 @@ static void Native_SetOldButtons(Handle plugin, int numParams)
 stock void DebugNetPropsOffset()
 {
     char buffer[512];
-    log.TraceAmxTpl("************** Load Networkable Send Property Offset Count=%d **************", OFS_Total);
+    log.DebugAmxTpl("************** Load Networkable Send Property Offset Count=%d **************", OFS_Total);
     for (int i = 0; i < OFS_Total; ++i)
     {
         if (i % 5 == 0)
@@ -2246,6 +2246,6 @@ stock void DebugNetPropsOffset()
             Format(buffer, sizeof(buffer), "%s No.%-3d=%5d |", buffer, i, iNetPropsOffset[i]);
 
         if (i != 0 && ((i + 1) % 5 == 0 || i == OFS_Total - 1))
-            log.Trace(buffer);
+            log.DebugAmxTpl(buffer);
     }
 }

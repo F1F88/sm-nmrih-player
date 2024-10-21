@@ -1206,8 +1206,6 @@ methodmap NMR_Player {
 
     public native bool CanSprint();
 
-    public native bool IsBarricading();
-
     /**
      * Gets the velocity.
      * @note m_vecVelocity

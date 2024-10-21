@@ -27,7 +27,6 @@ enum
     HDL_HasWalkieTalkie,
     HDL_EnableSprint,
     HDL_GetLastObserverMode,
-    HDL_IsBarricading,
 
     HDL_ApplyBandage,
     HDL_ApplyFirstAidKit,
@@ -130,7 +129,6 @@ void LoadFunctionsNatives()
     CreateNative("NMR_Player.TakePillsEffects", Native_TakePillsEffects);
     CreateNative("NMR_Player.IsValidObserverTarget", Native_IsValidObserverTarget);
     CreateNative("NMR_Player.CanSprint", Native_CanSprint);
-    CreateNative("NMR_Player.IsBarricading", Native_IsBarricading);
     CreateNative("NMR_Player.IsInfected", Native_IsInfected);
     CreateNative("NMR_Player.GetSpeed", Native_GetSpeed);
     CreateNative("NMR_Player.GetEntityDistance", Native_GetEntityDistance);
@@ -202,12 +200,6 @@ void LoadFunctionsCalls(GameData gamedata)
     PrepSDKCall_SetReturnInfo(SDKType_PlainOldData, SDKPass_Plain);
     if ((hCallers[HDL_GetLastObserverMode] = EndPrepSDKCall()) == null)
         SetFailState("Failed to load offset CNMRiH_Player::GetLastObserverMode");
-
-    StartPrepSDKCall(SDKCall_Player);
-    PrepSDKCall_SetFromConf(gamedata, SDKConf_Virtual, "CNMRiH_Player::IsBarricading");
-    PrepSDKCall_SetReturnInfo(SDKType_Bool, SDKPass_Plain);
-    if ((hCallers[HDL_IsBarricading] = EndPrepSDKCall()) == null)
-        SetFailState("Failed to load offset CNMRiH_Player::IsBarricading");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::CureInfection");
@@ -1180,15 +1172,6 @@ static any Native_CanSprint(Handle plugin, int numParams)
         ThrowCallNativeError(SP_ERROR_PARAM, plugin, "invalid player %d", player);
 
     return SDKCall(hCallers[HDL_CanSprint], player);
-}
-
-static any Native_IsBarricading(Handle plugin, int numParams)
-{
-    int player = GetNativeCell(1);
-    if (!IsValidClient(player))
-        ThrowCallNativeError(SP_ERROR_PARAM, plugin, "invalid player %d", player);
-
-    return SDKCall(hCallers[HDL_IsBarricading], player);
 }
 
 static any Native_IsInfected(Handle plugin, int numParams)

@@ -5,7 +5,7 @@
 
 #define PLUGIN_NAME        "CNMRIH_Player_Utils"
 #define PLUGIN_DESCRIPTION "CNMRIH_Player Utils"
-#define PLUGIN_VERSION     "1.7.0"
+#define PLUGIN_VERSION     "1.8.0"
 
 public Plugin myinfo =
 {
@@ -67,11 +67,14 @@ public void OnPluginStart()
     /* ------- Log Debug ------- */
     Sink sinks[2];
     sinks[0] = new ServerConsoleSinkMT();
-    sinks[0].SetLevel(LogLevel_Warn);
+    sinks[0].SetLevel(LogLevel_Info);
+
     sinks[1] = new RotatingFileSinkMT("logs/lib/player.log", 1024 * 1024 * 4, 10, .rotateOnOpen=true);
     sinks[1].SetLevel(LogLevel_Trace);
+
     log = new Logger("lib-player", sinks, 2, .async=true);
     log.SetLevel(LogLevel_Trace);
+
     delete sinks[0];
     delete sinks[1];
 
