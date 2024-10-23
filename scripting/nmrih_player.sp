@@ -1,5 +1,18 @@
 #include <sourcemod>
 
+// detour.sp
+#include <dhooks>
+#include <sdkhooks>
+
+// funcions.sp
+#include <vscript_proxy>
+
+// netprops.sp
+
+// All
+#include <log4sp>
+#include <nmrih_player>
+
 #pragma newdecls required
 #pragma semicolon 1
 
@@ -16,9 +29,6 @@ public Plugin myinfo =
     url         = "https://github.com/F1F88/"
 };
 
-
-#include <log4sp>
-#include <nmrih_player>
 
 
 // int OS;

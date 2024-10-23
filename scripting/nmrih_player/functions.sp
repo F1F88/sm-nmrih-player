@@ -1,5 +1,3 @@
-#include <vscript_proxy>
-
 #pragma newdecls required
 #pragma semicolon 1
 

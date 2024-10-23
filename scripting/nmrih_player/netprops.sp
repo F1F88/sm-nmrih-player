@@ -1,4 +1,3 @@
-
 /**
  * Add new offset check List
  * 1. scripting/nmrih_player.inc NMR_Player methodmap property

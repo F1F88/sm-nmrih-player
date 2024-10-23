@@ -1,6 +1,3 @@
-#include <dhooks>
-#include <sdkhooks>
-
 /**
  * 1. scripting/nmrih_player.inc enum Player_HookType
  * 2. scripting/nmrih_player.inc typeset Player_HookCallBack
