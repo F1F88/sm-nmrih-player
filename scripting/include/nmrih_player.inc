@@ -9,6 +9,43 @@
 
 
 /**
+ * 值取自逆向函数 RegisterSharedScriptConstants 以及控制台指令 script_help 的输出
+ * 注释取自 entity_prop_stocks.inc 中定义的 FL_** 宏
+ */
+#define NMR_FL_ONGROUND             (1 << 0)    /**< At rest / on the ground */
+#define NMR_FL_DUCKING              (1 << 1)    /**< Player flag -- Player is fully crouched */
+#define NMR_FL_WATERJUMP            (1 << 3)    /**< player jumping out of water */
+#define NMR_FL_ONTRAIN              (1 << 4)    /**< Player is _controlling_ a train, so movement commands should be ignored on client during prediction. */
+#define NMR_FL_INRAIN               (1 << 5)    /**< Indicates the entity is standing in rain */
+#define NMR_FL_FROZEN               (1 << 6)    /**< Player is frozen for 3rd person camera */
+#define NMR_FL_ATCONTROLS           (1 << 7)    /**< Player can't move, but keeps key inputs for controlling another entity */
+#define NMR_FL_CLIENT               (1 << 8)    /**< Is a player */
+#define NMR_FL_FAKECLIENT           (1 << 9)    /**< Fake client, simulated server side; don't send network messages to them */
+#define NMR_FL_INWATER              (1 << 10)   /**< In water */
+#define NMR_FL_FLY                  (1 << 11)   /**< Changes the SV_Movestep() behavior to not need to be on ground */
+#define NMR_FL_SWIM                 (1 << 12)   /**< Changes the SV_Movestep() behavior to not need to be on ground (but stay in water) */
+#define NMR_FL_CONVEYOR             (1 << 13)
+#define NMR_FL_NPC                  (1 << 14)
+#define NMR_FL_GODMODE              (1 << 15)
+#define NMR_FL_NOTARGET             (1 << 16)
+#define NMR_FL_AIMTARGET            (1 << 17)   /**< set if the crosshair needs to aim onto the entity */
+#define NMR_FL_PARTIALGROUND        (1 << 18)   /**< not all corners are valid */
+#define NMR_FL_STATICPROP           (1 << 19)   /**< Eetsa static prop!  */
+#define NMR_FL_GRAPHED              (1 << 20)   /**< worldgraph has this ent listed as something that blocks a connection */
+#define NMR_FL_GRENADE              (1 << 21)
+#define NMR_FL_STEPMOVEMENT         (1 << 22)   /**< Changes the SV_Movestep() behavior to not do any processing */
+#define NMR_FL_DONTTOUCH            (1 << 23)   /**< Doesn't generate touch functions, generates Untouch() for anything it was touching when this flag was set */
+#define NMR_FL_BASEVELOCITY         (1 << 24)   /**< Base velocity has been applied this frame (used to convert base velocity into momentum) */
+#define NMR_FL_WORLDBRUSH           (1 << 25)   /**< Not moveable/removeable brush entity (really part of the world, but represented as an entity for transparency or something) */
+#define NMR_FL_OBJECT               (1 << 26)   /**< Terrible name. This is an object that NPCs should see. Missiles, for example. */
+#define NMR_FL_KILLME               (1 << 27)   /**< This entity is marked for death -- will be freed by game DLL */
+#define NMR_FL_ONFIRE               (1 << 28)   /**< You know... */
+#define NMR_FL_DISSOLVING           (1 << 29)   /**< We're dissolving! */
+#define NMR_FL_TRANSRAGDOLL         (1 << 30)   /**< In the process of turning into a client side ragdoll. */
+#define NMR_FL_UNBLOCKABLE_BY_PLAYER (1 << 31)  /**< pusher that can't be blocked by the player */
+
+
+/**
  * 注意! 这在底层是 Detour 而不是 Event 或 UserMessage，Detour 触发不代表事件一定触发
  * 在 Detour 原函数内部可能还有一些判断逻辑来决定是否触发相关事件
  *
@@ -1298,6 +1335,22 @@ methodmap NMR_Player {
 
     public bool IsGenericAdmin() {
         return IsGenericAdmin(this.Index);
+    }
+
+    /**
+     * Author   dysphie
+     * url      https://github.com/dysphie/nmrih-team-healing/blob/c68dcc687c943be9927656e07f880e66e174651f/scripting/nmrih-team-healing.sp#L844
+     */
+    public void Freeze() {
+        this.m_fFlags |= NMR_FL_ATCONTROLS;
+    }
+
+    /**
+     * Author   dysphie
+     * url      https://github.com/dysphie/nmrih-team-healing/blob/c68dcc687c943be9927656e07f880e66e174651f/scripting/nmrih-team-healing.sp#L850
+     */
+    public void Unfreeze() {
+        this.m_fFlags &= ~NMR_FL_ATCONTROLS;
     }
 }
 

@@ -107,7 +107,7 @@ public void OnPluginStart()
     RegConsoleCmd("tp83", CMD_TakePills);
     RegConsoleCmd("tp84", CMD_IsValidObserverTarget);
     RegConsoleCmd("tp85", CMD_CanSprint);
-    RegConsoleCmd("tp86", CMD_IsBarricading);
+    // RegConsoleCmd("tp86", CMD_IsBarricading);
     RegConsoleCmd("tp87", CMD_IsInfected);
     RegConsoleCmd("tp88", CMD_m_ArmorValue);
     RegConsoleCmd("tp89", CMD_m_flNextAttack);
@@ -124,6 +124,8 @@ public void OnPluginStart()
     RegConsoleCmd("tp100", CMD_Maxs);
     RegConsoleCmd("tp101", CMD_Mins);
     RegConsoleCmd("tp102", CMD_Speed);
+    RegConsoleCmd("tp_freeze", CMD_Freeze);
+    RegConsoleCmd("tp_unfreeze", CMD_UnFreeze);
     RegConsoleCmd("tpb", CMD_benchmark);
 }
 
@@ -955,14 +957,14 @@ Action CMD_CanSprint(int client, int params)
     return Plugin_Handled;
 }
 
-Action CMD_IsBarricading(int client, int params)
-{
-    if (!CheckClient(client))       return Plugin_Handled;
-    NMR_Player player = NMR_Player(client);
+// Action CMD_IsBarricading(int client, int params)
+// {
+//     if (!CheckClient(client))       return Plugin_Handled;
+//     NMR_Player player = NMR_Player(client);
 
-    PrintToServer("======= IsBarricading = %d ", player.IsBarricading());
-    return Plugin_Handled;
-}
+//     PrintToServer("======= IsBarricading = %d ", player.IsBarricading());
+//     return Plugin_Handled;
+// }
 
 Action CMD_IsInfected(int client, int params)
 {
@@ -982,7 +984,7 @@ Action CMD_m_ArmorValue(int client, int params)
     {
         PrintToServer("======= Get m_ArmorValue = %d", player.m_ArmorValue);
     }
-    else 
+    else
     {
         int value = GetCmdArgInt(1);
         player.m_ArmorValue = value;
@@ -1000,7 +1002,7 @@ Action CMD_m_flNextAttack(int client, int params)
     {
         PrintToServer("======= Get m_flNextAttack = %f", player.m_flNextAttack);
     }
-    else 
+    else
     {
         float value = GetCmdArgFloat(1);
         player.m_flNextAttack = value;
@@ -1018,7 +1020,7 @@ Action CMD_m_nBody(int client, int params)
     {
         PrintToServer("======= Get m_nBody = %d", player.m_nBody);
     }
-    else 
+    else
     {
         int value = GetCmdArgInt(1);
         player.m_nBody = value;
@@ -1036,7 +1038,7 @@ Action CMD_m_nSkin(int client, int params)
     {
         PrintToServer("======= Get m_nSkin = %d", player.m_nSkin);
     }
-    else 
+    else
     {
         int value = GetCmdArgInt(1);
         player.m_nSkin = value;
@@ -1054,7 +1056,7 @@ Action CMD_m_nModelIndex(int client, int params)
     {
         PrintToServer("======= Get m_nModelIndex = %d", player.m_nModelIndex);
     }
-    else 
+    else
     {
         int value = GetCmdArgInt(1);
         player.m_nModelIndex = value;
@@ -1072,7 +1074,7 @@ Action CMD_m_iMaxHealth(int client, int params)
     {
         PrintToServer("======= Get m_iMaxHealth = %d", player.m_iMaxHealth);
     }
-    else 
+    else
     {
         int value = GetCmdArgInt(1);
         player.m_iMaxHealth = value;
@@ -1090,7 +1092,7 @@ Action CMD_m_LastHitGroup(int client, int params)
     {
         PrintToServer("======= Get m_LastHitGroup = %d", player.m_LastHitGroup);
     }
-    else 
+    else
     {
         int value = GetCmdArgInt(1);
         player.m_LastHitGroup = value;
@@ -1108,7 +1110,7 @@ Action CMD_m_iFrags(int client, int params)
     {
         PrintToServer("======= Get m_iFrags = %d", player.m_iFrags);
     }
-    else 
+    else
     {
         int value = GetCmdArgInt(1);
         player.m_iFrags = value;
@@ -1126,7 +1128,7 @@ Action CMD_m_flGravity(int client, int params)
     {
         PrintToServer("======= Get m_flGravity = %f", player.m_flGravity);
     }
-    else 
+    else
     {
         float value = GetCmdArgFloat(1);
         player.m_flGravity = value;
@@ -1146,7 +1148,7 @@ Action CMD_Velocity(int client, int params)
         player.GetVelocity(vec);
         PrintToServer("======= Get Velocity = %f, %f, %f", vec[0], vec[1], vec[2]);
     }
-    else 
+    else
     {
         vec[0] = vec[1] = vec[2] = GetCmdArgFloat(1);
         player.SetVelocity(vec);
@@ -1166,7 +1168,7 @@ Action CMD_AbsOrigin(int client, int params)
         player.GetAbsOrigin(vec);
         PrintToServer("======= Get AbsOrigin = %f, %f, %f", vec[0], vec[1], vec[2]);
     }
-    else 
+    else
     {
         vec[0] = vec[1] = vec[2] = GetCmdArgFloat(1);
         player.SetAbsOrigin(vec);
@@ -1186,7 +1188,7 @@ Action CMD_AbsAngles(int client, int params)
         player.GetAbsAngles(vec);
         PrintToServer("======= Get AbsAngles = %f, %f, %f", vec[0], vec[1], vec[2]);
     }
-    else 
+    else
     {
         vec[0] = vec[1] = vec[2] = GetCmdArgFloat(1);
         player.SetAbsAngles(vec);
@@ -1206,7 +1208,7 @@ Action CMD_Maxs(int client, int params)
         player.GetMaxs(vec);
         PrintToServer("======= Get Maxs = %f, %f, %f", vec[0], vec[1], vec[2]);
     }
-    else 
+    else
     {
         vec[0] = vec[1] = vec[2] = GetCmdArgFloat(1);
         player.SetMaxs(vec);
@@ -1226,7 +1228,7 @@ Action CMD_Mins(int client, int params)
         player.GetMins(vec);
         PrintToServer("======= Get Mins = %f, %f, %f", vec[0], vec[1], vec[2]);
     }
-    else 
+    else
     {
         vec[0] = vec[1] = vec[2] = GetCmdArgFloat(1);
         player.SetMins(vec);
@@ -1240,6 +1242,28 @@ Action CMD_Speed(int client, int params)
     if (!CheckClient(client))       return Plugin_Handled;
 
     PrintToServer("======= Get Speed = %f", NMR_Player(client).GetSpeed());
+    return Plugin_Handled;
+}
+
+Action CMD_Freeze(int client, int params)
+{
+    if (!CheckClient(client))       return Plugin_Handled;
+
+    int oldValue = NMR_Player(client).m_fFlags;
+    NMR_Player(client).Freeze();
+    int newValue = NMR_Player(client).m_fFlags;
+    PrintToServer("======= Freeze = %d --> %d", oldValue, newValue);
+    return Plugin_Handled;
+}
+
+Action CMD_UnFreeze(int client, int params)
+{
+    if (!CheckClient(client))       return Plugin_Handled;
+
+    int oldValue = NMR_Player(client).m_fFlags;
+    NMR_Player(client).Unfreeze();
+    int newValue = NMR_Player(client).m_fFlags;
+    PrintToServer("======= Unfreeze = %d --> %d", oldValue, newValue);
     return Plugin_Handled;
 }
 
