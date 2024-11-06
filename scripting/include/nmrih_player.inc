@@ -1356,6 +1356,10 @@ methodmap NMR_Player {
     public void UnFreeze() {
         this.m_fFlags &= ~NMR_FL_ATCONTROLS;
     }
+
+    public bool IsFreeze() {
+        return (this.m_fFlags & NMR_FL_ATCONTROLS) != 0;
+    }
 }
 
 #if !defined _gremulock_clients_methodmap_included_
