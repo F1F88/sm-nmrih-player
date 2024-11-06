@@ -47,11 +47,13 @@
 
 /**
  * 注意! 这在底层是 Detour 而不是 Event 或 UserMessage，Detour 触发不代表事件一定触发
- * 在 Detour 原函数内部可能还有一些判断逻辑来决定是否触发相关事件
+ * 在 Detour 原函数内部可能还有一些判断逻辑来决定是否执行相关代码，反之可能什么都不做
  *
  * 比如 BecomeInfected 需要判断 IsVaccinated，当 IsVaccinated == true 时原函数什么都不做
  *
- * 谨慎返回 Plugin_Continue 以外的值, 除非你很清楚你在做什么！
+ * 注意！谨慎返回 Plugin_Continue 以外的值, 除非你很清楚你在做什么！
+ *
+ * OnPlayerBleedOut 不需要判断条件，因为 Detour 的是实际工作的函数（原函数判断条件后调用被 Detour 的函数）
  */
 
 /**
@@ -73,9 +75,11 @@ forward  void  OnPlayerCureInfectionPost(int client);
  *
  * @note 如果想让某个玩家免疫感染, 可以将 offset _vaccinated 的值设为 1
  * @note 已注射疫苗也会触发
- * @note (OFS-285, NumberType_Int32) & 128 == 0 && _vaccinated == 0
- * @note 如需监听玩家是否感染, 建议 Detour: CInfectableCharacter::BecomeInfected
- *       或者监听 User Message: BecameInfected
+ * @note 此 Detour 的是 CNMRiH_Player::BecomeInfected, 如果需要在玩家感染后执行逻辑
+ *       需要额外判断 (OFS-285, NumberType_Int32) & 128 >= 0 && _vaccinated == 0
+ *       或 Detour 真正的工作函数 ( CInfectableCharacter::BecomeInfected
+ *       更推荐的做法是使用 User message - BecameInfected
+ *       HookUserMessage(GetUserMessageId("BecameInfected"), UserMsg_BecameInfected)
  *
  * @param client    client index.
  * @return          Return Plugin_Continue Continue with the original action, otherwise skip real function.
@@ -97,8 +101,8 @@ forward  void  OnPlayerTakePillsPost(int client);
 /**
  * Call when a client is caught by a zombie.
  *
- * @note Use the event "grab_end" instead of OnGrabbedEnd
- * @note 可能需要 IsGrabbed == 0
+ * @note If you need to use the OnGrabbedEnd, you can achieve it by using event "grab_end"
+ * @note IsGrabbed == 0
  *
  * @param client    client index.
  * @param causer    causer index.
@@ -131,7 +135,7 @@ forward  void  OnPlayerApplyFirstAidKitPost(int client);
 /**
  * Call when a client applies the effect of gene therapy vaccine, cures and immunizes infection.
  *
- * @note 可能需要 _vaccinated == 0
+ * @note _vaccinated == 0
  *
  * @param client    client index.
  * @return          Return Plugin_Continue Continue with the original action, otherwise skip real function.
@@ -142,7 +146,7 @@ forward  void  OnPlayerApplyVaccinePost(int client);
 /**
  * Call when a client inflicts bleeding.
  *
- * @note (OFS-285, NumberType_Int32) & 128 == 0 && _vaccinated == 0
+ * @note 不需要判断，因为绕行的是实际工作的函数
  *
  * @param client    client index.
  * @return          Return Plugin_Continue Continue with the original action, otherwise skip real function.
