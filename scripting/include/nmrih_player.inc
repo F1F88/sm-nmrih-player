@@ -1353,7 +1353,7 @@ methodmap NMR_Player {
      * Author   dysphie
      * url      https://github.com/dysphie/nmrih-team-healing/blob/c68dcc687c943be9927656e07f880e66e174651f/scripting/nmrih-team-healing.sp#L850
      */
-    public void Unfreeze() {
+    public void UnFreeze() {
         this.m_fFlags &= ~NMR_FL_ATCONTROLS;
     }
 }
