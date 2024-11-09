@@ -10,6 +10,7 @@
 // netprops.sp
 
 // All
+#define LOG4SP_NO_EXT
 #include <log4sp>
 #include <nmrih_player>
 
@@ -89,7 +90,7 @@ public void OnPluginStart()
     delete sinks[1];
 
     // DebugNetPropsOffset();
-    log.InfoAmxTpl("****************** %s Initialize Complete ******************", PLUGIN_NAME);
+    PrintToServer("********** Plugin %s Initialize Complete! **********", PLUGIN_NAME);
 }
 
 
@@ -128,9 +129,9 @@ stock void ThrowCallNativeError(int error, Handle plugin, const char[] reasonFmt
         sep = FindCharInString(pluginName, '/', true);
     Format(pluginName, sizeof(pluginName), "%s", pluginName[sep + 1]);
 
-    log.ErrorAmxTpl("'%s::%s::%d' failed to call native '%s::%s'. Reason: %s", pluginName, pluginFunc, pluginLine, mathodName, nativeFunc, reason);
+    log.ThrowErrorAmxTpl(LogLevel_Error, "'%s::%s::%d' failed to call native '%s::%s'. Code: %d. Reason: %s", pluginName, pluginFunc, pluginLine, mathodName, nativeFunc, error, reason);
 
-    ThrowNativeError(error, "'%s::%s::%d' failed to call native '%s::%s'. Reason: %s", pluginName, pluginFunc, pluginLine, mathodName, nativeFunc, reason);
+    // ThrowNativeError(error, "'%s::%s::%d' failed to call native '%s::%s'. Reason: %s", pluginName, pluginFunc, pluginLine, mathodName, nativeFunc, reason);
 }
 
 stock void GetPluginName(Handle plugin, char[] result, int maxlength)
