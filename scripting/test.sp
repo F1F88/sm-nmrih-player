@@ -1261,7 +1261,7 @@ Action CMD_UnFreeze(int client, int params)
     if (!CheckClient(client))       return Plugin_Handled;
 
     int oldValue = NMR_Player(client).m_fFlags;
-    NMR_Player(client).Unfreeze();
+    NMR_Player(client).UnFreeze();
     int newValue = NMR_Player(client).m_fFlags;
     PrintToServer("======= Unfreeze = %d --> %d", oldValue, newValue);
     return Plugin_Handled;
@@ -1476,7 +1476,6 @@ Action CMD_benchmark(int client, int params)
 
 bool CheckClient(int client)
 {
-
     if (client > 0 && client <= MaxClients && IsClientInGame(client))
     {
         // PrintToServer("[%s] Start. | client = %L.", func, client);
@@ -1486,9 +1485,14 @@ bool CheckClient(int client)
     FrameIterator frames = new FrameIterator();
     frames.Next();
     frames.Next();
+
     char func[PLATFORM_MAX_PATH];
     frames.GetFunctionName(func, sizeof(func));
 
-    PrintToServer("[%s] client %d is invalid.", func, client);
+    int line = frames.LineNumber;
+
+    delete frames;
+
+    PrintToServer("[%s:%d] client %d is invalid.", path[sep + 1], func, line, client);
     return false;
 }
