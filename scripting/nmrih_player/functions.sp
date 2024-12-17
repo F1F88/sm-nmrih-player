@@ -58,7 +58,7 @@ void LoadFunctionsNatives()
     CreateNative("NMR_Player.DropEverything", Native_DropEverything);
     CreateNative("NMR_Player.EnableSprint", Native_EnableSprint);
     CreateNative("NMR_Player.GetAmmoCarryWeight", Native_GetAmmoCarryWeight);
-    CreateNative("NMR_Player.GetCarriedItems", Native_GetCarriedItems);
+    // CreateNative("NMR_Player.GetCarriedItems", Native_GetCarriedItems);
     CreateNative("NMR_Player.GetCarriedWeight", Native_GetCarriedWeight);
     CreateNative("NMR_Player.GetJumpStaminaCost", Native_GetJumpStaminaCost);
     CreateNative("NMR_Player.GetLastObserverMode", Native_GetLastObserverMode);
@@ -256,7 +256,7 @@ void LoadFunctionsCalls(GameData gamedata)
 }
 
 /* ------- Function ------- */
-static any Native_AddCarriedWeight(Handle plugin, int numParams)
+static void Native_AddCarriedWeight(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -267,7 +267,7 @@ static any Native_AddCarriedWeight(Handle plugin, int numParams)
     FormatEx(code, sizeof(code), "self.AddCarriedWeight(%d)", weigth);
     SetVariantString(code);
     PrintToServer(code);
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
 static any Native_Ammo_Drop(Handle plugin, int numParams)
@@ -286,43 +286,43 @@ static any Native_Ammo_Drop(Handle plugin, int numParams)
     return RunEntVScriptBool(player, code);
 }
 
-static any Native_ApplyBandage(Handle plugin, int numParams)
+static void Native_ApplyBandage(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SDKCall(hCallers[HDL_ApplyBandage], player);
+    SDKCall(hCallers[HDL_ApplyBandage], player);
 }
 
-static any Native_ApplyFirstAidKit(Handle plugin, int numParams)
+static void Native_ApplyFirstAidKit(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SDKCall(hCallers[HDL_ApplyFirstAidKit], player);
+    SDKCall(hCallers[HDL_ApplyFirstAidKit], player);
 }
 
-static any Native_ApplyVaccine(Handle plugin, int numParams)
+static void Native_ApplyVaccine(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SDKCall(hCallers[HDL_ApplyVaccine], player);
+    SDKCall(hCallers[HDL_ApplyVaccine], player);
 }
 
-static any Native_BleedOut(Handle plugin, int numParams)
+static void Native_BleedOut(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SDKCall(hCallers[HDL_BleedOut], player);
+    SDKCall(hCallers[HDL_BleedOut], player);
 }
 
-static any Native_CancelSuicide(Handle plugin, int numParams)
+static void Native_CancelSuicide(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -332,37 +332,37 @@ static any Native_CancelSuicide(Handle plugin, int numParams)
     char code[32];
     FormatEx(code, sizeof(code), "self.CancelSuicide(%s)", cancelAnimation ? "true" : "false");
     SetVariantString(code);
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_CancelThrowDrop(Handle plugin, int numParams)
+static void Native_CancelThrowDrop(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.CancelThrowDrop()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_ClearHandModelOverride(Handle plugin, int numParams)
+static void Native_ClearHandModelOverride(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.ClearHandModelOverride()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_ContemplateSuicide(Handle plugin, int numParams)
+static void Native_ContemplateSuicide(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.ContemplateSuicide()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
 static any Native_DeathCount(Handle plugin, int numParams)
@@ -376,67 +376,67 @@ static any Native_DeathCount(Handle plugin, int numParams)
     return NMR_Player(player).m_iDeaths;
 }
 
-static any Native_DecrementRespawnTokens(Handle plugin, int numParams)
+static void Native_DecrementRespawnTokens(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.DecrementRespawnTokens()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_DestroyAllAmmo(Handle plugin, int numParams)
+static void Native_DestroyAllAmmo(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.DestroyAllAmmo()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_DestroyAllWeapons(Handle plugin, int numParams)
+static void Native_DestroyAllWeapons(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.DestroyAllWeapons()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_DestroyEverything(Handle plugin, int numParams)
+static void Native_DestroyEverything(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.DestroyEverything()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_DoCommitSuicide(Handle plugin, int numParams)
+static void Native_DoCommitSuicide(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.DoCommitSuicide()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_DropEverything(Handle plugin, int numParams)
+static void Native_DropEverything(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.DropEverything()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_EnableSprint(Handle plugin, int numParams)
+static void Native_EnableSprint(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -447,10 +447,10 @@ static any Native_EnableSprint(Handle plugin, int numParams)
     // FormatEx(code, sizeof(code), "self.EnableSprint(%s)", value ? "true" : "false");
     // SetVariantString(code);
     // return AcceptEntityInput(player, "RunScriptCode");
-    return SDKCall(hCallers[HDL_EnableSprint], player, value);
+    SDKCall(hCallers[HDL_EnableSprint], player, value);
 }
 
-static any Native_GetAmmoCarryWeight(Handle plugin, int numParams)
+static int Native_GetAmmoCarryWeight(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -459,20 +459,20 @@ static any Native_GetAmmoCarryWeight(Handle plugin, int numParams)
     return RunEntVScriptInt(player, "GetAmmoCarryWeight()");
 }
 
-static any Native_GetCarriedItems(Handle plugin, int numParams)
-{
-    int player = GetNativeCell(1);
-    if (!IsValidClient(player))
-        log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
+// static void Native_GetCarriedItems(Handle plugin, int numParams)
+// {
+//     int player = GetNativeCell(1);
+//     if (!IsValidClient(player))
+//         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    Handle handle = GetNativeCell(2);
+//     Handle handle = GetNativeCell(2);
 
-    char code[64];
-    FormatEx(code, sizeof(code), "GetCarriedItems(%d)", handle);
-    return RunEntVScriptInt(player, code);
-}
+//     char code[64];
+//     FormatEx(code, sizeof(code), "GetCarriedItems(%d)", handle);
+//     RunEntVScriptInt(player, code);
+// }
 
-static any Native_GetCarriedWeight(Handle plugin, int numParams)
+static int Native_GetCarriedWeight(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -490,7 +490,7 @@ static any Native_GetJumpStaminaCost(Handle plugin, int numParams)
     return RunEntVScriptFloat(player, "GetJumpStaminaCost()");
 }
 
-static any Native_GetLastObserverMode(Handle plugin, int numParams)
+static int Native_GetLastObserverMode(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -603,24 +603,24 @@ static any Native_HasWalkieTalkie(Handle plugin, int numParams)
     return SDKCall(hCallers[HDL_HasWalkieTalkie], player);
 }
 
-static any Native_IncreaseBloodiness(Handle plugin, int numParams)
+static void Native_IncreaseBloodiness(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.IncreaseBloodiness()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_IncrementRespawnTokens(Handle plugin, int numParams)
+static void Native_IncrementRespawnTokens(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.IncrementRespawnTokens()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
 static any Native_IsBleedingOut(Handle plugin, int numParams)
@@ -767,7 +767,7 @@ static any Native_ReadyToRespawn(Handle plugin, int numParams)
     return RunEntVScriptBool(player, "ReadyToRespawn()");
 }
 
-static any Native_RemoveCarriedWeight(Handle plugin, int numParams)
+static void Native_RemoveCarriedWeight(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -778,37 +778,37 @@ static any Native_RemoveCarriedWeight(Handle plugin, int numParams)
     char code[64];
     FormatEx(code, sizeof(code), "self.RemoveCarriedWeight(%d)", weight);
     SetVariantString(code);
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_RemoveInflictions(Handle plugin, int numParams)
+static void Native_RemoveInflictions(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.RemoveInflictions()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_ResetRespawnTokens(Handle plugin, int numParams)
+static void Native_ResetRespawnTokens(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.ResetRespawnTokens()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_ResetVoiceCommandTimer(Handle plugin, int numParams)
+static void Native_ResetVoiceCommandTimer(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.ResetVoiceCommandTimer()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
 static any Native_RespawnTokenCount(Handle plugin, int numParams)
@@ -820,7 +820,7 @@ static any Native_RespawnTokenCount(Handle plugin, int numParams)
     return RunEntVScriptInt(player, "RespawnTokenCount()");
 }
 
-static any Native_SetExtracted(Handle plugin, int numParams)
+static void Native_SetExtracted(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -831,10 +831,10 @@ static any Native_SetExtracted(Handle plugin, int numParams)
     char code[32];
     FormatEx(code, sizeof(code), "self.SetExtracted(%s)", value ? "true" : "false");
     SetVariantString(code);
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_SetHandModelOverride(Handle plugin, int numParams)
+static void Native_SetHandModelOverride(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -848,10 +848,10 @@ static any Native_SetHandModelOverride(Handle plugin, int numParams)
     char code[PLATFORM_MAX_PATH];
     FormatEx(code, sizeof(code), "self.SetHandModelOverride(\"%s\")", model);
     SetVariantString(code);
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_SetIdleTimeout(Handle plugin, int numParams)
+static void Native_SetIdleTimeout(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -862,10 +862,10 @@ static any Native_SetIdleTimeout(Handle plugin, int numParams)
     char code[64];
     FormatEx(code, sizeof(code), "self.SetIdleTimeout(%f)", time);
     SetVariantString(code);
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_SetIgnoreFallDamage(Handle plugin, int numParams)
+static void Native_SetIgnoreFallDamage(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -876,10 +876,10 @@ static any Native_SetIgnoreFallDamage(Handle plugin, int numParams)
     char code[32];
     FormatEx(code, sizeof(code), "self.SetIgnoreFallDamage(%s)", value ? "true" : "false");
     SetVariantString(code);
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_SetNextRespawnTime(Handle plugin, int numParams)
+static void Native_SetNextRespawnTime(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -890,10 +890,10 @@ static any Native_SetNextRespawnTime(Handle plugin, int numParams)
     char code[64];
     FormatEx(code, sizeof(code), "self.SetNextRespawnTime(%f)", time);
     SetVariantString(code);
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_SetNextSpawnTryTime(Handle plugin, int numParams)
+static void Native_SetNextSpawnTryTime(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -904,10 +904,10 @@ static any Native_SetNextSpawnTryTime(Handle plugin, int numParams)
     char code[64];
     FormatEx(code, sizeof(code), "self.SetNextSpawnTryTime(%f)", time);
     SetVariantString(code);
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_SetRespawnTokens(Handle plugin, int numParams)
+static void Native_SetRespawnTokens(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -919,10 +919,10 @@ static any Native_SetRespawnTokens(Handle plugin, int numParams)
     char code[PLATFORM_MAX_PATH];
     FormatEx(code, sizeof(code), "self.SetRespawnTokens(%d,%s)", tokens, notify ? "true" : "false");
     SetVariantString(code);
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_SetSpawnWeapon(Handle plugin, int numParams)
+static void Native_SetSpawnWeapon(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -938,10 +938,10 @@ static any Native_SetSpawnWeapon(Handle plugin, int numParams)
     char code[128];
     FormatEx(code, sizeof(code), "self.SetSpawnWeapon(\"%s\",%d)", classname, ammoPercent);
     SetVariantString(code);
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_SetSpeedModifier(Handle plugin, int numParams)
+static void Native_SetSpeedModifier(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -952,10 +952,10 @@ static any Native_SetSpeedModifier(Handle plugin, int numParams)
     char code[64];
     FormatEx(code, sizeof(code), "self.SetSpeedModifier(%f)", value);
     SetVariantString(code);
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_SetSpeedOverride(Handle plugin, int numParams)
+static void Native_SetSpeedOverride(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -966,10 +966,10 @@ static any Native_SetSpeedOverride(Handle plugin, int numParams)
     char code[64];
     FormatEx(code, sizeof(code), "self.SetSpeedOverride(%f)", speed);
     SetVariantString(code);
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_SetStamina(Handle plugin, int numParams)
+static void Native_SetStamina(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -980,10 +980,10 @@ static any Native_SetStamina(Handle plugin, int numParams)
     char code[64];
     FormatEx(code, sizeof(code), "self.SetStamina(%f)", stamina);
     SetVariantString(code);
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_SetUsingProgressTrigger(Handle plugin, int numParams)
+static void Native_SetUsingProgressTrigger(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -994,7 +994,7 @@ static any Native_SetUsingProgressTrigger(Handle plugin, int numParams)
     char code[64];
     FormatEx(code, sizeof(code), "self.SetUsingProgressTrigger(%s)", value ? "true" : "false");
     SetVariantString(code);
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
 static any Native_ShouldIgnoreFallDamage(Handle plugin, int numParams)
@@ -1006,46 +1006,46 @@ static any Native_ShouldIgnoreFallDamage(Handle plugin, int numParams)
     return RunEntVScriptBool(player, "ShouldIgnoreFallDamage()");
 }
 
-static any Native_StopBleedingOut(Handle plugin, int numParams)
+static void Native_StopBleedingOut(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SDKCall(hCallers[HDL_StopBleedingOut], player);
+    SDKCall(hCallers[HDL_StopBleedingOut], player);
 }
 
-static any Native_ThrowAllAmmo(Handle plugin, int numParams)
+static void Native_ThrowAllAmmo(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.ThrowAllAmmo()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_ThrowAllCustomItems(Handle plugin, int numParams)
+static void Native_ThrowAllCustomItems(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.ThrowAllCustomItems()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_ThrowAllWeapons(Handle plugin, int numParams)
+static void Native_ThrowAllWeapons(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SetVariantString("self.ThrowAllWeapons()");
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
-static any Native_VoiceCommand(Handle plugin, int numParams)
+static void Native_VoiceCommand(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -1057,7 +1057,7 @@ static any Native_VoiceCommand(Handle plugin, int numParams)
     char code[64];
     FormatEx(code, sizeof(code), "self.VoiceCommand(%d,%s)", voice, cooldown ? "true" : "false");
     SetVariantString(code);
-    return AcceptEntityInput(player, "RunScriptCode");
+    AcceptEntityInput(player, "RunScriptCode");
 }
 
 static any Native_IsMoving(Handle plugin, int numParams)
@@ -1087,67 +1087,67 @@ static any Native_FlashlightIsOn(Handle plugin, int numParams)
     return SDKCall(hCallers[HDL_FlashlightIsOn], player);
 }
 
-static any Native_FlashlightTurnOn(Handle plugin, int numParams)
+static void Native_FlashlightTurnOn(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SDKCall(hCallers[HDL_FlashlightTurnOn], player);
+    SDKCall(hCallers[HDL_FlashlightTurnOn], player);
 }
 
-static any Native_FlashlightTurnOff(Handle plugin, int numParams)
+static void Native_FlashlightTurnOff(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SDKCall(hCallers[HDL_FlashlightTurnOff], player);
+    SDKCall(hCallers[HDL_FlashlightTurnOff], player);
 }
 
-static any Native_CureInfection(Handle plugin, int numParams)
+static void Native_CureInfection(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SDKCall(hCallers[HDL_CureInfection], player);
+    SDKCall(hCallers[HDL_CureInfection], player);
 }
 
-static any Native_BecomeInfected(Handle plugin, int numParams)
+static void Native_BecomeInfected(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SDKCall(hCallers[HDL_BecomeInfected], player);
+    SDKCall(hCallers[HDL_BecomeInfected], player);
 }
 
-static any Native_TakePills(Handle plugin, int numParams)
+static void Native_TakePills(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SDKCall(hCallers[HDL_TakePills], player);
+    SDKCall(hCallers[HDL_TakePills], player);
 }
 
-static any Native_TakePillsInner(Handle plugin, int numParams)
+static void Native_TakePillsInner(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SDKCall(hCallers[HDL_TakePillsInner], player);
+    SDKCall(hCallers[HDL_TakePillsInner], player);
 }
 
-static any Native_TakePillsEffects(Handle plugin, int numParams)
+static void Native_TakePillsEffects(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SDKCall(hCallers[HDL_TakePillsEffects], player);
+    SDKCall(hCallers[HDL_TakePillsEffects], player);
 }
 
 static any Native_IsValidObserverTarget(Handle plugin, int numParams)
