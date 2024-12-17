@@ -99,7 +99,7 @@ static void DetourPlayer(Handle gamedata, const char[] name, DHookCallback PreCB
 static MRESReturn CureInfection(int pThis)
 {
     int player = pThis;
-    log.TraceAmxTpl("player %d CureInfection", player);
+    log.TraceEx("player %d CureInfection", player);
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_CureInfection]);
@@ -114,7 +114,7 @@ static MRESReturn CureInfection(int pThis)
 static MRESReturn CureInfectionPost(int pThis)
 {
     int player = pThis;
-    log.TraceAmxTpl("player %d CureInfection Post", player);
+    log.TraceEx("player %d CureInfection Post", player);
 
     Call_StartForward(hGlobalForwards[FWD_CureInfectionPost]);
     Call_PushCell(player);
@@ -127,7 +127,7 @@ static MRESReturn CureInfectionPost(int pThis)
 static MRESReturn BecomeInfected(int pThis)
 {
     int player = pThis;
-    log.TraceAmxTpl("player %d BecomeInfected", player);
+    log.TraceEx("player %d BecomeInfected", player);
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_BecomeInfected]);
@@ -142,7 +142,7 @@ static MRESReturn BecomeInfected(int pThis)
 static MRESReturn BecomeInfectedPost(int pThis)
 {
     int player = pThis;
-    log.TraceAmxTpl("player %d BecomeInfected Post", player);
+    log.TraceEx("player %d BecomeInfected Post", player);
 
     Call_StartForward(hGlobalForwards[FWD_BecomeInfectedPost]);
     Call_PushCell(player);
@@ -154,7 +154,7 @@ static MRESReturn BecomeInfectedPost(int pThis)
 static MRESReturn TakePills(int pThis)
 {
     int player = pThis;
-    log.TraceAmxTpl("player %d TakePills", player);
+    log.TraceEx("player %d TakePills", player);
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_TakePills]);
@@ -169,7 +169,7 @@ static MRESReturn TakePills(int pThis)
 static MRESReturn TakePillsPost(int pThis)
 {
     int player = pThis;
-    log.TraceAmxTpl("player %d TakePills Post", player);
+    log.TraceEx("player %d TakePills Post", player);
 
     Call_StartForward(hGlobalForwards[FWD_TakePillsPost]);
     Call_PushCell(player);
@@ -181,7 +181,7 @@ static MRESReturn OnGrabbedBegin(int pThis, DHookParam hParams)
 {
     int player = pThis;
     int causer = hParams.Get(1);
-    log.TraceAmxTpl("player %d OnGrabbedBegin by causer %d", player, causer);
+    log.TraceEx("player %d OnGrabbedBegin by causer %d", player, causer);
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_OnGrabbedBegin]);
@@ -198,7 +198,7 @@ static MRESReturn OnGrabbedBeginPost(int pThis, DHookParam hParams)
 {
     int player = pThis;
     int causer = hParams.Get(1);
-    log.TraceAmxTpl("player %d OnGrabbedBegin Post by causer %d", player, causer);
+    log.TraceEx("player %d OnGrabbedBegin Post by causer %d", player, causer);
 
     Call_StartForward(hGlobalForwards[FWD_OnGrabbedBeginPost]);
     Call_PushCell(player);
@@ -210,7 +210,7 @@ static MRESReturn OnGrabbedBeginPost(int pThis, DHookParam hParams)
 static MRESReturn ApplyBandage(DHookParam hParams)
 {
     int player = hParams.Get(1);
-    log.TraceAmxTpl("player %d ApplyBandage", player);
+    log.TraceEx("player %d ApplyBandage", player);
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_ApplyBandage]);
@@ -225,7 +225,7 @@ static MRESReturn ApplyBandage(DHookParam hParams)
 static MRESReturn ApplyBandagePost(DHookParam hParams)
 {
     int player = hParams.Get(1);
-    log.TraceAmxTpl("player %d ApplyBandage Post", player);
+    log.TraceEx("player %d ApplyBandage Post", player);
 
     Call_StartForward(hGlobalForwards[FWD_ApplyBandagePost]);
     Call_PushCell(player);
@@ -236,7 +236,7 @@ static MRESReturn ApplyBandagePost(DHookParam hParams)
 static MRESReturn ApplyFirstAidKit(DHookParam hParams)
 {
     int player = hParams.Get(1);
-    log.TraceAmxTpl("player %d ApplyFirstAidKit", player);
+    log.TraceEx("player %d ApplyFirstAidKit", player);
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_ApplyFirstAidKit]);
@@ -251,7 +251,7 @@ static MRESReturn ApplyFirstAidKit(DHookParam hParams)
 static MRESReturn ApplyFirstAidKitPost(DHookParam hParams)
 {
     int player = hParams.Get(1);
-    log.TraceAmxTpl("player %d ApplyFirstAidKit Post", player);
+    log.TraceEx("player %d ApplyFirstAidKit Post", player);
 
     Call_StartForward(hGlobalForwards[FWD_ApplyFirstAidKitPost]);
     Call_PushCell(player);
@@ -262,7 +262,7 @@ static MRESReturn ApplyFirstAidKitPost(DHookParam hParams)
 static MRESReturn ApplyVaccine(DHookParam hParams)
 {
     int player = hParams.Get(1);
-    log.TraceAmxTpl("player %d ApplyVaccine", player);
+    log.TraceEx("player %d ApplyVaccine", player);
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_ApplyVaccine]);
@@ -277,7 +277,7 @@ static MRESReturn ApplyVaccine(DHookParam hParams)
 static MRESReturn ApplyVaccinePost(DHookParam hParams)
 {
     int player = hParams.Get(1);
-    log.TraceAmxTpl("player %d ApplyVaccine Post", player);
+    log.TraceEx("player %d ApplyVaccine Post", player);
 
     Call_StartForward(hGlobalForwards[FWD_ApplyVaccinePost]);
     Call_PushCell(player);
@@ -288,7 +288,7 @@ static MRESReturn ApplyVaccinePost(DHookParam hParams)
 static MRESReturn BleedOut(DHookParam hParams)
 {
     int player = hParams.Get(1);
-    log.TraceAmxTpl("player %d BleedOut", player);
+    log.TraceEx("player %d BleedOut", player);
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_BleedOut]);
@@ -303,7 +303,7 @@ static MRESReturn BleedOut(DHookParam hParams)
 static MRESReturn BleedOutPost(DHookParam hParams)
 {
     int player = hParams.Get(1);
-    log.TraceAmxTpl("player %d BleedOut Post", player);
+    log.TraceEx("player %d BleedOut Post", player);
 
     Call_StartForward(hGlobalForwards[FWD_BleedOutPost]);
     Call_PushCell(player);
@@ -320,7 +320,7 @@ static MRESReturn BleedOutPost(DHookParam hParams)
 static MRESReturn StopBleedingOut(DHookParam hParams)
 {
     int player = hParams.Get(1);
-    log.TraceAmxTpl("player %d StopBleedingOut", player);
+    log.TraceEx("player %d StopBleedingOut", player);
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_StopBleedingOut]);
@@ -335,7 +335,7 @@ static MRESReturn StopBleedingOut(DHookParam hParams)
 static MRESReturn StopBleedingOutPost(DHookParam hParams)
 {
     int player = hParams.Get(1);
-    log.TraceAmxTpl("player %d StopBleedingOut Post", player);
+    log.TraceEx("player %d StopBleedingOut Post", player);
 
     Call_StartForward(hGlobalForwards[FWD_StopBleedingOutPost]);
     Call_PushCell(player);
