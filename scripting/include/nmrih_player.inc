@@ -75,8 +75,8 @@ forward  void  OnPlayerCureInfectionPost(int client);
  *
  * @note 如果想让某个玩家免疫感染, 可以将 offset _vaccinated 的值设为 1
  * @note 已注射疫苗也会触发
- * @note 此 Detour 的是 CNMRiH_Player::BecomeInfected, 如果需要在玩家感染后执行逻辑
- *       需要额外判断 (OFS-285, NumberType_Int32) & 128 >= 0 && _vaccinated == 0
+ * @note 此 Detour 的是 CNMRiH_Player::BecomeInfected, 如需检测由未感染变为感染
+ *       要回调内判断 GetEntData(client, 285) & 128 != 0 && _vaccinated == 0
  *       或 Detour 真正的工作函数 ( CInfectableCharacter::BecomeInfected
  *       更推荐的做法是使用 User message - BecameInfected
  *       HookUserMessage(GetUserMessageId("BecameInfected"), UserMsg_BecameInfected)
@@ -90,7 +90,7 @@ forward  void  OnPlayerBecomeInfectedPost(int client);
 /**
  * Call when a client take pills.
  *
- * @note (OFS-1340, NumberType_Int8) == 1
+ * @note 检测 GetEntData(client, 1340) != 0
  *
  * @param client    client index.
  * @return          Return Plugin_Continue Continue with the original action, otherwise skip real function.
@@ -146,7 +146,8 @@ forward  void  OnPlayerApplyVaccinePost(int client);
 /**
  * Call when a client inflicts bleeding.
  *
- * @note 不需要判断，因为绕行的是实际工作的函数
+ * @note 绕行的是实际工作的函数，但使用指令 bleedout 会在已流血的情况下触发，而 OnTakeDamage_Alive 不会
+ *       因此在检查从未流血变为流血时，需要判断 _bleedingOut 是否为 false
  *
  * @param client    client index.
  * @return          Return Plugin_Continue Continue with the original action, otherwise skip real function.

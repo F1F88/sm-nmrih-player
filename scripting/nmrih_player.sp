@@ -10,7 +10,7 @@
 // netprops.sp
 
 // All
-// #define LOG4SP_NO_EXT
+#define LOG4SP_NO_EXT
 #include <log4sp>
 #include <nmrih_player>
 
@@ -19,7 +19,7 @@
 
 #define PLUGIN_NAME        "CNMRIH_Player_Utils"
 #define PLUGIN_DESCRIPTION "CNMRIH_Player Utils"
-#define PLUGIN_VERSION     "1.11.1"
+#define PLUGIN_VERSION     "1.12.0"
 
 public Plugin myinfo =
 {
