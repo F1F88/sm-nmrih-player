@@ -28,6 +28,7 @@ enum // Networkable Send Property Offset
     OFS_m_flInfectionTime,              // 2212
     OFS_m_iHealth,                      // 248
     OFS_m_lifeState,                    // 252
+    OFS_m_iPlayerState,
     OFS_m_flMaxspeed,                   // 3576
     OFS_m_fFlags,                       // 284
     OFS_m_iObserverMode,                // 2940
@@ -115,6 +116,7 @@ void LoadNetPropsOffset()
     FindNetProps("CNMRiH_Player", "m_flInfectionTime",              OFS_m_flInfectionTime);
     FindNetProps("CNMRiH_Player", "m_iHealth",                      OFS_m_iHealth);
     FindNetProps("CNMRiH_Player", "m_lifeState",                    OFS_m_lifeState);
+    FindNetProps("CNMRiH_Player", "m_iPlayerState",                 OFS_m_iPlayerState);
     FindNetProps("CNMRiH_Player", "m_flMaxspeed",                   OFS_m_flMaxspeed);
     FindNetProps("CNMRiH_Player", "m_fFlags",                       OFS_m_fFlags);
     FindNetProps("CNMRiH_Player", "m_iObserverMode",                OFS_m_iObserverMode);
@@ -228,6 +230,8 @@ void CreateNetPropsNatives()
     CreateNative("NMR_Player.m_iHealth.set",                        Native_Set_m_iHealth);
     CreateNative("NMR_Player.m_lifeState.get",                      Native_Get_m_lifeState);
     CreateNative("NMR_Player.m_lifeState.set",                      Native_Set_m_lifeState);
+    CreateNative("NMR_Player.m_iPlayerState.get",                   Native_Get_m_iPlayerState);
+    CreateNative("NMR_Player.m_iPlayerState.set",                   Native_Set_m_iPlayerState);
     CreateNative("NMR_Player.m_flMaxspeed.get",                     Native_Get_m_flMaxspeed);
     CreateNative("NMR_Player.m_flMaxspeed.set",                     Native_Set_m_flMaxspeed);
     CreateNative("NMR_Player.m_fFlags.get",                         Native_Get_m_fFlags);
@@ -665,6 +669,24 @@ static any Native_Set_m_lifeState(Handle plugin, int numParams)
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     return SetEntData(player, iNetPropsOffset[OFS_m_lifeState], GetNativeCell(2), 1);
+}
+
+static any Native_Get_m_iPlayerState(Handle plugin, int numParams)
+{
+    int player = GetNativeCell(1);
+    if (!IsValidClient(player))
+        log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
+
+    return GetEntData(player, iNetPropsOffset[OFS_m_iPlayerState]);
+}
+
+static void Native_Set_m_iPlayerState(Handle plugin, int numParams)
+{
+    int player = GetNativeCell(1);
+    if (!IsValidClient(player))
+        log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
+
+    SetEntData(player, iNetPropsOffset[OFS_m_iPlayerState], GetNativeCell(2));
 }
 
 static any Native_Get_m_flMaxspeed(Handle plugin, int numParams)

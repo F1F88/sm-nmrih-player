@@ -383,6 +383,11 @@ methodmap NMR_Player {
         public native set(int value);
     }
 
+    property int m_iPlayerState {
+        public native get();
+        public native set(int value);
+    }
+
     /**
      * 默认值为 224, 应该是奔跑时的最大速度
      * send 和 Data 都有, 但仅修改 data 时似乎没效果
