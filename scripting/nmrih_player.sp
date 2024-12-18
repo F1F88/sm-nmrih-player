@@ -10,7 +10,7 @@
 // netprops.sp
 
 // All
-#define LOG4SP_NO_EXT
+// #define LOG4SP_NO_EXT
 #include <log4sp>
 #include <nmrih_player>
 
@@ -76,11 +76,13 @@ public void OnPluginStart()
     RegPluginLibrary("nmrih_player");
 
     /* ------- Log Debug ------- */
+    char path[PLATFORM_MAX_PATH];
+    BuildPath(Path_SM, path, sizeof(path), "logs/lib/player.log");
     Sink sinks[2];
     sinks[0] = new ServerConsoleSink();
     sinks[0].SetLevel(LogLevel_Info);
 
-    sinks[1] = new RotatingFileSink("logs/lib/player.log", 1024 * 1024 * 4, 10, .rotateOnOpen=true);
+    sinks[1] = new RotatingFileSink(path, 1024 * 1024 * 4, 10, .rotateOnOpen=true);
     sinks[1].SetLevel(LogLevel_Trace);
 
     log = new Logger("lib-player", sinks, 2);
