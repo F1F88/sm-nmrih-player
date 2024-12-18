@@ -261,7 +261,7 @@
             "CNMRiH_Player::BleedOut"
             {
                 "signature"     "CNMRiH_Player::BleedOut"
-                "callconv"      "cdecl"
+                "callconv"      "stdcall"
                 "return"        "void"
                 "this"          "ignore"
                 "arguments"
