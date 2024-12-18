@@ -28,7 +28,7 @@ enum // Networkable Send Property Offset
     OFS_m_flInfectionTime,              // 2212
     OFS_m_iHealth,                      // 248
     OFS_m_lifeState,                    // 252
-    OFS_m_iPlayerState,
+    OFS_m_iPlayerState,                 // 4856
     OFS_m_flMaxspeed,                   // 3576
     OFS_m_fFlags,                       // 284
     OFS_m_iObserverMode,                // 2940
@@ -392,13 +392,13 @@ static any Native_Get_m_fEffects(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_fEffects], 2);
 }
 
-static any Native_Set_m_fEffects(Handle plugin, int numParams)
+static void Native_Set_m_fEffects(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_fEffects], GetNativeCell(2), 2);
+    SetEntData(player, iNetPropsOffset[OFS_m_fEffects], GetNativeCell(2), 2);
 }
 
 static any Native_Get_m_CollisionGroup(Handle plugin, int numParams)
@@ -410,13 +410,13 @@ static any Native_Get_m_CollisionGroup(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_CollisionGroup], 1);
 }
 
-static any Native_Set_m_CollisionGroup(Handle plugin, int numParams)
+static void Native_Set_m_CollisionGroup(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_CollisionGroup], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_CollisionGroup], GetNativeCell(2), 1);
 }
 
 static any Native_Get_moveparent(Handle plugin, int numParams)
@@ -428,16 +428,16 @@ static any Native_Get_moveparent(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_moveparent], 4);
 }
 
-static any Native_Set_moveparent(Handle plugin, int numParams)
+static void Native_Set_moveparent(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_moveparent], GetNativeCell(2), 4);
+    SetEntData(player, iNetPropsOffset[OFS_moveparent], GetNativeCell(2), 4);
 }
 
-static any Native_Get_m_iParentAttachment(Handle plugin, int numParams)
+static int Native_Get_m_iParentAttachment(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -446,13 +446,13 @@ static any Native_Get_m_iParentAttachment(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_iParentAttachment], 1);
 }
 
-static any Native_Set_m_iParentAttachment(Handle plugin, int numParams)
+static void Native_Set_m_iParentAttachment(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_iParentAttachment], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_iParentAttachment], GetNativeCell(2), 1);
 }
 
 static any Native_Get_movetype(Handle plugin, int numParams)
@@ -464,13 +464,13 @@ static any Native_Get_movetype(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_movetype], 1);
 }
 
-static any Native_Set_movetype(Handle plugin, int numParams)
+static void Native_Set_movetype(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_movetype], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_movetype], GetNativeCell(2), 1);
 }
 
 static any Native_Get_movecollide(Handle plugin, int numParams)
@@ -482,13 +482,13 @@ static any Native_Get_movecollide(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_movecollide], 1);
 }
 
-static any Native_Set_movecollide(Handle plugin, int numParams)
+static void Native_Set_movecollide(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_movecollide], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_movecollide], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_bIsGlowable(Handle plugin, int numParams)
@@ -500,13 +500,13 @@ static any Native_Get_m_bIsGlowable(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bIsGlowable], 1);
 }
 
-static any Native_Set_m_bIsGlowable(Handle plugin, int numParams)
+static void Native_Set_m_bIsGlowable(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bIsGlowable], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bIsGlowable], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_bGlowing(Handle plugin, int numParams)
@@ -518,13 +518,13 @@ static any Native_Get_m_bGlowing(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bGlowing], 1);
 }
 
-static any Native_Set_m_bGlowing(Handle plugin, int numParams)
+static void Native_Set_m_bGlowing(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bGlowing], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bGlowing], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_clrGlowColor(Handle plugin, int numParams)
@@ -536,13 +536,13 @@ static any Native_Get_m_clrGlowColor(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_clrGlowColor], 4);
 }
 
-static any Native_Set_m_clrGlowColor(Handle plugin, int numParams)
+static void Native_Set_m_clrGlowColor(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_clrGlowColor], GetNativeCell(2), 4);
+    SetEntData(player, iNetPropsOffset[OFS_m_clrGlowColor], GetNativeCell(2), 4);
 }
 
 static any Native_Get_m_flGlowDistance(Handle plugin, int numParams)
@@ -554,13 +554,13 @@ static any Native_Get_m_flGlowDistance(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flGlowDistance]);
 }
 
-static any Native_Set_m_flGlowDistance(Handle plugin, int numParams)
+static void Native_Set_m_flGlowDistance(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flGlowDistance], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flGlowDistance], GetNativeCell(2));
 }
 
 static any Native_Get_m_bGlowBlip(Handle plugin, int numParams)
@@ -572,13 +572,13 @@ static any Native_Get_m_bGlowBlip(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bGlowBlip], 1);
 }
 
-static any Native_Set_m_bGlowBlip(Handle plugin, int numParams)
+static void Native_Set_m_bGlowBlip(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bGlowBlip], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bGlowBlip], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_hActiveWeapon(Handle plugin, int numParams)
@@ -590,13 +590,13 @@ static any Native_Get_m_hActiveWeapon(Handle plugin, int numParams)
     return GetEntDataEnt2(player, iNetPropsOffset[OFS_m_hActiveWeapon]);
 }
 
-static any Native_Set_m_hActiveWeapon(Handle plugin, int numParams)
+static void Native_Set_m_hActiveWeapon(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataEnt2(player, iNetPropsOffset[OFS_m_hActiveWeapon], GetNativeCell(2));
+    SetEntDataEnt2(player, iNetPropsOffset[OFS_m_hActiveWeapon], GetNativeCell(2));
 }
 
 static any Native_Get_m_flInfectionDeathTime(Handle plugin, int numParams)
@@ -608,13 +608,13 @@ static any Native_Get_m_flInfectionDeathTime(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flInfectionDeathTime]);
 }
 
-static any Native_Set_m_flInfectionDeathTime(Handle plugin, int numParams)
+static void Native_Set_m_flInfectionDeathTime(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flInfectionDeathTime], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flInfectionDeathTime], GetNativeCell(2));
 }
 
 static any Native_Get_m_flInfectionTime(Handle plugin, int numParams)
@@ -626,16 +626,16 @@ static any Native_Get_m_flInfectionTime(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flInfectionTime]);
 }
 
-static any Native_Set_m_flInfectionTime(Handle plugin, int numParams)
+static void Native_Set_m_flInfectionTime(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flInfectionTime], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flInfectionTime], GetNativeCell(2));
 }
 
-static any Native_Get_m_iHealth(Handle plugin, int numParams)
+static int Native_Get_m_iHealth(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -644,13 +644,13 @@ static any Native_Get_m_iHealth(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_iHealth], 4);
 }
 
-static any Native_Set_m_iHealth(Handle plugin, int numParams)
+static void Native_Set_m_iHealth(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_iHealth], GetNativeCell(2), 4);
+    SetEntData(player, iNetPropsOffset[OFS_m_iHealth], GetNativeCell(2), 4);
 }
 
 static any Native_Get_m_lifeState(Handle plugin, int numParams)
@@ -662,16 +662,16 @@ static any Native_Get_m_lifeState(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_lifeState], 1);
 }
 
-static any Native_Set_m_lifeState(Handle plugin, int numParams)
+static void Native_Set_m_lifeState(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_lifeState], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_lifeState], GetNativeCell(2), 1);
 }
 
-static any Native_Get_m_iPlayerState(Handle plugin, int numParams)
+static int Native_Get_m_iPlayerState(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -698,13 +698,13 @@ static any Native_Get_m_flMaxspeed(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flMaxspeed]);
 }
 
-static any Native_Set_m_flMaxspeed(Handle plugin, int numParams)
+static void Native_Set_m_flMaxspeed(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flMaxspeed], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flMaxspeed], GetNativeCell(2));
 }
 
 static any Native_Get_m_fFlags(Handle plugin, int numParams)
@@ -716,16 +716,16 @@ static any Native_Get_m_fFlags(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_fFlags], 2);
 }
 
-static any Native_Set_m_fFlags(Handle plugin, int numParams)
+static void Native_Set_m_fFlags(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_fFlags], GetNativeCell(2), 2);
+    SetEntData(player, iNetPropsOffset[OFS_m_fFlags], GetNativeCell(2), 2);
 }
 
-static any Native_Get_m_iObserverMode(Handle plugin, int numParams)
+static int Native_Get_m_iObserverMode(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -734,13 +734,13 @@ static any Native_Get_m_iObserverMode(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_iObserverMode], 1);
 }
 
-static any Native_Set_m_iObserverMode(Handle plugin, int numParams)
+static void Native_Set_m_iObserverMode(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_iObserverMode], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_iObserverMode], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_hObserverTarget(Handle plugin, int numParams)
@@ -752,16 +752,16 @@ static any Native_Get_m_hObserverTarget(Handle plugin, int numParams)
     return GetEntDataEnt2(player, iNetPropsOffset[OFS_m_hObserverTarget]);
 }
 
-static any Native_Set_m_hObserverTarget(Handle plugin, int numParams)
+static void Native_Set_m_hObserverTarget(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataEnt2(player, iNetPropsOffset[OFS_m_hObserverTarget], GetNativeCell(2));
+    SetEntDataEnt2(player, iNetPropsOffset[OFS_m_hObserverTarget], GetNativeCell(2));
 }
 
-static any Native_Get_m_iFOV(Handle plugin, int numParams)
+static int Native_Get_m_iFOV(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -770,16 +770,16 @@ static any Native_Get_m_iFOV(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_iFOV], 1);
 }
 
-static any Native_Set_m_iFOV(Handle plugin, int numParams)
+static void Native_Set_m_iFOV(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_iFOV], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_iFOV], GetNativeCell(2), 1);
 }
 
-static any Native_Get_m_iFOVStart(Handle plugin, int numParams)
+static int Native_Get_m_iFOVStart(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -788,13 +788,13 @@ static any Native_Get_m_iFOVStart(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_iFOVStart], 1);
 }
 
-static any Native_Set_m_iFOVStart(Handle plugin, int numParams)
+static void Native_Set_m_iFOVStart(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_iFOVStart], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_iFOVStart], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_flFOVTime(Handle plugin, int numParams)
@@ -806,16 +806,16 @@ static any Native_Get_m_flFOVTime(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flFOVTime]);
 }
 
-static any Native_Set_m_flFOVTime(Handle plugin, int numParams)
+static void Native_Set_m_flFOVTime(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flFOVTime], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flFOVTime], GetNativeCell(2));
 }
 
-static any Native_Get_m_iDefaultFOV(Handle plugin, int numParams)
+static int Native_Get_m_iDefaultFOV(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -824,16 +824,16 @@ static any Native_Get_m_iDefaultFOV(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_iDefaultFOV], 1);
 }
 
-static any Native_Set_m_iDefaultFOV(Handle plugin, int numParams)
+static void Native_Set_m_iDefaultFOV(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_iDefaultFOV], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_iDefaultFOV], GetNativeCell(2), 1);
 }
 
-static any Native_Get_m_iHideHUD(Handle plugin, int numParams)
+static int Native_Get_m_iHideHUD(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -842,13 +842,13 @@ static any Native_Get_m_iHideHUD(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_iHideHUD], 2);
 }
 
-static any Native_Set_m_iHideHUD(Handle plugin, int numParams)
+static void Native_Set_m_iHideHUD(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_iHideHUD], GetNativeCell(2), 2);
+    SetEntData(player, iNetPropsOffset[OFS_m_iHideHUD], GetNativeCell(2), 2);
 }
 
 static any Native_Get_m_flFOVRate(Handle plugin, int numParams)
@@ -860,13 +860,13 @@ static any Native_Get_m_flFOVRate(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flFOVRate]);
 }
 
-static any Native_Set_m_flFOVRate(Handle plugin, int numParams)
+static void Native_Set_m_flFOVRate(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flFOVRate], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flFOVRate], GetNativeCell(2));
 }
 
 static any Native_Get_m_bDucked(Handle plugin, int numParams)
@@ -878,13 +878,13 @@ static any Native_Get_m_bDucked(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bDucked], 1);
 }
 
-static any Native_Set_m_bDucked(Handle plugin, int numParams)
+static void Native_Set_m_bDucked(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bDucked], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bDucked], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_bDucking(Handle plugin, int numParams)
@@ -896,13 +896,13 @@ static any Native_Get_m_bDucking(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bDucking], 1);
 }
 
-static any Native_Set_m_bDucking(Handle plugin, int numParams)
+static void Native_Set_m_bDucking(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bDucking], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bDucking], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_bInDuckJump(Handle plugin, int numParams)
@@ -914,13 +914,13 @@ static any Native_Get_m_bInDuckJump(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bInDuckJump], 1);
 }
 
-static any Native_Set_m_bInDuckJump(Handle plugin, int numParams)
+static void Native_Set_m_bInDuckJump(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bInDuckJump], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bInDuckJump], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_flDucktime(Handle plugin, int numParams)
@@ -932,13 +932,13 @@ static any Native_Get_m_flDucktime(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flDucktime]);
 }
 
-static any Native_Set_m_flDucktime(Handle plugin, int numParams)
+static void Native_Set_m_flDucktime(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flDucktime], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flDucktime], GetNativeCell(2));
 }
 
 static any Native_Get_m_flDuckJumpTime(Handle plugin, int numParams)
@@ -950,13 +950,13 @@ static any Native_Get_m_flDuckJumpTime(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flDuckJumpTime]);
 }
 
-static any Native_Set_m_flDuckJumpTime(Handle plugin, int numParams)
+static void Native_Set_m_flDuckJumpTime(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flDuckJumpTime], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flDuckJumpTime], GetNativeCell(2));
 }
 
 static any Native_Get_m_flJumpTime(Handle plugin, int numParams)
@@ -968,13 +968,13 @@ static any Native_Get_m_flJumpTime(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flJumpTime]);
 }
 
-static any Native_Set_m_flJumpTime(Handle plugin, int numParams)
+static void Native_Set_m_flJumpTime(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flJumpTime], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flJumpTime], GetNativeCell(2));
 }
 
 static any Native_Get_m_flFallVelocity(Handle plugin, int numParams)
@@ -986,13 +986,13 @@ static any Native_Get_m_flFallVelocity(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flFallVelocity]);
 }
 
-static any Native_Set_m_flFallVelocity(Handle plugin, int numParams)
+static void Native_Set_m_flFallVelocity(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flFallVelocity], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flFallVelocity], GetNativeCell(2));
 }
 
 static any Native_Get_m_bPoisoned(Handle plugin, int numParams)
@@ -1004,13 +1004,13 @@ static any Native_Get_m_bPoisoned(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bPoisoned], 1);
 }
 
-static any Native_Set_m_bPoisoned(Handle plugin, int numParams)
+static void Native_Set_m_bPoisoned(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bPoisoned], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bPoisoned], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_flStepSize(Handle plugin, int numParams)
@@ -1022,13 +1022,13 @@ static any Native_Get_m_flStepSize(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flStepSize]);
 }
 
-static any Native_Set_m_flStepSize(Handle plugin, int numParams)
+static void Native_Set_m_flStepSize(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flStepSize], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flStepSize], GetNativeCell(2));
 }
 
 static any Native_Get_m_vecViewOffset_0(Handle plugin, int numParams)
@@ -1040,13 +1040,13 @@ static any Native_Get_m_vecViewOffset_0(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_vecViewOffset_0]);
 }
 
-static any Native_Set_m_vecViewOffset_0(Handle plugin, int numParams)
+static void Native_Set_m_vecViewOffset_0(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_vecViewOffset_0], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_vecViewOffset_0], GetNativeCell(2));
 }
 
 static any Native_Get_m_vecViewOffset_1(Handle plugin, int numParams)
@@ -1058,13 +1058,13 @@ static any Native_Get_m_vecViewOffset_1(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_vecViewOffset_1]);
 }
 
-static any Native_Set_m_vecViewOffset_1(Handle plugin, int numParams)
+static void Native_Set_m_vecViewOffset_1(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_vecViewOffset_1], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_vecViewOffset_1], GetNativeCell(2));
 }
 
 static any Native_Get_m_vecViewOffset_2(Handle plugin, int numParams)
@@ -1076,13 +1076,13 @@ static any Native_Get_m_vecViewOffset_2(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_vecViewOffset_2]);
 }
 
-static any Native_Set_m_vecViewOffset_2(Handle plugin, int numParams)
+static void Native_Set_m_vecViewOffset_2(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_vecViewOffset_2], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_vecViewOffset_2], GetNativeCell(2));
 }
 
 static any Native_Get_m_flFriction(Handle plugin, int numParams)
@@ -1094,13 +1094,13 @@ static any Native_Get_m_flFriction(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flFriction]);
 }
 
-static any Native_Set_m_flFriction(Handle plugin, int numParams)
+static void Native_Set_m_flFriction(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flFriction], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flFriction], GetNativeCell(2));
 }
 
 static any Native_Get_m_hLastWeapon(Handle plugin, int numParams)
@@ -1112,13 +1112,13 @@ static any Native_Get_m_hLastWeapon(Handle plugin, int numParams)
     return GetEntDataEnt2(player, iNetPropsOffset[OFS_m_hLastWeapon]);
 }
 
-static any Native_Set_m_hLastWeapon(Handle plugin, int numParams)
+static void Native_Set_m_hLastWeapon(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataEnt2(player, iNetPropsOffset[OFS_m_hLastWeapon], GetNativeCell(2));
+    SetEntDataEnt2(player, iNetPropsOffset[OFS_m_hLastWeapon], GetNativeCell(2));
 }
 
 static any Native_Get_m_hGroundEntity(Handle plugin, int numParams)
@@ -1130,13 +1130,13 @@ static any Native_Get_m_hGroundEntity(Handle plugin, int numParams)
     return GetEntDataEnt2(player, iNetPropsOffset[OFS_m_hGroundEntity]);
 }
 
-static any Native_Set_m_hGroundEntity(Handle plugin, int numParams)
+static void Native_Set_m_hGroundEntity(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataEnt2(player, iNetPropsOffset[OFS_m_hGroundEntity], GetNativeCell(2));
+    SetEntDataEnt2(player, iNetPropsOffset[OFS_m_hGroundEntity], GetNativeCell(2));
 }
 
 static any Native_Get_m_vecVelocity_0(Handle plugin, int numParams)
@@ -1148,13 +1148,13 @@ static any Native_Get_m_vecVelocity_0(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_vecVelocity_0]);
 }
 
-static any Native_Set_m_vecVelocity_0(Handle plugin, int numParams)
+static void Native_Set_m_vecVelocity_0(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_vecVelocity_0], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_vecVelocity_0], GetNativeCell(2));
 }
 
 static any Native_Get_m_vecVelocity_1(Handle plugin, int numParams)
@@ -1166,13 +1166,13 @@ static any Native_Get_m_vecVelocity_1(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_vecVelocity_1]);
 }
 
-static any Native_Set_m_vecVelocity_1(Handle plugin, int numParams)
+static void Native_Set_m_vecVelocity_1(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_vecVelocity_1], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_vecVelocity_1], GetNativeCell(2));
 }
 
 static any Native_Get_m_vecVelocity_2(Handle plugin, int numParams)
@@ -1184,13 +1184,13 @@ static any Native_Get_m_vecVelocity_2(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_vecVelocity_2]);
 }
 
-static any Native_Set_m_vecVelocity_2(Handle plugin, int numParams)
+static void Native_Set_m_vecVelocity_2(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_vecVelocity_2], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_vecVelocity_2], GetNativeCell(2));
 }
 
 static any Native_Get_m_flDeathTime(Handle plugin, int numParams)
@@ -1202,13 +1202,13 @@ static any Native_Get_m_flDeathTime(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flDeathTime]);
 }
 
-static any Native_Set_m_flDeathTime(Handle plugin, int numParams)
+static void Native_Set_m_flDeathTime(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flDeathTime], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flDeathTime], GetNativeCell(2));
 }
 
 static any Native_Get_m_nWaterLevel(Handle plugin, int numParams)
@@ -1220,13 +1220,13 @@ static any Native_Get_m_nWaterLevel(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_nWaterLevel], 1);
 }
 
-static any Native_Set_m_nWaterLevel(Handle plugin, int numParams)
+static void Native_Set_m_nWaterLevel(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_nWaterLevel], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_nWaterLevel], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_flLaggedMovementValue(Handle plugin, int numParams)
@@ -1238,13 +1238,13 @@ static any Native_Get_m_flLaggedMovementValue(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flLaggedMovementValue]);
 }
 
-static any Native_Set_m_flLaggedMovementValue(Handle plugin, int numParams)
+static void Native_Set_m_flLaggedMovementValue(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flLaggedMovementValue], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flLaggedMovementValue], GetNativeCell(2));
 }
 
 static any Native_Get_m_flStamina(Handle plugin, int numParams)
@@ -1256,13 +1256,13 @@ static any Native_Get_m_flStamina(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flStamina]);
 }
 
-static any Native_Set_m_flStamina(Handle plugin, int numParams)
+static void Native_Set_m_flStamina(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flStamina], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flStamina], GetNativeCell(2));
 }
 
 static any Native_Get_m_bIsSprinting(Handle plugin, int numParams)
@@ -1274,13 +1274,13 @@ static any Native_Get_m_bIsSprinting(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bIsSprinting], 1);
 }
 
-static any Native_Set_m_bIsSprinting(Handle plugin, int numParams)
+static void Native_Set_m_bIsSprinting(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bIsSprinting], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bIsSprinting], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_bTalkingWalkie(Handle plugin, int numParams)
@@ -1292,13 +1292,13 @@ static any Native_Get_m_bTalkingWalkie(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bTalkingWalkie], 1);
 }
 
-static any Native_Set_m_bTalkingWalkie(Handle plugin, int numParams)
+static void Native_Set_m_bTalkingWalkie(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bTalkingWalkie], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bTalkingWalkie], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_bSprintEnabled(Handle plugin, int numParams)
@@ -1310,13 +1310,13 @@ static any Native_Get_m_bSprintEnabled(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bSprintEnabled], 1);
 }
 
-static any Native_Set_m_bSprintEnabled(Handle plugin, int numParams)
+static void Native_Set_m_bSprintEnabled(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bSprintEnabled], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bSprintEnabled], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_bStickyIronsight(Handle plugin, int numParams)
@@ -1328,13 +1328,13 @@ static any Native_Get_m_bStickyIronsight(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bStickyIronsight], 1);
 }
 
-static any Native_Set_m_bStickyIronsight(Handle plugin, int numParams)
+static void Native_Set_m_bStickyIronsight(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bStickyIronsight], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bStickyIronsight], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_bDiedWhileInfected(Handle plugin, int numParams)
@@ -1346,13 +1346,13 @@ static any Native_Get_m_bDiedWhileInfected(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bDiedWhileInfected], 1);
 }
 
-static any Native_Set_m_bDiedWhileInfected(Handle plugin, int numParams)
+static void Native_Set_m_bDiedWhileInfected(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bDiedWhileInfected], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bDiedWhileInfected], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_bGrabbed(Handle plugin, int numParams)
@@ -1364,13 +1364,13 @@ static any Native_Get_m_bGrabbed(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bGrabbed], 1);
 }
 
-static any Native_Set_m_bGrabbed(Handle plugin, int numParams)
+static void Native_Set_m_bGrabbed(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bGrabbed], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bGrabbed], GetNativeCell(2), 1);
 }
 
 static any Native_Get__bleedingOut(Handle plugin, int numParams)
@@ -1382,13 +1382,13 @@ static any Native_Get__bleedingOut(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS__bleedingOut], 1);
 }
 
-static any Native_Set__bleedingOut(Handle plugin, int numParams)
+static void Native_Set__bleedingOut(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS__bleedingOut], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS__bleedingOut], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_flThrowDropTimer(Handle plugin, int numParams)
@@ -1400,13 +1400,13 @@ static any Native_Get_m_flThrowDropTimer(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flThrowDropTimer]);
 }
 
-static any Native_Set_m_flThrowDropTimer(Handle plugin, int numParams)
+static void Native_Set_m_flThrowDropTimer(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flThrowDropTimer], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flThrowDropTimer], GetNativeCell(2));
 }
 
 static any Native_Get__carriedWeight(Handle plugin, int numParams)
@@ -1418,16 +1418,16 @@ static any Native_Get__carriedWeight(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS__carriedWeight], 4);
 }
 
-static any Native_Set__carriedWeight(Handle plugin, int numParams)
+static void Native_Set__carriedWeight(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS__carriedWeight], GetNativeCell(2));
+    SetEntData(player, iNetPropsOffset[OFS__carriedWeight], GetNativeCell(2));
 }
 
-static any Native_Get_m_iTokens(Handle plugin, int numParams)
+static int Native_Get_m_iTokens(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -1436,16 +1436,16 @@ static any Native_Get_m_iTokens(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_iTokens], 4);
 }
 
-static any Native_Set_m_iTokens(Handle plugin, int numParams)
+static void Native_Set_m_iTokens(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_iTokens], GetNativeCell(2), 4);
+    SetEntData(player, iNetPropsOffset[OFS_m_iTokens], GetNativeCell(2), 4);
 }
 
-static any Native_Get_m_iDeaths(Handle plugin, int numParams)
+static int Native_Get_m_iDeaths(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -1454,13 +1454,13 @@ static any Native_Get_m_iDeaths(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_iDeaths], 4);
 }
 
-static any Native_Set_m_iDeaths(Handle plugin, int numParams)
+static void Native_Set_m_iDeaths(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_iDeaths], GetNativeCell(2), 4);
+    SetEntData(player, iNetPropsOffset[OFS_m_iDeaths], GetNativeCell(2), 4);
 }
 
 static any Native_Get__usingToolSecondary(Handle plugin, int numParams)
@@ -1472,13 +1472,13 @@ static any Native_Get__usingToolSecondary(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS__usingToolSecondary], 1);
 }
 
-static any Native_Set__usingToolSecondary(Handle plugin, int numParams)
+static void Native_Set__usingToolSecondary(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS__usingToolSecondary], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS__usingToolSecondary], GetNativeCell(2), 1);
 }
 
 static any Native_Get__contemplatingSuicide(Handle plugin, int numParams)
@@ -1490,13 +1490,13 @@ static any Native_Get__contemplatingSuicide(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS__contemplatingSuicide], 1);
 }
 
-static any Native_Set__contemplatingSuicide(Handle plugin, int numParams)
+static void Native_Set__contemplatingSuicide(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS__contemplatingSuicide], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS__contemplatingSuicide], GetNativeCell(2), 1);
 }
 
 static any Native_Get__playerModelIndex(Handle plugin, int numParams)
@@ -1508,13 +1508,13 @@ static any Native_Get__playerModelIndex(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS__playerModelIndex], 4);
 }
 
-static any Native_Set__playerModelIndex(Handle plugin, int numParams)
+static void Native_Set__playerModelIndex(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS__playerModelIndex], GetNativeCell(2), 4);
+    SetEntData(player, iNetPropsOffset[OFS__playerModelIndex], GetNativeCell(2), 4);
 }
 
 static any Native_Get__nextRespawnTime(Handle plugin, int numParams)
@@ -1526,13 +1526,13 @@ static any Native_Get__nextRespawnTime(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS__nextRespawnTime]);
 }
 
-static any Native_Set__nextRespawnTime(Handle plugin, int numParams)
+static void Native_Set__nextRespawnTime(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS__nextRespawnTime], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS__nextRespawnTime], GetNativeCell(2));
 }
 
 static any Native_Get__vaccinated(Handle plugin, int numParams)
@@ -1544,13 +1544,13 @@ static any Native_Get__vaccinated(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS__vaccinated], 1);
 }
 
-static any Native_Set__vaccinated(Handle plugin, int numParams)
+static void Native_Set__vaccinated(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS__vaccinated], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS__vaccinated], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_bGrabbedByCrawler(Handle plugin, int numParams)
@@ -1562,13 +1562,13 @@ static any Native_Get_m_bGrabbedByCrawler(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bGrabbedByCrawler], 1);
 }
 
-static any Native_Set_m_bGrabbedByCrawler(Handle plugin, int numParams)
+static void Native_Set_m_bGrabbedByCrawler(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bGrabbedByCrawler], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bGrabbedByCrawler], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_flPartialBlindnessEffectEnd(Handle plugin, int numParams)
@@ -1580,13 +1580,13 @@ static any Native_Get_m_flPartialBlindnessEffectEnd(Handle plugin, int numParams
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flPartialBlindnessEffectEnd]);
 }
 
-static any Native_Set_m_flPartialBlindnessEffectEnd(Handle plugin, int numParams)
+static void Native_Set_m_flPartialBlindnessEffectEnd(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flPartialBlindnessEffectEnd], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flPartialBlindnessEffectEnd], GetNativeCell(2));
 }
 
 static any Native_Get_m_bIsExtracted(Handle plugin, int numParams)
@@ -1598,13 +1598,13 @@ static any Native_Get_m_bIsExtracted(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bIsExtracted], 1);
 }
 
-static any Native_Set_m_bIsExtracted(Handle plugin, int numParams)
+static void Native_Set_m_bIsExtracted(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bIsExtracted], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bIsExtracted], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_bUsingProgressTrigger(Handle plugin, int numParams)
@@ -1616,13 +1616,13 @@ static any Native_Get_m_bUsingProgressTrigger(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bUsingProgressTrigger], 1);
 }
 
-static any Native_Set_m_bUsingProgressTrigger(Handle plugin, int numParams)
+static void Native_Set_m_bUsingProgressTrigger(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bUsingProgressTrigger], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bUsingProgressTrigger], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_bLevelTransition(Handle plugin, int numParams)
@@ -1634,13 +1634,13 @@ static any Native_Get_m_bLevelTransition(Handle plugin, int numParams)
     return GetEntData(player, iNetPropsOffset[OFS_m_bLevelTransition], 1);
 }
 
-static any Native_Set_m_bLevelTransition(Handle plugin, int numParams)
+static void Native_Set_m_bLevelTransition(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntData(player, iNetPropsOffset[OFS_m_bLevelTransition], GetNativeCell(2), 1);
+    SetEntData(player, iNetPropsOffset[OFS_m_bLevelTransition], GetNativeCell(2), 1);
 }
 
 static any Native_Get_m_flSpeedModifier(Handle plugin, int numParams)
@@ -1652,13 +1652,13 @@ static any Native_Get_m_flSpeedModifier(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flSpeedModifier]);
 }
 
-static any Native_Set_m_flSpeedModifier(Handle plugin, int numParams)
+static void Native_Set_m_flSpeedModifier(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flSpeedModifier], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flSpeedModifier], GetNativeCell(2));
 }
 
 static any Native_Get_m_flSpeedOverride(Handle plugin, int numParams)
@@ -1670,13 +1670,13 @@ static any Native_Get_m_flSpeedOverride(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flSpeedOverride]);
 }
 
-static any Native_Set_m_flSpeedOverride(Handle plugin, int numParams)
+static void Native_Set_m_flSpeedOverride(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flSpeedOverride], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flSpeedOverride], GetNativeCell(2));
 }
 
 static any Native_Get_m_flTriggerSpeedModifier(Handle plugin, int numParams)
@@ -1688,13 +1688,13 @@ static any Native_Get_m_flTriggerSpeedModifier(Handle plugin, int numParams)
     return GetEntDataFloat(player, iNetPropsOffset[OFS_m_flTriggerSpeedModifier]);
 }
 
-static any Native_Set_m_flTriggerSpeedModifier(Handle plugin, int numParams)
+static void Native_Set_m_flTriggerSpeedModifier(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return SetEntDataFloat(player, iNetPropsOffset[OFS_m_flTriggerSpeedModifier], GetNativeCell(2));
+    SetEntDataFloat(player, iNetPropsOffset[OFS_m_flTriggerSpeedModifier], GetNativeCell(2));
 }
 
 static any Native_Get_m_ArmorValue(Handle plugin, int numParams)
@@ -1787,7 +1787,7 @@ static void Native_Set_m_nModelIndex(Handle plugin, int numParams)
     SetEntData(player, iNetPropsOffset[OFS_m_nModelIndex], GetNativeCell(2), 2);
 }
 
-static any Native_Get_m_iMaxHealth(Handle plugin, int numParams)
+static int Native_Get_m_iMaxHealth(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -1847,7 +1847,7 @@ static void Native_Set_m_LastHitGroup(Handle plugin, int numParams)
     SetEntData(player, offset, GetNativeCell(2), 4);
 }
 
-static any Native_Get_m_iFrags(Handle plugin, int numParams)
+static int Native_Get_m_iFrags(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
