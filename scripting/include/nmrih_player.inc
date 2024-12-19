@@ -899,9 +899,30 @@ methodmap NMR_Player {
     public native void EnableSprint(bool value);
 
     /**
+     * 获取已有的弹药数量
+     *
+     *  1 - 9MM |  2 - 45ACP |  3 - 357  |  4 - 12Gauge |  5 - 22LR
+     *  6 - 308 |  7 - 556   |  8 - 762  |  9 - Grenade | 10 - Molotov
+     * 11 - TNT | 12 - Arrow | 13 - Fuel | 14 - Boards  | 15 - Flares
+     */
+    public native int GetAmmoCarryCount(int element);
+
+    /**
      * Returns ammo inventory weight.
+     *
+     * @note 不包含投掷物（9，10，11）
      */
     public native int GetAmmoCarryWeight();
+
+    /**
+     * 获取当前手持武器的主弹夹弹药数
+     */
+    public native int GetActiveWeaponClip1();
+
+    /**
+     * 获取当前手持武器的备用弹夹弹药数
+     */
+    public native int GetActiveWeaponClip2();
 
     /**
      * Fills table with carried inventory items, including weapons and custom items (excl. passive items such as fists, zippo, and ammo).
@@ -932,7 +953,7 @@ methodmap NMR_Player {
     /**
      * Returns max carried inventory weight.
      */
-    public native float GetMaxCarriedWeight();
+    public native int GetMaxCarriedWeight();
 
     /**
      * Returns next spawn attempt time for this player.

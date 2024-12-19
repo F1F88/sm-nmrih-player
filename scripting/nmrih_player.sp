@@ -33,6 +33,9 @@ public Plugin myinfo =
 
 
 // int OS;
+int     cvar_InvMaxcarry;
+int     cvar_InvAmmoweight;
+
 Logger  log;
 
 #include "nmrih_player/detour.sp"
@@ -70,6 +73,7 @@ public void OnPluginStart()
     delete gamedata;
 
     /* ------- Load ConVar ------- */
+    LoadConVars();
     CreateConVar("sm_nmrih_player_version", PLUGIN_VERSION, PLUGIN_DESCRIPTION, FCVAR_SPONLY | FCVAR_DONTRECORD);
 
     /* ------- Register Libray ------- */
@@ -93,4 +97,46 @@ public void OnPluginStart()
 
     // DebugNetPropsOffset();
     log.InfoEx("********** Plugin %s Initialize Complete! **********", PLUGIN_NAME);
+}
+
+
+void LoadConVars()
+{
+    if (!LoadIntConVar("inv_maxcarry", OnCvarInvMaxcarryChange, cvar_InvMaxcarry))
+        SetFailState("Failed to load convar inv_maxcarry");
+
+    if (!LoadIntConVar("inv_ammoweight", OnCvarInvAmmoweightChange, cvar_InvAmmoweight))
+        SetFailState("Failed to load convar inv_maxcarry");
+}
+
+void OnCvarInvMaxcarryChange(ConVar convar, const char[] oldValue, const char[] newValue)
+{
+    cvar_InvMaxcarry = convar.IntValue;
+}
+
+void OnCvarInvAmmoweightChange(ConVar convar, const char[] oldValue, const char[] newValue)
+{
+    cvar_InvAmmoweight = convar.IntValue;
+}
+
+stock bool LoadIntConVar(const char[] name, ConVarChanged callback, int &value)
+{
+    ConVar convar = FindConVar(name);
+    if (convar == null)
+        return false;
+
+    convar.AddChangeHook(callback);
+    value = convar.IntValue;
+    return true;
+}
+
+stock bool LoadFloatConVar(const char[] name, ConVarChanged callback, float &value)
+{
+    ConVar convar = FindConVar(name);
+    if (convar == null)
+        return false;
+
+    convar.AddChangeHook(callback);
+    value = convar.FloatValue;
+    return true;
 }

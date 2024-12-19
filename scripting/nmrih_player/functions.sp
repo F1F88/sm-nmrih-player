@@ -57,7 +57,10 @@ void LoadFunctionsNatives()
     CreateNative("NMR_Player.DoCommitSuicide", Native_DoCommitSuicide);
     CreateNative("NMR_Player.DropEverything", Native_DropEverything);
     CreateNative("NMR_Player.EnableSprint", Native_EnableSprint);
+    CreateNative("NMR_Player.GetAmmoCarryCount", Native_GetAmmoCarryCount);
     CreateNative("NMR_Player.GetAmmoCarryWeight", Native_GetAmmoCarryWeight);
+    CreateNative("NMR_Player.GetActiveWeaponClip1", Native_GetActiveWeaponClip1);
+    CreateNative("NMR_Player.GetActiveWeaponClip2", Native_GetActiveWeaponClip2);
     // CreateNative("NMR_Player.GetCarriedItems", Native_GetCarriedItems);
     CreateNative("NMR_Player.GetCarriedWeight", Native_GetCarriedWeight);
     CreateNative("NMR_Player.GetJumpStaminaCost", Native_GetJumpStaminaCost);
@@ -450,13 +453,80 @@ static void Native_EnableSprint(Handle plugin, int numParams)
     SDKCall(hCallers[HDL_EnableSprint], player, value);
 }
 
+static int Native_GetAmmoCarryCount(Handle plugin, int numParams)
+{
+    int player = GetNativeCell(1);
+    if (!IsValidClient(player))
+        log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
+
+    int element = GetNativeCell(2);
+    if (element <= 0 || element >= 32)
+        log.ThrowErrorEx(LogLevel_Error, "invalid element %d (1-32)", element);
+
+    return GetEntProp(player, Prop_Send, "m_iAmmo", 4, element);
+}
+
 static int Native_GetAmmoCarryWeight(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return RunEntVScriptInt(player, "GetAmmoCarryWeight()");
+    NMR_Player temp = NMR_Player(player);
+
+    int weigth = temp.GetAmmoCarryCount(1) * cvar_InvAmmoweight;// 9MM
+    weigth += temp.GetAmmoCarryCount(2) * cvar_InvAmmoweight;   // 45ACP
+    weigth += temp.GetAmmoCarryCount(3) * cvar_InvAmmoweight;   // 357
+    weigth += temp.GetAmmoCarryCount(4) * cvar_InvAmmoweight;   // 12Gauge
+    weigth += temp.GetAmmoCarryCount(5) * cvar_InvAmmoweight;   // 22LR
+    weigth += temp.GetAmmoCarryCount(6) * cvar_InvAmmoweight;   // 308
+    weigth += temp.GetAmmoCarryCount(7) * cvar_InvAmmoweight;   // 556
+    weigth += temp.GetAmmoCarryCount(8) * cvar_InvAmmoweight;   // 762
+    // weigth += temp.GetAmmoCarryCount(9) * cvar_InvAmmoweight;   // Grenade
+    // weigth += temp.GetAmmoCarryCount(10) * cvar_InvAmmoweight;  // Molotov
+    // weigth += temp.GetAmmoCarryCount(11) * cvar_InvAmmoweight;  // TNT
+    weigth += temp.GetAmmoCarryCount(12) * cvar_InvAmmoweight;  // Arrow
+    weigth += temp.GetAmmoCarryCount(13) * cvar_InvAmmoweight;  // Fuel
+    weigth += temp.GetAmmoCarryCount(14) * cvar_InvAmmoweight;  // Boards
+    weigth += temp.GetAmmoCarryCount(15) * cvar_InvAmmoweight;  // Flares
+
+    return weigth;
+}
+
+static int Native_GetActiveWeaponClip1(Handle plugin, int numParams)
+{
+    int player = GetNativeCell(1);
+    if (!IsValidClient(player))
+        log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
+
+    int weapon = NMR_Player(player).m_hActiveWeapon;
+    if (!IsValidEntity(weapon))
+        return -1;
+
+    int offset = FindSendPropInfo("CNMRiH_WeaponBase", "m_iClip1");
+    if (offset < 1)
+        log.ThrowError(LogLevel_Error, "Can't find offset 'CNMRiH_WeaponBase::m_iClip1'!");
+
+    return GetEntData(weapon, offset);
+}
+
+static int Native_GetActiveWeaponClip2(Handle plugin, int numParams)
+{
+    int player = GetNativeCell(1);
+    if (!IsValidClient(player))
+        log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
+
+    NMR_Player temp = NMR_Player(player);
+
+    int weapon = temp.m_hActiveWeapon;
+    if (!IsValidEntity(weapon))
+        return 0;
+
+    int type = GetEntProp(weapon, Prop_Send, "m_iPrimaryAmmoType");
+    if (type == -1)
+        return 0;
+
+    return temp.GetAmmoCarryCount(type);
 }
 
 // static void Native_GetCarriedItems(Handle plugin, int numParams)
@@ -478,7 +548,8 @@ static int Native_GetCarriedWeight(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return RunEntVScriptInt(player, "GetCarriedWeight()");
+    NMR_Player temp = NMR_Player(player);
+    return temp._carriedWeight + temp.GetAmmoCarryWeight();
 }
 
 static any Native_GetJumpStaminaCost(Handle plugin, int numParams)
@@ -487,6 +558,7 @@ static any Native_GetJumpStaminaCost(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
+    // TODO sv_bleedout_jump_stam_mult
     return RunEntVScriptFloat(player, "GetJumpStaminaCost()");
 }
 
@@ -506,16 +578,17 @@ static any Native_GetNextRespawnTime(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
+    // TODO use property _nextRespawnTime
     return RunEntVScriptFloat(player, "GetNextRespawnTime()");
 }
 
-static any Native_GetMaxCarriedWeight(Handle plugin, int numParams)
+static int Native_GetMaxCarriedWeight(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return RunEntVScriptFloat(player, "GetMaxCarriedWeight()");
+    return cvar_InvMaxcarry;
 }
 
 static any Native_GetNextSpawnTryTime(Handle plugin, int numParams)
@@ -533,6 +606,7 @@ static any Native_GetSpeedModifier(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
+    // TODO use property m_flSpeedModifier
     return RunEntVScriptFloat(player, "GetSpeedModifier()");
 }
 
@@ -542,6 +616,7 @@ static any Native_GetSpeedOverride(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
+    // TODO use property m_flSpeedModifier
     return RunEntVScriptFloat(player, "GetSpeedOverride()");
 }
 
@@ -551,6 +626,7 @@ static any Native_GetStamina(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
+    // TODO use property m_flStamina
     return RunEntVScriptFloat(player, "GetStamina()");
 }
 
@@ -560,6 +636,8 @@ static any Native_GetThrowScale(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
+    // TODO use property (GetGameTime() - m_flThrowDropTimer) * 2 / 3
+    // if ()
     return RunEntVScriptFloat(player, "GetThrowScale()");
 }
 
@@ -588,6 +666,7 @@ static any Native_HasLeftoverWeight(Handle plugin, int numParams)
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     int value = GetNativeCell(2);
+    // TODO use property value <= _carriedWeight + GetAmmoCarryWeight
     char code[32];
     FormatEx(code, sizeof(code), "HasLeftoverWeight(%d)", value);
     return RunEntVScriptBool(player, code);
@@ -629,6 +708,7 @@ static any Native_IsBleedingOut(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
+    // TODO use property _bleedingOut
     return RunEntVScriptBool(player, "IsBleedingOut()");
 }
 
@@ -638,6 +718,7 @@ static any Native_IsContemplatingSuicide(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
+    // TODO use property _contemplatingSuicide
     return RunEntVScriptBool(player, "IsContemplatingSuicide()");
 }
 
@@ -647,6 +728,7 @@ static any Native_IsDucking(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
+    // TODO use property m_fFlags & NMR_FL_DUCKING
     return RunEntVScriptBool(player, "IsDucking()");
 }
 
@@ -656,6 +738,7 @@ static any Native_IsExtracted(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
+    // TODO use property m_bIsExtracted
     return RunEntVScriptBool(player, "IsExtracted()");
 }
 
