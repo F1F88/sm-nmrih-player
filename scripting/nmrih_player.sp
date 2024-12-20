@@ -36,6 +36,8 @@ public Plugin myinfo =
 int     cvar_InvMaxcarry;
 int     cvar_InvAmmoweight;
 
+float   cvar_SvBleedoutJumpStamMult;
+
 Logger  log;
 
 #include "nmrih_player/detour.sp"
@@ -107,6 +109,9 @@ void LoadConVars()
 
     if (!LoadIntConVar("inv_ammoweight", OnCvarInvAmmoweightChange, cvar_InvAmmoweight))
         SetFailState("Failed to load convar inv_maxcarry");
+
+    if (!LoadFloatConVar("sv_bleedout_jump_stam_mult", OnCvarSvBleedoutJumpStamMult, cvar_SvBleedoutJumpStamMult))
+        SetFailState("Failed to load convar sv_bleedout_jump_stam_mult");
 }
 
 void OnCvarInvMaxcarryChange(ConVar convar, const char[] oldValue, const char[] newValue)
@@ -117,6 +122,11 @@ void OnCvarInvMaxcarryChange(ConVar convar, const char[] oldValue, const char[] 
 void OnCvarInvAmmoweightChange(ConVar convar, const char[] oldValue, const char[] newValue)
 {
     cvar_InvAmmoweight = convar.IntValue;
+}
+
+void OnCvarSvBleedoutJumpStamMult(ConVar convar, const char[] oldValue, const char[] newValue)
+{
+    cvar_SvBleedoutJumpStamMult = convar.FloatValue;
 }
 
 stock bool LoadIntConVar(const char[] name, ConVarChanged callback, int &value)

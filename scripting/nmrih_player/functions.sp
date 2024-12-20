@@ -446,10 +446,6 @@ static void Native_EnableSprint(Handle plugin, int numParams)
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     bool value = GetNativeCell(2);
-    // char code[32];
-    // FormatEx(code, sizeof(code), "self.EnableSprint(%s)", value ? "true" : "false");
-    // SetVariantString(code);
-    // return AcceptEntityInput(player, "RunScriptCode");
     SDKCall(hCallers[HDL_EnableSprint], player, value);
 }
 
@@ -558,8 +554,7 @@ static any Native_GetJumpStaminaCost(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    // TODO sv_bleedout_jump_stam_mult
-    return RunEntVScriptFloat(player, "GetJumpStaminaCost()");
+    return cvar_SvBleedoutJumpStamMult;
 }
 
 static int Native_GetLastObserverMode(Handle plugin, int numParams)
@@ -568,7 +563,6 @@ static int Native_GetLastObserverMode(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    // return RunEntVScriptInt(player, "GetLastObserverMode()");
     return SDKCall(hCallers[HDL_GetLastObserverMode], player);
 }
 
@@ -578,8 +572,7 @@ static any Native_GetNextRespawnTime(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    // TODO use property _nextRespawnTime
-    return RunEntVScriptFloat(player, "GetNextRespawnTime()");
+    return NMR_Player(player)._nextRespawnTime;
 }
 
 static int Native_GetMaxCarriedWeight(Handle plugin, int numParams)
@@ -606,8 +599,7 @@ static any Native_GetSpeedModifier(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    // TODO use property m_flSpeedModifier
-    return RunEntVScriptFloat(player, "GetSpeedModifier()");
+    return NMR_Player(player).m_flSpeedModifier;
 }
 
 static any Native_GetSpeedOverride(Handle plugin, int numParams)
@@ -616,8 +608,7 @@ static any Native_GetSpeedOverride(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    // TODO use property m_flSpeedModifier
-    return RunEntVScriptFloat(player, "GetSpeedOverride()");
+    return NMR_Player(player).m_flSpeedOverride;
 }
 
 static any Native_GetStamina(Handle plugin, int numParams)
@@ -626,8 +617,7 @@ static any Native_GetStamina(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    // TODO use property m_flStamina
-    return RunEntVScriptFloat(player, "GetStamina()");
+    return NMR_Player(player).m_flStamina;
 }
 
 static any Native_GetThrowScale(Handle plugin, int numParams)
@@ -636,9 +626,15 @@ static any Native_GetThrowScale(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    // TODO use property (GetGameTime() - m_flThrowDropTimer) * 2 / 3
-    // if ()
-    return RunEntVScriptFloat(player, "GetThrowScale()");
+    float value = (GetGameTime() - NMR_Player(player).m_flThrowDropTimer) * 2 / 3;
+
+    if (value <= 0.25)
+        return 0.25;
+
+    if (value >= 1.0)
+        return 1.0;
+
+    return value;
 }
 
 // TODO
@@ -655,7 +651,6 @@ static any Native_HasFlashlight(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    // return RunEntVScriptBool(player, "HasFlashlight()");
     return SDKCall(hCallers[HDL_HasFlashlight], player);
 }
 
@@ -665,11 +660,10 @@ static any Native_HasLeftoverWeight(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
+    NMR_Player temp = NMR_Player(player);
+
     int value = GetNativeCell(2);
-    // TODO use property value <= _carriedWeight + GetAmmoCarryWeight
-    char code[32];
-    FormatEx(code, sizeof(code), "HasLeftoverWeight(%d)", value);
-    return RunEntVScriptBool(player, code);
+    return value <= temp._carriedWeight + temp.GetAmmoCarryWeight();
 }
 
 static any Native_HasWalkieTalkie(Handle plugin, int numParams)
@@ -678,7 +672,6 @@ static any Native_HasWalkieTalkie(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    // return RunEntVScriptBool(player, "HasWalkieTalkie()");
     return SDKCall(hCallers[HDL_HasWalkieTalkie], player);
 }
 
@@ -708,8 +701,7 @@ static any Native_IsBleedingOut(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    // TODO use property _bleedingOut
-    return RunEntVScriptBool(player, "IsBleedingOut()");
+    return NMR_Player(player)._bleedingOut;
 }
 
 static any Native_IsContemplatingSuicide(Handle plugin, int numParams)
@@ -718,8 +710,7 @@ static any Native_IsContemplatingSuicide(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    // TODO use property _contemplatingSuicide
-    return RunEntVScriptBool(player, "IsContemplatingSuicide()");
+    return NMR_Player(player)._contemplatingSuicide;
 }
 
 static any Native_IsDucking(Handle plugin, int numParams)
@@ -728,8 +719,7 @@ static any Native_IsDucking(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    // TODO use property m_fFlags & NMR_FL_DUCKING
-    return RunEntVScriptBool(player, "IsDucking()");
+    return NMR_Player(player).m_fFlags & NMR_FL_DUCKING;
 }
 
 static any Native_IsExtracted(Handle plugin, int numParams)
@@ -738,8 +728,7 @@ static any Native_IsExtracted(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    // TODO use property m_bIsExtracted
-    return RunEntVScriptBool(player, "IsExtracted()");
+    return NMR_Player(player).m_bIsExtracted;
 }
 
 static any Native_IsGrabbed(Handle plugin, int numParams)
@@ -749,6 +738,7 @@ static any Native_IsGrabbed(Handle plugin, int numParams)
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     return RunEntVScriptBool(player, "IsGrabbed()");
+    // return NMR_Player(player).m_bGrabbed && this + 5000 != -1;
 }
 
 static any Native_IsHost(Handle plugin, int numParams)
@@ -766,7 +756,7 @@ static any Native_IsInLevelTransition(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return RunEntVScriptBool(player, "IsInLevelTransition()");
+    return NMR_Player(player).m_bLevelTransition;
 }
 
 static any Native_IsJumping(Handle plugin, int numParams)
@@ -784,7 +774,7 @@ static any Native_IsPartialBlindnessActive(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return RunEntVScriptBool(player, "IsPartialBlindnessActive()");
+    return NMR_Player(player).m_flPartialBlindnessEffectEnd > GetGameTime();
 }
 
 static any Native_IsSprinting(Handle plugin, int numParams)
@@ -793,7 +783,7 @@ static any Native_IsSprinting(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return RunEntVScriptBool(player, "IsSprinting()");
+    return NMR_Player(player).m_bIsSprinting;
 }
 
 static any Native_IsTalkingLocal(Handle plugin, int numParams)
@@ -811,7 +801,7 @@ static any Native_IsTalkingWalkie(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return RunEntVScriptBool(player, "IsTalkingWalkie()");
+    return NMR_Player(player).m_bTalkingWalkie;
 }
 
 static any Native_IsUsingProgressTrigger(Handle plugin, int numParams)
@@ -820,7 +810,7 @@ static any Native_IsUsingProgressTrigger(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return RunEntVScriptBool(player, "IsUsingProgressTrigger()");
+    return NMR_Player(player).m_bUsingProgressTrigger;
 }
 
 static any Native_IsVaccinated(Handle plugin, int numParams)
@@ -829,7 +819,7 @@ static any Native_IsVaccinated(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return RunEntVScriptBool(player, "IsVaccinated()");
+    return NMR_Player(player)._vaccinated;
 }
 
 static any Native_IsVoiceCommandTimerExpired(Handle plugin, int numParams)
