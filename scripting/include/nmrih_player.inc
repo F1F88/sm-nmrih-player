@@ -927,11 +927,15 @@ methodmap NMR_Player {
 
     /**
      * 获取当前手持武器的主弹夹弹药数
+     *
+     * @note 无效时返回 -1
      */
     public native int GetActiveWeaponClip1();
 
     /**
      * 获取当前手持武器的备用弹夹弹药数
+     *
+     * @note 无效时返回 0
      */
     public native int GetActiveWeaponClip2();
 
