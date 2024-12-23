@@ -8,6 +8,17 @@
 #pragma semicolon 1
 
 
+#define NMR_MAXPLAYERS              9
+
+#define NMR_IN_DROP_WEAPON          (1 << 15)   // key g "+dropweapon"
+#define NMR_IN_SELECT_FIRE          (1 << 24)   // key x "+selectfire"
+#define NMR_IN_MAGLITE              (1 << 26)   // Brings up the maglite if owned and using a one handed weapon (+maglite)
+#define NMR_IN_SHOVE                (1 << 27)   // Shoves away zombies (+shove)
+#define NMR_IN_COMPASS              (1 << 28)   // key c "+compass"
+#define NMR_IN_INVENTORY            (1 << 29)   // Opens weapon inventory (+inventory)
+#define NMR_IN_AMMOINV              (1 << 30)   // Opens ammunition inventory (+ammoinv)
+#define NMR_IN_VOICE_COMMAND        (1 << 31)   // key 3 "+voicecommand"
+
 /**
  * 值取自逆向函数 RegisterSharedScriptConstants 以及控制台指令 script_help 的输出
  * 注释取自 entity_prop_stocks.inc 中定义的 FL_** 宏
