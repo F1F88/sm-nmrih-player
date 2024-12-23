@@ -1395,11 +1395,11 @@ methodmap NMR_Player {
      * Author   dysphie
      * url      https://github.com/dysphie/nmrih-team-healing/blob/c68dcc687c943be9927656e07f880e66e174651f/scripting/nmrih-team-healing.sp#L844
      */
-    public void AtControls() {
+    public void IncreaseAtControls() {
         this.m_fFlags |= NMR_FL_ATCONTROLS;
     }
 
-    public void UnAtControls() {
+    public void DecreaseAtControls() {
         this.m_fFlags &= ~NMR_FL_ATCONTROLS;
     }
 
