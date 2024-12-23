@@ -1379,6 +1379,18 @@ methodmap NMR_Player {
         return IsGenericAdmin(this.Index);
     }
 
+    public void Freeze() {
+        this.m_fFlags |= NMR_FL_FROZEN;
+    }
+
+    public void UnFreeze() {
+        this.m_fFlags &= ~NMR_FL_FROZEN;
+    }
+
+    public bool IsFreeze() {
+        return (this.m_fFlags & NMR_FL_FROZEN) != 0;
+    }
+
     /**
      * Author   dysphie
      * url      https://github.com/dysphie/nmrih-team-healing/blob/c68dcc687c943be9927656e07f880e66e174651f/scripting/nmrih-team-healing.sp#L844
