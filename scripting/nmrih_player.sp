@@ -88,7 +88,7 @@ public void OnPluginStart()
     sinks[0] = new ServerConsoleSink();
     sinks[0].SetLevel(LogLevel_Info);
 
-    sinks[1] = new RotatingFileSink(path, 1024 * 1024 * 4, 10, .rotateOnOpen=true);
+    sinks[1] = new RotatingFileSink(path, 1024 * 1024 * 4, 10);
     sinks[1].SetLevel(LogLevel_Trace);
 
     log = new Logger("lib-player", sinks, 2);
