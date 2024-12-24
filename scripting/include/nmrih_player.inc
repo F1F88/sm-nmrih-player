@@ -1254,6 +1254,8 @@ methodmap NMR_Player {
      */
     public native void FlashlightTurnOff();
 
+    public native void State_Transition(int state);
+
     /**
      * Cures active infection.
      */

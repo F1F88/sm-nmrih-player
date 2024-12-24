@@ -10,6 +10,7 @@ enum
     HDL_FlashlightIsOn,
     HDL_FlashlightTurnOn,
     HDL_FlashlightTurnOff,
+    HDL_State_Transition,
 
     HDL_CureInfection,
     HDL_BecomeInfected,
@@ -123,6 +124,7 @@ void LoadFunctionsNatives()
     CreateNative("NMR_Player.FlashlightIsOn", Native_FlashlightIsOn);
     CreateNative("NMR_Player.FlashlightTurnOn", Native_FlashlightTurnOn);
     CreateNative("NMR_Player.FlashlightTurnOff", Native_FlashlightTurnOff);
+    CreateNative("NMR_Player.State_Transition", Native_State_Transition);
     CreateNative("NMR_Player.CureInfection", Native_CureInfection);
     CreateNative("NMR_Player.BecomeInfected", Native_BecomeInfected);
     CreateNative("NMR_Player.TakePills", Native_TakePills);
@@ -164,6 +166,12 @@ void LoadFunctionsCalls(GameData gamedata)
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Virtual, "CSDKPlayer::FlashlightTurnOff");
     if ((hCallers[HDL_FlashlightTurnOff] = EndPrepSDKCall()) == null)
         SetFailState("Failed to load offset CSDKPlayer::FlashlightTurnOff");
+
+    StartPrepSDKCall(SDKCall_Player);
+    PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CSDKPlayer::State_Transition");
+    PrepSDKCall_AddParameter(SDKType_PlainOldData, SDKPass_Plain);
+    if ((hCallers[HDL_State_Transition] = EndPrepSDKCall()) == null)
+        SetFailState("Failed to load signature CSDKPlayer::State_Transition");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Virtual, "CBasePlayer::IsValidObserverTarget");
@@ -1176,6 +1184,17 @@ static void Native_FlashlightTurnOff(Handle plugin, int numParams)
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     SDKCall(hCallers[HDL_FlashlightTurnOff], player);
+}
+
+static void Native_State_Transition(Handle plugin, int numParams)
+{
+    int player = GetNativeCell(1);
+    if (!IsValidClient(player))
+        log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
+
+    int state = GetNativeCell(2);
+
+    SDKCall(hCallers[HDL_State_Transition], player, state);
 }
 
 static void Native_CureInfection(Handle plugin, int numParams)
