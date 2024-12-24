@@ -571,7 +571,7 @@ methodmap NMR_Player {
      */
     property float m_flGroundSpeed {
         public get()            { return GetEntPropFloat(this.Index, Prop_Data, "m_flGroundSpeed"); }
-        public set(float value) { SetEntPropFloat(this.Index, Prop_Data, "m_flGroundSpeed", value); }
+        public set(float value) {        SetEntPropFloat(this.Index, Prop_Data, "m_flGroundSpeed", value); }
     }
 
     property float m_vecVelocity_0 {
@@ -1411,6 +1411,20 @@ methodmap NMR_Player {
         return (this.m_fFlags & NMR_FL_ATCONTROLS) != 0;
     }
 }
+
+
+methodmap NMR_PlayerSpawn < NMR_Player {
+
+    public NMR_PlayerSpawn(int player) {
+        return view_as<NMR_PlayerSpawn>(NMR_Player(player));
+    }
+
+    property bool m_bEnabled {
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bEnabled", 1) != 0; }
+        public set(bool value)  {        SetEntProp(this.Index, Prop_Send, "m_bEnabled", value, 1); }
+    }
+}
+
 
 #if !defined _gremulock_clients_methodmap_included_
 stock bool IsValidClient(int client) {
