@@ -126,13 +126,14 @@ public void OnPluginStart()
     RegConsoleCmd("tp102", CMD_Speed);
     RegConsoleCmd("tp_freeze", CMD_Freeze);
     RegConsoleCmd("tp_unfreeze", CMD_UnFreeze);
+    RegConsoleCmd("tp_spawn", CMD_ForceSpawn);
     RegConsoleCmd("tpb", CMD_benchmark);
 }
 
-public void OnClientPutInServer(int client)
-{
-    SetHudTextParams(1.0, 1.0, 0.1, 16, 255, 16, 255);
-}
+// public void OnClientPutInServer(int client)
+// {
+//     SetHudTextParams(1.0, 1.0, 0.1, 16, 255, 16, 255);
+// }
 
 Action CMD_AddCarriedWeight(int client, int params)
 {
@@ -1267,6 +1268,17 @@ Action CMD_UnFreeze(int client, int params)
     return Plugin_Handled;
 }
 
+Action CMD_ForceSpawn(int client, int params)
+{
+    if (!CheckClient(client))       return Plugin_Handled;
+
+    int target = GetCmdArgInt(1);
+    NMR_Player(client).ForceSpawn(target);
+
+    PrintToServer("======= ForceSpawn client %d, target %d", client, target);
+    return Plugin_Handled;
+}
+
 
 
 
@@ -1379,14 +1391,14 @@ Action CMD_UnFreeze(int client, int params)
 
 
 
-public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
-{
-    // PrintToServer("%N | %b-%d | %d | ", client, buttons, buttons, impulse);
-    // PrintToChatAll("%N | %d | %d | ", client, buttons, impulse);
-    SetHudTextParams(0.0, 1.0, 0.1, 16, 255, 16, 255, 0, 0.0, 0.0, 0.0);
-    ShowHudText(client, -1, "%N | %10d | %d | ", client, buttons, NMR_Player(client).m_iHealth);
-    return Plugin_Continue;
-}
+// public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
+// {
+//     // PrintToServer("%N | %b-%d | %d | ", client, buttons, buttons, impulse);
+//     // PrintToChatAll("%N | %d | %d | ", client, buttons, impulse);
+//     SetHudTextParams(0.0, 1.0, 0.1, 16, 255, 16, 255, 0, 0.0, 0.0, 0.0);
+//     ShowHudText(client, -1, "%N | %10d | %d | ", client, buttons, NMR_Player(client).m_iHealth);
+//     return Plugin_Continue;
+// }
 
 
 
@@ -1493,6 +1505,6 @@ bool CheckClient(int client)
 
     delete frames;
 
-    PrintToServer("[%s:%d] client %d is invalid.", path[sep + 1], func, line, client);
+    PrintToServer("[%s:%d] client %d is invalid.", func, line, client);
     return false;
 }

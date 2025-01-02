@@ -1,18 +1,13 @@
 #include <sourcemod>
-
-// detour.sp
 #include <dhooks>
 #include <sdkhooks>
 
-// funcions.sp
 #include <vscript_proxy>
 
-// netprops.sp
-
-// All
 #define LOG4SP_NO_EXT
 #include <log4sp>
 #include <nmrih_player>
+#include <nmrih_gamerules>
 
 #pragma newdecls required
 #pragma semicolon 1
@@ -99,6 +94,14 @@ public void OnPluginStart()
 
     // DebugNetPropsOffset();
     log.InfoEx("********** Plugin %s Initialize Complete! **********", PLUGIN_NAME);
+}
+
+public void OnAllPluginsLoaded()
+{
+    if (!LibraryExists("nmrih_gamerules"))
+    {
+        log.Warn("The plugin 'nmrih_gamerules' does not exist, NMR_Player.ForceSpawn is unavailable.");
+    }
 }
 
 

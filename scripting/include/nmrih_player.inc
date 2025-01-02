@@ -1381,6 +1381,24 @@ methodmap NMR_Player {
      */
     public native bool IsInfected();
 
+    /**
+     * Simple respawn.
+     */
+    public void RespawnPlayer() {
+        ServerCommand("respawnplayer %d", this.UserId);
+    }
+
+    /**
+     * Author   dysphie
+     * url      https://github.com/dysphie/nmrih-guaranteedspawn/blob/2b06ceb48fb0146f72c947600b4661e802b07031/scripting/nmrih-guaranteedspawn.sp#L569
+     *
+     * @note check point entity class name: "info_player_nmrih"
+     *
+     * @param   target          The entity index to be force spawn near this entity.
+     * @error   Invalid target.
+     */
+    public native void ForceSpawn(int target);
+
     public bool IsGenericAdmin() {
         return IsGenericAdmin(this.Index);
     }

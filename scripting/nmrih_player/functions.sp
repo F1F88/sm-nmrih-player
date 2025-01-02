@@ -36,7 +36,24 @@ enum
     HDL_Total
 }
 
+
+static int    iSpawningPlayer = -1;
 static Handle hCallers[HDL_Total];
+
+
+public Action OnGameRulesGetPlayerSpawnSpot(int &client, int &returnValue)
+{
+    // https://github.com/dysphie/nmrih-guaranteedspawn/blob/2b06ceb48fb0146f72c947600b4661e802b07031/scripting/nmrih-guaranteedspawn.sp#L237
+    if (iSpawningPlayer != -1)
+    {
+        returnValue = iSpawningPlayer;
+        iSpawningPlayer = -1;
+        return Plugin_Handled;
+    }
+
+    return Plugin_Continue;
+}
+
 
 void LoadFunctionsNatives()
 {
@@ -135,6 +152,7 @@ void LoadFunctionsNatives()
     CreateNative("NMR_Player.IsInfected", Native_IsInfected);
     CreateNative("NMR_Player.GetSpeed", Native_GetSpeed);
     CreateNative("NMR_Player.GetEntityDistance", Native_GetEntityDistance);
+    CreateNative("NMR_Player.ForceSpawnNearby", Native_ForceSpawnNearby);
 }
 
 void LoadFunctionsCalls(GameData gamedata)
@@ -382,7 +400,6 @@ static any Native_DeathCount(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    // return RunEntVScriptInt(player, "DeathCount()");
     // * Note: Use property
     return NMR_Player(player).m_iDeaths;
 }
@@ -1306,4 +1323,53 @@ static any Native_GetEntityDistance(Handle plugin, int numParams)
     GetEntPropVector(entity, Prop_Data, "m_vecAbsOrigin", entityPosition);
 
     return GetVectorDistance(playerPosition, entityPosition);
+}
+
+static void Native_ForceSpawnNearby(Handle plugin, int numParams)
+{
+    NMR_Player player = GetNativeCell(1);
+    if (!player.IsValid)
+        log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
+
+    if (player.IsAlive && player.m_iPlayerState == 0) // TODO STATE_ACTIVE
+        return;
+
+    if (!LibraryExists("nmrih_gamerules"))
+        log.ThrowError(LogLevel_Error, "The plugin 'nmrih_gamerules' does not exist, NMR_Player.ForceSpawn is unavailable.");
+
+    int target = GetNativeCell(2);
+
+    float pos[3], ang[3], vel[3];
+    if (IsValidClient(target))
+    {
+        NMR_Player targetPlayer = NMR_Player(target);
+        targetPlayer.GetAbsOrigin(pos);
+        targetPlayer.GetAbsAngles(ang);
+        targetPlayer.GetAbsVelocity(vel);
+
+        if (targetPlayer.IsDucking())
+        {
+            player.m_fFlags | NMR_FL_DUCKING;
+            player.m_bDucked = true;
+            player.m_bDucking = true;
+            player.m_vecViewOffset_0 = 0.0;
+            player.m_vecViewOffset_1 = 0.0;
+            player.m_vecViewOffset_2 = 34.0; // TODO DEFAULT_DUCK_VIEW_OFFSET
+        }
+    }
+    else if (IsValidEntity(target))
+    {
+        GetEntPropVector(target, Prop_Data, "m_vecAbsOrigin", pos);
+        GetEntPropVector(target, Prop_Data, "m_angAbsRotation", ang);
+        vel[0] = 0.0;
+        vel[1] = 0.0;
+        vel[2] = 0.0;
+    }
+    else
+        log.ThrowErrorEx(LogLevel_Error, "invalid target %d", target);
+
+    iSpawningPlayer = player.Index;
+    player.State_Transition(0); // TODO STATE_ACTIVE
+
+    TeleportEntity(player.Index, pos, ang, vel);
 }
