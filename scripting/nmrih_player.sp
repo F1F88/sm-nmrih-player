@@ -26,6 +26,15 @@ public Plugin myinfo =
 };
 
 
+#define LIB_PLAYER_LOGGER_NAME              "lib-player"
+#define LIB_PLAYER_LOGGER_FILE              "logs/lib/player.log"
+#define LIB_PLAYER_LOGGER_MAX_FILE_SIZE     1024 * 1024 * 8         // MB
+#define LIB_PLAYER_LOGGER_MAX_FILES         2
+#define LIB_PLAYER_LOGGER_LEVEL             LogLevel_Info
+#define LIB_PLAYER_LOGGER_CONSOLE_LEVEL     LogLevel_Info
+#define LIB_PLAYER_LOGGER_FILE_LEVEL        LogLevel_Trace
+
+
 
 // int OS;
 int     cvar_InvMaxcarry;
@@ -78,22 +87,23 @@ public void OnPluginStart()
 
     /* ------- Log Debug ------- */
     char path[PLATFORM_MAX_PATH];
-    BuildPath(Path_SM, path, sizeof(path), "logs/lib/player.log");
+    BuildPath(Path_SM, path, sizeof(path), LIB_PLAYER_LOGGER_FILE);
+
     Sink sinks[2];
     sinks[0] = new ServerConsoleSink();
-    sinks[0].SetLevel(LogLevel_Info);
+    sinks[0].SetLevel(LIB_PLAYER_LOGGER_CONSOLE_LEVEL);
 
-    sinks[1] = new RotatingFileSink(path, 1024 * 1024 * 4, 10);
-    sinks[1].SetLevel(LogLevel_Trace);
+    sinks[1] = new RotatingFileSink(path, LIB_PLAYER_LOGGER_MAX_FILE_SIZE, LIB_PLAYER_LOGGER_MAX_FILES);
+    sinks[1].SetLevel(LIB_PLAYER_LOGGER_FILE_LEVEL);
 
-    log = new Logger("lib-player", sinks, 2);
-    log.SetLevel(LogLevel_Trace);
+    log = new Logger(LIB_PLAYER_LOGGER_NAME, sinks, 2);
+    log.SetLevel(LIB_PLAYER_LOGGER_LEVEL);
 
     delete sinks[0];
     delete sinks[1];
 
     // DebugNetPropsOffset();
-    log.InfoEx("********** Plugin %s Initialize Complete! **********", PLUGIN_NAME);
+    log.InfoEx("********** Library plugin \"%s\" initialize complete! **********", PLUGIN_NAME);
 }
 
 public void OnAllPluginsLoaded()
@@ -105,7 +115,7 @@ public void OnAllPluginsLoaded()
 }
 
 
-void LoadConVars()
+static void LoadConVars()
 {
     if (!LoadIntConVar("inv_maxcarry", OnCvarInvMaxcarryChange, cvar_InvMaxcarry))
         SetFailState("Failed to load convar inv_maxcarry");
@@ -117,20 +127,21 @@ void LoadConVars()
         SetFailState("Failed to load convar sv_bleedout_jump_stam_mult");
 }
 
-void OnCvarInvMaxcarryChange(ConVar convar, const char[] oldValue, const char[] newValue)
+static void OnCvarInvMaxcarryChange(ConVar convar, const char[] oldValue, const char[] newValue)
 {
     cvar_InvMaxcarry = convar.IntValue;
 }
 
-void OnCvarInvAmmoweightChange(ConVar convar, const char[] oldValue, const char[] newValue)
+static void OnCvarInvAmmoweightChange(ConVar convar, const char[] oldValue, const char[] newValue)
 {
     cvar_InvAmmoweight = convar.IntValue;
 }
 
-void OnCvarSvBleedoutJumpStamMult(ConVar convar, const char[] oldValue, const char[] newValue)
+static void OnCvarSvBleedoutJumpStamMult(ConVar convar, const char[] oldValue, const char[] newValue)
 {
     cvar_SvBleedoutJumpStamMult = convar.FloatValue;
 }
+
 
 stock bool LoadIntConVar(const char[] name, ConVarChanged callback, int &value)
 {
