@@ -4,7 +4,7 @@
 
 #include <vscript_proxy>
 
-#define LOG4SP_NO_EXT
+// #define LOG4SP_NO_EXT
 #include <log4sp>
 #include <nmrih_player>
 #include <nmrih_gamerules>
@@ -12,8 +12,8 @@
 #pragma newdecls required
 #pragma semicolon 1
 
-#define PLUGIN_NAME        "CNMRIH_Player_Utils"
-#define PLUGIN_DESCRIPTION "CNMRIH_Player Utils"
+#define PLUGIN_NAME        "Library NMRiH Player"
+#define PLUGIN_DESCRIPTION "Library NMRiH Player"
 #define PLUGIN_VERSION     "1.13.0"
 
 public Plugin myinfo =
@@ -80,7 +80,7 @@ public void OnPluginStart()
 
     /* ------- Load ConVar ------- */
     LoadConVars();
-    CreateConVar("sm_nmrih_player_version", PLUGIN_VERSION, PLUGIN_DESCRIPTION, FCVAR_SPONLY | FCVAR_DONTRECORD);
+    CreateConVar("sm_lib_nmrih_player_version", PLUGIN_VERSION, PLUGIN_DESCRIPTION, FCVAR_SPONLY | FCVAR_DONTRECORD);
 
     /* ------- Register Libray ------- */
     RegPluginLibrary("nmrih_player");
@@ -110,7 +110,7 @@ public void OnAllPluginsLoaded()
 {
     if (!LibraryExists("nmrih_gamerules"))
     {
-        log.Warn("The plugin 'nmrih_gamerules' does not exist, NMR_Player.ForceSpawn is unavailable.");
+        log.Warn("The library \"nmrih_gamerules\" does not exist, NMR_Player.ForceSpawn is unavailable.");
     }
 }
 
