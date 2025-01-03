@@ -14,7 +14,7 @@
 
 #define PLUGIN_NAME        "Library NMRiH Player"
 #define PLUGIN_DESCRIPTION "Library NMRiH Player"
-#define PLUGIN_VERSION     "1.13.0"
+#define PLUGIN_VERSION     "1.14.0"
 
 public Plugin myinfo =
 {
@@ -31,7 +31,7 @@ public Plugin myinfo =
 #define LIB_PLAYER_LOGGER_MAX_FILE_SIZE     1024 * 1024 * 8         // MB
 #define LIB_PLAYER_LOGGER_MAX_FILES         2
 #define LIB_PLAYER_LOGGER_LEVEL             LogLevel_Info
-#define LIB_PLAYER_LOGGER_CONSOLE_LEVEL     LogLevel_Info
+#define LIB_PLAYER_LOGGER_CONSOLE_LEVEL     LogLevel_Debug
 #define LIB_PLAYER_LOGGER_FILE_LEVEL        LogLevel_Trace
 
 
