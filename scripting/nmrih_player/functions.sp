@@ -152,7 +152,7 @@ void LoadFunctionsNatives()
     CreateNative("NMR_Player.IsInfected", Native_IsInfected);
     CreateNative("NMR_Player.GetSpeed", Native_GetSpeed);
     CreateNative("NMR_Player.GetEntityDistance", Native_GetEntityDistance);
-    CreateNative("NMR_Player.ForceSpawnNearby", Native_ForceSpawnNearby);
+    CreateNative("NMR_Player.ForceSpawn", Native_ForceSpawn);
 }
 
 void LoadFunctionsCalls(GameData gamedata)
@@ -1325,7 +1325,7 @@ static any Native_GetEntityDistance(Handle plugin, int numParams)
     return GetVectorDistance(playerPosition, entityPosition);
 }
 
-static void Native_ForceSpawnNearby(Handle plugin, int numParams)
+static void Native_ForceSpawn(Handle plugin, int numParams)
 {
     NMR_Player player = GetNativeCell(1);
     if (!player.IsValid)
