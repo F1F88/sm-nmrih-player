@@ -98,12 +98,13 @@ public void OnPluginStart()
 
     log = new Logger(LIB_PLAYER_LOGGER_NAME, sinks, 2);
     log.SetLevel(LIB_PLAYER_LOGGER_LEVEL);
+    log.SetErrorHandler(ErrorHandler_LogToSM);
 
     delete sinks[0];
     delete sinks[1];
 
     // DebugNetPropsOffset();
-    log.InfoEx("********** Library plugin \"%s\" initialize complete! **********", PLUGIN_NAME);
+    log.InfoEx("Library plugin \"%s\" initialize complete!", PLUGIN_NAME);
 }
 
 public void OnAllPluginsLoaded()
@@ -140,6 +141,11 @@ static void OnCvarInvAmmoweightChange(ConVar convar, const char[] oldValue, cons
 static void OnCvarSvBleedoutJumpStamMult(ConVar convar, const char[] oldValue, const char[] newValue)
 {
     cvar_SvBleedoutJumpStamMult = convar.FloatValue;
+}
+
+static void ErrorHandler_LogToSM(const char[] msg)
+{
+    LogError(msg);
 }
 
 
