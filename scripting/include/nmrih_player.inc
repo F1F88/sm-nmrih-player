@@ -56,6 +56,15 @@
 #define NMR_FL_UNBLOCKABLE_BY_PLAYER (1 << 31)  /**< pusher that can't be blocked by the player */
 
 
+enum NMR_ObserverMode
+{
+    ObsMode_InEye = 4,              // First Person
+    ObsMode_Chase,                  // Third Person Observer Mode
+    ObsMode_Poi,                    // Third Person but no player name and health ?
+    ObsMode_Free,                   // Free
+}
+
+
 /**
  * 注意! 这在底层是 Detour 而不是 Event 或 UserMessage，Detour 触发不代表事件一定触发
  * 在 Detour 原函数内部可能还有一些判断逻辑来决定是否执行相关代码，反之可能什么都不做
@@ -414,9 +423,9 @@ methodmap NMR_Player {
         public native set(int value);
     }
 
-    property int m_iObserverMode {
+    property NMR_ObserverMode m_iObserverMode {
         public native get();
-        public native set(int value);
+        public native set(NMR_ObserverMode value);
     }
 
     property int m_hObserverTarget {
@@ -958,7 +967,7 @@ methodmap NMR_Player {
     /**
      * Returns previous observer mode.
      */
-    public native int GetLastObserverMode();
+    public native NMR_ObserverMode GetLastObserverMode();
 
     /**
      * Returns next respawn time for this player.
