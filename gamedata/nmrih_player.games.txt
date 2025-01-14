@@ -268,9 +268,8 @@
             "CNMRiH_Player::BleedOut"
             {
                 "signature"     "CNMRiH_Player::BleedOut"
-                "callconv"      "stdcall"
+                "callconv"      "fastcall"
                 "return"        "void"
-                "this"          "ignore"
                 "arguments"
                 {
                     "client"
