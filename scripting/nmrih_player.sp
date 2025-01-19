@@ -14,7 +14,7 @@
 
 #define PLUGIN_NAME        "Library NMRiH Player"
 #define PLUGIN_DESCRIPTION "Library NMRiH Player"
-#define PLUGIN_VERSION     "1.15.0"
+#define PLUGIN_VERSION     "1.15.1"
 
 public Plugin myinfo =
 {
@@ -30,10 +30,6 @@ public Plugin myinfo =
 #define LIB_PLAYER_LOGGER_FILE              "logs/lib/player.log"
 #define LIB_PLAYER_LOGGER_MAX_FILE_SIZE     1024 * 1024 * 8         // MB
 #define LIB_PLAYER_LOGGER_MAX_FILES         2
-#define LIB_PLAYER_LOGGER_LEVEL             LogLevel_Info
-#define LIB_PLAYER_LOGGER_CONSOLE_LEVEL     LogLevel_Debug
-#define LIB_PLAYER_LOGGER_FILE_LEVEL        LogLevel_Trace
-
 
 
 // int OS;
@@ -88,20 +84,8 @@ public void OnPluginStart()
     /* ------- Log Debug ------- */
     char path[PLATFORM_MAX_PATH];
     BuildPath(Path_SM, path, sizeof(path), LIB_PLAYER_LOGGER_FILE);
-
-    Sink sinks[2];
-    sinks[0] = new ServerConsoleSink();
-    sinks[0].SetLevel(LIB_PLAYER_LOGGER_CONSOLE_LEVEL);
-
-    sinks[1] = new RotatingFileSink(path, LIB_PLAYER_LOGGER_MAX_FILE_SIZE, LIB_PLAYER_LOGGER_MAX_FILES);
-    sinks[1].SetLevel(LIB_PLAYER_LOGGER_FILE_LEVEL);
-
-    log = new Logger(LIB_PLAYER_LOGGER_NAME, sinks, 2);
-    log.SetLevel(LIB_PLAYER_LOGGER_LEVEL);
-    log.SetErrorHandler(ErrorHandler_LogToSM);
-
-    delete sinks[0];
-    delete sinks[1];
+    log = RotatingFileSink.CreateLogger(LIB_PLAYER_LOGGER_NAME, path, LIB_PLAYER_LOGGER_MAX_FILE_SIZE, LIB_PLAYER_LOGGER_MAX_FILES);
+    log.AddSinkEx(new ServerConsoleSink()); // for debug
 
     // DebugNetPropsOffset();
     log.InfoEx("Library plugin \"%s\" initialize complete!", PLUGIN_NAME);
@@ -141,11 +125,6 @@ static void OnCvarInvAmmoweightChange(ConVar convar, const char[] oldValue, cons
 static void OnCvarSvBleedoutJumpStamMult(ConVar convar, const char[] oldValue, const char[] newValue)
 {
     cvar_SvBleedoutJumpStamMult = convar.FloatValue;
-}
-
-static void ErrorHandler_LogToSM(const char[] msg)
-{
-    LogError(msg);
 }
 
 
