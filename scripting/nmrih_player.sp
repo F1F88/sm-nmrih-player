@@ -14,7 +14,7 @@
 
 #define PLUGIN_NAME        "Library NMRiH Player"
 #define PLUGIN_DESCRIPTION "Library NMRiH Player"
-#define PLUGIN_VERSION     "1.15.1"
+#define PLUGIN_VERSION     "1.15.2"
 
 public Plugin myinfo =
 {
@@ -88,7 +88,7 @@ public void OnPluginStart()
     log.AddSinkEx(new ServerConsoleSink()); // for debug
 
     // DebugNetPropsOffset();
-    log.InfoEx("Library plugin \"%s\" initialize complete!", PLUGIN_NAME);
+    log.Info("Library plugin \"" ... PLUGIN_NAME ... " (v" ... PLUGIN_VERSION ... ")\" initialize complete!");
 }
 
 public void OnAllPluginsLoaded()
