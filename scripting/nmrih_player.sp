@@ -4,7 +4,6 @@
 
 #include <vscript_proxy>
 
-// #define LOG4SP_NO_EXT
 #include <log4sp>
 #include <nmrih_player>
 
@@ -90,7 +89,7 @@ public void OnPluginStart()
     log.AddSinkEx(new ServerConsoleSink()); // for debug
 
     // DebugNetPropsOffset();
-    log.Info("Library plugin \"" ... PLUGIN_NAME ... " (v" ... PLUGIN_VERSION ... ")\" initialize complete!");
+    log.Info("[Plugin] [" ... PLUGIN_NAME ... " (" ... PLUGIN_VERSION ... ")] loaded successfully!");
 }
 
 public void OnAllPluginsLoaded()
