@@ -7,6 +7,8 @@
 // #define LOG4SP_NO_EXT
 #include <log4sp>
 #include <nmrih_player>
+
+#undef REQUIRE_PLUGIN
 #include <nmrih_gamerules>
 
 #pragma newdecls required
@@ -14,7 +16,7 @@
 
 #define PLUGIN_NAME        "Library NMRiH Player"
 #define PLUGIN_DESCRIPTION "Library NMRiH Player"
-#define PLUGIN_VERSION     "1.15.2"
+#define PLUGIN_VERSION     "1.15.3"
 
 public Plugin myinfo =
 {
