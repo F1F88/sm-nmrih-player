@@ -158,7 +158,7 @@
             {
                 "library"   "server"
                 "windows"   "\x55\x8B\xEC\x83\xEC\x74\x56\x8B\xF1\x80\xBE\x33\x13\x00\x00\x00"
-                "linux"     "@_ZN13CNMRiH_Player8BleedOutEv.part.130"
+                "linux"     "@_ZN13CNMRiH_Player8BleedOutEv.part.131"
             }
 
             "CNMRiH_Player::StopBleedingOut"
