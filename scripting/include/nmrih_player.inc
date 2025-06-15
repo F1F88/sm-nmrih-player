@@ -4,6 +4,8 @@
 #endif
 #define _nmrih_player_utils_included_
 
+#include <vscript_proxy>
+
 #pragma newdecls required
 #pragma semicolon 1
 
@@ -308,18 +310,18 @@ methodmap NMR_Player {
      * Effects to apply
      */
     property int m_fEffects {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_fEffects"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_fEffects", value); }
     }
 
     property int m_CollisionGroup {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_CollisionGroup"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_CollisionGroup", value); }
     }
 
     property int moveparent {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "moveparent"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "moveparent", value); }
     }
 
     /**
@@ -328,51 +330,51 @@ methodmap NMR_Player {
      * 0 if we're relative to the parent's absorigin and absangles.
      */
     property int m_iParentAttachment {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_iParentAttachment"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_iParentAttachment", value); }
     }
 
     property MoveType movetype {
-        public native get();
-        public native set(MoveType value);
+        public get()                { return view_as<MoveType>(GetEntProp(this.Index, Prop_Send, "movetype")); }
+        public set(MoveType value)  { SetEntProp(this.Index, Prop_Send, "movetype", value); }
     }
 
     property int movecollide {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "movecollide"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "movecollide", value); }
     }
 
     property bool m_bIsGlowable {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bIsGlowable") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bIsGlowable", value); }
     }
 
     property bool m_bGlowing {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bGlowing") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bGlowing", value); }
     }
 
     property int m_clrGlowColor {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_clrGlowColor"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_clrGlowColor", value); }
     }
 
     property float m_flGlowDistance {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flGlowDistance"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flGlowDistance", value); }
     }
 
     property bool m_bGlowBlip {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bGlowBlip") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bGlowBlip", value); }
     }
 
     /**
      * The active weapon index of player.
      */
     property int m_hActiveWeapon {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_hActiveWeapon"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_hActiveWeapon", value); }
     }
 
     /**
@@ -381,8 +383,8 @@ methodmap NMR_Player {
      *        This value should always be in the future, it normally depends on "sv_infectionlength".
      */
     property float m_flInfectionDeathTime {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flInfectionDeathTime"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flInfectionDeathTime", value); }
     }
 
     /**
@@ -390,23 +392,23 @@ methodmap NMR_Player {
      * Note2: You can subtract this from GetGameTime() to get the number of seconds since infection.
      */
     property float m_flInfectionTime {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flInfectionTime"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flInfectionTime", value); }
     }
 
     property int m_iHealth {
-        public native get();
-        public native set(int value);
+        public get()            { GetClientHealth(this.Index); }
+        public set(int value)   { SetEntityHealth(this.Index, value); }
     }
 
     property int m_lifeState {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_lifeState"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_lifeState", value); }
     }
 
     property int m_iPlayerState {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_iPlayerState"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_iPlayerState", value); }
     }
 
     /**
@@ -414,140 +416,140 @@ methodmap NMR_Player {
      * send 和 Data 都有, 但仅修改 data 时似乎没效果
      */
     property float m_flMaxspeed {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flMaxspeed"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flMaxspeed", value); }
     }
 
     property int m_fFlags {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_fFlags"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_fFlags", value); }
     }
 
     property NMR_ObserverMode m_iObserverMode {
-        public native get();
-        public native set(NMR_ObserverMode value);
+        public get()                        { return view_as<NMR_ObserverMode>(GetEntProp(this.Index, Prop_Send, "m_iObserverMode")); }
+        public set(NMR_ObserverMode value)  { SetEntProp(this.Index, Prop_Send, "m_iObserverMode", value); }
     }
 
     property int m_hObserverTarget {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_hObserverTarget"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_hObserverTarget", value); }
     }
 
     /**
      * field of view
      */
     property int m_iFOV {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_iFOV"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_iFOV", value); }
     }
 
     /**
      * starting value of the FOV changing over time (client only)
      */
     property int m_iFOVStart {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_iFOVStart"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_iFOVStart", value); }
     }
 
     /**
      * starting time of the FOV zoom
      */
     property float m_flFOVTime {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flFOVTime"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flFOVTime", value); }
     }
 
     /**
      * default FOV if no other zooms are occurring
      */
     property int m_iDefaultFOV {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_iDefaultFOV"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_iDefaultFOV", value); }
     }
 
     /**
      * bitfields containing sections of the HUD to hide
      */
     property int m_iHideHUD {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_iHideHUD"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_iHideHUD", value); }
     }
 
     /**
      * rate at which the FOV changes
      */
     property float m_flFOVRate {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flFOVRate"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flFOVRate", value); }
     }
 
     property bool m_bDucked {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bDucked") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bDucked", value); }
     }
 
     property bool m_bDucking {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bDucking") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bDucking", value); }
     }
 
     property bool m_bInDuckJump {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bInDuckJump") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bInDuckJump", value); }
     }
 
     property float m_flDucktime {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flDucktime"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flDucktime", value); }
     }
 
     property float m_flDuckJumpTime {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flDuckJumpTime"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flDuckJumpTime", value); }
     }
 
     property float m_flJumpTime {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flJumpTime"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flJumpTime", value); }
     }
 
     property float m_flFallVelocity {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flFallVelocity"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flFallVelocity", value); }
     }
 
     property bool m_bPoisoned {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bPoisoned") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bPoisoned", value); }
     }
 
     property float m_flStepSize {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flStepSize"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flStepSize", value); }
     }
 
     /**
      * Object eye position
      */
     property float m_vecViewOffset_0 {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_vecViewOffset_0"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_vecViewOffset_0", value); }
     }
 
     /**
      * Object eye position
      */
     property float m_vecViewOffset_1 {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_vecViewOffset_1"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_vecViewOffset_1", value); }
     }
 
     /**
      * Object eye position
      */
     property float m_vecViewOffset_2 {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_vecViewOffset_2"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_vecViewOffset_2", value); }
     }
 
     /**
@@ -556,13 +558,13 @@ methodmap NMR_Player {
      * send 和 Data 都有
      */
     property float m_flFriction {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flFriction"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flFriction", value); }
     }
 
     property int m_hLastWeapon {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_hLastWeapon"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_hLastWeapon", value); }
     }
 
     /**
@@ -571,100 +573,100 @@ methodmap NMR_Player {
      * @note -1 is nothing
      */
     property int m_hGroundEntity {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_hGroundEntity"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_hGroundEntity", value); }
     }
 
     /**
      * ? 地面时的移动速度, 但比 cl_showpos 计算的更小, 特别在侧向移动时差值更大
      */
     property float m_flGroundSpeed {
-        public get()            { return GetEntPropFloat(this.Index, Prop_Data, "m_flGroundSpeed"); }
-        public set(float value) {        SetEntPropFloat(this.Index, Prop_Data, "m_flGroundSpeed", value); }
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flGroundSpeed"); }
+        public set(float value) {        SetEntPropFloat(this.Index, Prop_Send, "m_flGroundSpeed", value); }
     }
 
     property float m_vecVelocity_0 {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_vecVelocity_0"); }
+        public set(float value) {        SetEntPropFloat(this.Index, Prop_Send, "m_vecVelocity_0", value); }
     }
 
     property float m_vecVelocity_1 {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_vecVelocity_1"); }
+        public set(float value) {        SetEntPropFloat(this.Index, Prop_Send, "m_vecVelocity_1", value); }
     }
 
     property float m_vecVelocity_2 {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_vecVelocity_2"); }
+        public set(float value) {        SetEntPropFloat(this.Index, Prop_Send, "m_vecVelocity_2", value); }
     }
 
     /**
      * last time player died
      */
     property float m_flDeathTime {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flDeathTime"); }
+        public set(float value) {        SetEntPropFloat(this.Index, Prop_Send, "m_flDeathTime", value); }
     }
 
     property int m_nWaterLevel {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_nWaterLevel"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_nWaterLevel", value); }
     }
 
     property float m_flLaggedMovementValue {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flLaggedMovementValue"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flLaggedMovementValue", value); }
     }
 
     /**
      * Note: default full stamina = 130.0
      */
     property float m_flStamina {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flStamina"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flStamina", value); }
     }
 
     property bool m_bIsSprinting {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bIsSprinting") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bIsSprinting", value); }
     }
 
     property bool m_bTalkingWalkie {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bTalkingWalkie") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bTalkingWalkie", value); }
     }
 
     property bool m_bSprintEnabled {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bSprintEnabled") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bSprintEnabled", value); }
     }
 
     property bool m_bStickyIronsight {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bStickyIronsight") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bStickyIronsight", value); }
     }
 
     /**
      * Note: The clients dead body will come back to life as a dead npc zombie.
      */
     property bool m_bDiedWhileInfected {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bDiedWhileInfected") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bDiedWhileInfected", value); }
     }
 
     property bool m_bGrabbed {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bGrabbed") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bGrabbed", value); }
     }
 
     property bool _bleedingOut {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "_bleedingOut") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "_bleedingOut", value); }
     }
 
     property float m_flThrowDropTimer {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flThrowDropTimer"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flThrowDropTimer", value); }
     }
 
     /**
@@ -672,48 +674,48 @@ methodmap NMR_Player {
      * Note2: 最大值为 1000。
      */
     property int _carriedWeight {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "_carriedWeight"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "_carriedWeight", value); }
     }
 
     property int m_iTokens {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_iTokens"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_iTokens", value); }
     }
 
     property int m_iDeaths {
-        public native get();
-        public native set(int value);
+        public get()            { return GetClientDeaths(this.Index); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_hLastWeapon", value); }
     }
 
     property bool _usingToolSecondary {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "_usingToolSecondary") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "_usingToolSecondary", value); }
     }
 
     property bool _contemplatingSuicide {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "_contemplatingSuicide") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "_contemplatingSuicide", value); }
     }
 
     property int _playerModelIndex {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "_playerModelIndex"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "_playerModelIndex", value); }
     }
 
     property float _nextRespawnTime {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "_nextRespawnTime"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "_nextRespawnTime", value); }
     }
 
     property bool _vaccinated {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "_vaccinated") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "_vaccinated", value); }
     }
 
     property bool m_bGrabbedByCrawler {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bGrabbedByCrawler") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bGrabbedByCrawler", value); }
     }
 
     /**
@@ -723,51 +725,51 @@ methodmap NMR_Player {
      *        This value is always in the future, it normally depends on "sv_vaccine_partial_blind_duration".
      */
     property float m_flPartialBlindnessEffectEnd {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flPartialBlindnessEffectEnd"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flPartialBlindnessEffectEnd", value); }
     }
 
     property bool m_bIsExtracted {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bIsExtracted") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bIsExtracted", value); }
     }
 
     property bool m_bUsingProgressTrigger {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bUsingProgressTrigger") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bUsingProgressTrigger", value); }
     }
 
     property bool m_bLevelTransition {
-        public native get();
-        public native set(bool value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_bLevelTransition") != 0 ? true : false; }
+        public set(bool value)  { SetEntProp(this.Index, Prop_Send, "m_bLevelTransition", value); }
     }
 
     property float m_flSpeedModifier {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flSpeedModifier"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flSpeedModifier", value); }
     }
 
     property float m_flSpeedOverride {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flSpeedOverride"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flSpeedOverride", value); }
     }
 
     property float m_flTriggerSpeedModifier {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flTriggerSpeedModifier"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flTriggerSpeedModifier", value); }
     }
 
     property int m_ArmorValue {
-        public native get();
-        public native set(int value);
+        public get()            { return GetClientArmor(this.Index); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_ArmorValue", value); }
     }
 
     /**
      * Control the firing rate.
      */
     property float m_flNextAttack {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flNextAttack"); }
+        public set(float value) { SetEntPropFloat(this.Index, Prop_Send, "m_flNextAttack", value); }
     }
 
     /**
@@ -776,8 +778,8 @@ methodmap NMR_Player {
      * @note Object bodygroup
      */
     property int m_nBody {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_nBody"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_nBody", value); }
     }
 
     /**
@@ -786,8 +788,8 @@ methodmap NMR_Player {
      * @note Texture group to use
      */
     property int m_nSkin {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_nSkin"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_nSkin", value); }
     }
 
     /**
@@ -796,28 +798,28 @@ methodmap NMR_Player {
      * @note Object model index
      */
     property int m_nModelIndex {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_nModelIndex"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_nModelIndex", value); }
     }
 
     property int m_iMaxHealth {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_iMaxHealth"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_iMaxHealth", value); }
     }
 
     property int m_LastHitGroup {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_LastHitGroup"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_LastHitGroup", value); }
     }
 
     property int m_iFrags {
-        public native get();
-        public native set(int value);
+        public get()            { return GetEntProp(this.Index, Prop_Send, "m_iFrags"); }
+        public set(int value)   { SetEntProp(this.Index, Prop_Send, "m_iFrags", value); }
     }
 
     property float m_flGravity {
-        public native get();
-        public native set(float value);
+        public get()            { return GetEntityGravity(this.Index); }
+        public set(float value) { SetEntityGravity(this.Index, value); }
     }
 
     /**
@@ -825,12 +827,23 @@ methodmap NMR_Player {
      *
      * @note    这不是增加背包容量, 而是增加了玩家当前负重.
      */
-    public native void AddCarriedWeight(int weight);
+    public void AddCarriedWeight(int weight) {
+        __CheckClientValid(this.Index);
+        char code[64];
+        FormatEx(code, sizeof(code), "self.AddCarriedWeight(%d)", weight);
+        SetVariantString(code);
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Drops one box of owned ammo, with parameter of ammo name (without ammobox_ prefix, e.g. '12gauge'). Returns success.
      */
-    public native bool Ammo_Drop(const char[] ammo);
+    public bool Ammo_Drop(const char[] ammo) {
+        __CheckClientValid(this.Index);
+        char code[64];
+        FormatEx(code, sizeof(code), "Ammo_Drop(\"%s\")", ammo);
+        return RunEntVScriptBool(this.Index, code);
+    }
 
     /**
      * Applies the effect of using a bandage.
@@ -855,63 +868,108 @@ methodmap NMR_Player {
     /**
      * Cancels suicide when contemplating, with boolean parameter for playing cancel animation.
      */
-    public native void CancelSuicide(bool cancelAnimation);
+    public void CancelSuicide(bool cancelAnimation) {
+        __CheckClientValid(this.Index);
+        char code[32];
+        FormatEx(code, sizeof(code), "self.CancelSuicide(%s)", cancelAnimation ? "true" : "false");
+        SetVariantString(code);
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Cancels active weapon throw.
      *
      * @note    似乎不起作用
      */
-    public native void CancelThrowDrop();
+    public void CancelThrowDrop() {
+        __CheckClientValid(this.Index);
+        SetVariantString("self.CancelThrowDrop()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Resets viewmodel hands back to default.
      *
      * @note    没有测试条件
      */
-    public native void ClearHandModelOverride();
+    public void ClearHandModelOverride() {
+        __CheckClientValid(this.Index);
+        SetVariantString("self.ClearHandModelOverride()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Begins contemplating suicide.
      */
-    public native void ContemplateSuicide();
+    public void ContemplateSuicide() {
+        __CheckClientValid(this.Index);
+        SetVariantString("self.ContemplateSuicide()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Returns the amount of times player has died.
      *
      * @note    与计分板的死亡数不同, 这应该是当前回合的死亡数, 相当于 m_iDeaths
      */
-    public native int DeathCount();
+    public int DeathCount() {
+        __CheckClientValid(this.Index);
+        return this.m_iDeaths;
+    }
 
     /**
      * Decrements active respawn tokens.
      */
-    public native void DecrementRespawnTokens();
+    public void DecrementRespawnTokens() {
+        __CheckClientValid(this.Index);
+        SetVariantString("self.DecrementRespawnTokens()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Destroys all ammo that player owns.
      */
-    public native void DestroyAllAmmo();
+    public void DestroyAllAmmo() {
+        __CheckClientValid(this.Index);
+        SetVariantString("self.DestroyAllAmmo()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Destroys all weapons that player owns.
      */
-    public native void DestroyAllWeapons();
+    public void DestroyAllWeapons() {
+        __CheckClientValid(this.Index);
+        SetVariantString("self.DestroyAllWeapons()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Destroys all items that player owns.
      */
-    public native void DestroyEverything();
+    public void DestroyEverything() {
+        __CheckClientValid(this.Index);
+        SetVariantString("self.DestroyEverything()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Does commit suicide.
      */
-    public native void DoCommitSuicide();
+    public void DoCommitSuicide() {
+        __CheckClientValid(this.Index);
+        SetVariantString("self.DoCommitSuicide()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Drops all items that player owns.
      */
-    public native void DropEverything();
+    public void DropEverything() {
+        __CheckClientValid(this.Index);
+        SetVariantString("self.DropEverything()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Enables / disables sprinting ability.
@@ -925,7 +983,10 @@ methodmap NMR_Player {
      *  6 - 308 |  7 - 556   |  8 - 762  |  9 - Grenade | 10 - Molotov
      * 11 - TNT | 12 - Arrow | 13 - Fuel | 14 - Boards  | 15 - Flares
      */
-    public native int GetAmmoCarryCount(int element);
+    public int GetAmmoCarryCount(int element) {
+        __CheckClientValid(this.Index);
+        return GetEntProp(this.Index, Prop_Send, "m_iAmmo", _, element);
+    }
 
     /**
      * Returns ammo inventory weight.
@@ -939,14 +1000,31 @@ methodmap NMR_Player {
      *
      * @note 无效时返回 -1
      */
-    public native int GetActiveWeaponClip1();
+    public int GetActiveWeaponClip1() {
+        __CheckClientValid(this.Index);
+        int weapon = this.m_hActiveWeapon;
+        if (!IsValidEntity(weapon))
+            return -1;
+        return GetEntProp(weapon, Prop_Send, "m_iClip1");
+    }
 
     /**
      * 获取当前手持武器的备用弹夹弹药数
      *
      * @note 无效时返回 0
      */
-    public native int GetActiveWeaponClip2();
+    public int GetActiveWeaponClip2() {
+        __CheckClientValid(this.Index);
+        int weapon = this.m_hActiveWeapon;
+        if (!IsValidEntity(weapon))
+            return -1;
+
+        int type = GetEntProp(weapon, Prop_Send, "m_iPrimaryAmmoType");
+        if (type == -1)
+            return 0;
+
+        return this.GetAmmoCarryCount(type);
+    }
 
     /**
      * Fills table with carried inventory items, including weapons and custom items (excl. passive items such as fists, zippo, and ammo).
@@ -957,7 +1035,10 @@ methodmap NMR_Player {
     /**
      * Returns total carried inventory weight.
      */
-    public native int GetCarriedWeight();
+    public int GetCarriedWeight() {
+        __CheckClientValid(this.Index);
+        return this._carriedWeight + this.GetAmmoCarryWeight();
+    }
 
     /**
      * Returns the amount of stamina jumping costs.
@@ -972,7 +1053,10 @@ methodmap NMR_Player {
     /**
      * Returns next respawn time for this player.
      */
-    public native float GetNextRespawnTime();
+    public float GetNextRespawnTime() {
+        __CheckClientValid(this.Index);
+        return this._nextRespawnTime;
+    }
 
     /**
      * Returns max carried inventory weight.
@@ -982,27 +1066,46 @@ methodmap NMR_Player {
     /**
      * Returns next spawn attempt time for this player.
      */
-    public native float GetNextSpawnTryTime();
+    public float GetNextSpawnTryTime() {
+        __CheckClientValid(this.Index);
+        return RunEntVScriptFloat(this.Index, "GetNextSpawnTryTime()");
+    }
 
     /**
      * Returns active speed modifier.
      */
-    public native float GetSpeedModifier();
+    public float GetSpeedModifier() {
+        __CheckClientValid(this.Index);
+        return this.m_flSpeedModifier;
+    }
 
     /**
      * Returns active speed override, -1.0 if none is applied.
      */
-    public native float GetSpeedOverride();
+    public float GetSpeedOverride()  {
+        __CheckClientValid(this.Index);
+        return this.m_flSpeedOverride;
+    }
 
     /**
      * Returns player stamina.
      */
-    public native float GetStamina();
+    public float GetStamina() {
+        __CheckClientValid(this.Index);
+        return this.m_flStamina;
+    }
 
     /**
      * Returns current weapon throw scale.
      */
-    public native float GetThrowScale();
+    public float GetThrowScale() {
+        __CheckClientValid(this.Index);
+        float value = (GetGameTime() - this.m_flThrowDropTimer) * 2.0 / 3.0;
+        if (value <= 0.25)  return 0.25;
+        if (value >= 1.0)   return 1.0;
+        return value;
+
+    }
 
     // TODO
     /**
@@ -1018,7 +1121,10 @@ methodmap NMR_Player {
     /**
      * Returns true if player has given weight available.
      */
-    public native bool HasLeftoverWeight(int value);
+    public bool HasLeftoverWeight(int value) {
+        __CheckClientValid(this.Index);
+        return value <= this._carriedWeight + this.GetAmmoCarryWeight();
+    }
 
     /**
      * Returns true if player owns walkie talkie.
@@ -1028,183 +1134,331 @@ methodmap NMR_Player {
     /**
      * Increases visual bloodiness.
      */
-    public native void IncreaseBloodiness();
+    public void IncreaseBloodiness() {
+        __CheckClientValid(this.Index);
+        SetVariantString("self.IncreaseBloodiness()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Increments active respawn tokens.
      */
-    public native void IncrementRespawnTokens();
+    public void IncrementRespawnTokens() {
+        __CheckClientValid(this.Index);
+        SetVariantString("self.IncrementRespawnTokens()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Returns true is player is bleeding.
      */
-    public native bool IsBleedingOut();
+    public bool IsBleedingOut() {
+        __CheckClientValid(this.Index);
+        return this._bleedingOut;
+    }
 
     /**
      * Returns true when player is contemplating suicide.
      */
-    public native bool IsContemplatingSuicide();
+    public bool IsContemplatingSuicide() {
+        __CheckClientValid(this.Index);
+        return this._contemplatingSuicide;
+    }
 
     /**
      * Returns true if player is ducking.
      */
-    public native bool IsDucking();
+    public bool IsDucking() {
+        __CheckClientValid(this.Index);
+        return this.m_fFlags & NMR_FL_DUCKING;
+    }
 
     /**
      * Returns true if player is extracted.
      */
-    public native bool IsExtracted();
+    public bool IsExtracted() {
+        __CheckClientValid(this.Index);
+        return this.m_bIsExtracted;
+    }
 
     /**
      * Returns true if player is being grabbed by a zombie.
      */
-    public native bool IsGrabbed();
+    public bool IsGrabbed() {
+        __CheckClientValid(this.Index);
+        return RunEntVScriptBool(this.Index, "IsGrabbed()");
+    }
 
     /**
      * Returns true if this player is a listen server host.
      */
-    public native bool IsHost();
+    public bool IsHost() {
+        __CheckClientValid(this.Index);
+        return RunEntVScriptBool(this.Index, "IsHost()");
+    }
 
     /**
      * Returns true if player is in level transition.
      */
-    public native bool IsInLevelTransition();
+    public bool IsInLevelTransition() {
+        __CheckClientValid(this.Index);
+        return this.m_bLevelTransition;
+    }
 
     /**
      * Returns true if player is jumping.
      */
-    public native bool IsJumping();
+    public bool IsJumping() {
+        __CheckClientValid(this.Index);
+        return RunEntVScriptBool(this.Index, "IsJumping()");
+    }
 
     /**
      * Returns true if player is experiencing blindness from vaccine side effects.
      */
-    public native bool IsPartialBlindnessActive();
+    public bool IsPartialBlindnessActive() {
+        __CheckClientValid(this.Index);
+        return this.m_flPartialBlindnessEffectEnd > GetGameTime();
+    }
 
     /**
      * Returns true if player is sprinting.
      */
-    public native bool IsSprinting();
+    public bool IsSprinting() {
+        __CheckClientValid(this.Index);
+        return this.m_bIsSprinting;
+    }
 
     /**
      * Returns true if player is talking without a walkie talkie.
      */
-    public native bool IsTalkingLocal();
+    public bool IsTalkingLocal() {
+        __CheckClientValid(this.Index);
+        return RunEntVScriptBool(this.Index, "IsTalkingLocal()");
+    }
 
     /**
      * Returns true if player is talking with a walkie talkie.
      */
-    public native bool IsTalkingWalkie();
+    public bool IsTalkingWalkie() {
+        __CheckClientValid(this.Index);
+        return this.m_bTalkingWalkie;
+    }
 
     /**
      * Returns true if player is using a tool.
      */
-    public native bool IsUsingProgressTrigger();
+    public bool IsUsingProgressTrigger() {
+        __CheckClientValid(this.Index);
+        return this.m_bUsingProgressTrigger;
+    }
 
     /**
      * Returns true if player is vaccinated.
      */
-    public native bool IsVaccinated();
+    public bool IsVaccinated() {
+        __CheckClientValid(this.Index);
+        return this._vaccinated;
+    }
 
     /**
      * Returns true when voice command timer has expired.
      */
-    public native bool IsVoiceCommandTimerExpired();
+    public bool IsVoiceCommandTimerExpired() {
+        __CheckClientValid(this.Index);
+        return RunEntVScriptBool(this.Index, "IsVoiceCommandTimerExpired()");
+    }
 
     /**
      * Returns true if player is ready to respawn.
      */
-    public native bool ReadyToRespawn();
+    public bool ReadyToRespawn() {
+        __CheckClientValid(this.Index);
+        return RunEntVScriptBool(this.Index, "ReadyToRespawn()");
+    }
 
     /**
      * Removes carried inventory weight.
      * Note: 似乎不起作用
      */
-    public native void RemoveCarriedWeight(int weight);
+    public void RemoveCarriedWeight(int weight) {
+        __CheckClientValid(this.Index);
+        char code[64];
+        FormatEx(code, sizeof(code), "self.RemoveCarriedWeight(%d)", weight);
+        SetVariantString(code);
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Removes infection and bleeding.
      */
-    public native void RemoveInflictions();
+    public void RemoveInflictions() {
+        __CheckClientValid(this.Index);
+        SetVariantString("self.RemoveInflictions()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Resets active respawn tokens.
      */
-    public native void ResetRespawnTokens();
+    public void ResetRespawnTokens() {
+        SetVariantString("self.ResetRespawnTokens()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Resets voice command cooldown timer.
      */
-    public native void ResetVoiceCommandTimer();
+    public void ResetVoiceCommandTimer() {
+        __CheckClientValid(this.Index);
+        SetVariantString("self.ResetVoiceCommandTimer()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Returns active respawn token count.
      */
-    public native int RespawnTokenCount();
+    public int RespawnTokenCount() {
+        __CheckClientValid(this.Index);
+    return RunEntVScriptInt(this.Index, "RespawnTokenCount()");
+    }
 
     /**
      * Sets this player as extracted.
      */
-    public native void SetExtracted(bool value);
+    public void SetExtracted(bool value) {
+        __CheckClientValid(this.Index);
+        char code[32];
+        FormatEx(code, sizeof(code), "self.SetExtracted(%s)", value ? "true" : "false");
+        SetVariantString(code);
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Overrides viewmodel hands, with string parameter for model name.
      */
-    public native void SetHandModelOverride(const char[] model);
+    public void SetHandModelOverride(const char[] model) {
+        __CheckClientValid(this.Index);
+        char code[PLATFORM_MAX_PATH];
+        FormatEx(code, sizeof(code), "self.SetHandModelOverride(\"%s\")", model);
+        SetVariantString(code);
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Sets timeout for idle auto-kick.
      */
-    public native void SetIdleTimeout(float time);
+    public void SetIdleTimeout(float time) {
+        __CheckClientValid(this.Index);
+        char code[64];
+        FormatEx(code, sizeof(code), "self.SetIdleTimeout(%f)", time);
+        SetVariantString(code);
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Makes the player ignore all fall damage.
      */
-    public native void SetIgnoreFallDamage(bool value);
+    public void SetIgnoreFallDamage(bool value) {
+        __CheckClientValid(this.Index);
+        char code[32];
+        FormatEx(code, sizeof(code), "self.SetIgnoreFallDamage(%f)", value ? "true" : "false");
+        SetVariantString(code);
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Sets next respawn time for this player.
      */
-    public native void SetNextRespawnTime(float time);
+    public void SetNextRespawnTime(float time) {
+        __CheckClientValid(this.Index);
+        char code[64];
+        FormatEx(code, sizeof(code), "self.SetNextRespawnTime(%f)", time);
+        SetVariantString(code);
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Sets next spawn attempt time for this player.
      */
-    public native void SetNextSpawnTryTime(float time);
+    public void SetNextSpawnTryTime(float time) {
+        __CheckClientValid(this.Index);
+        char code[64];
+        FormatEx(code, sizeof(code), "self.SetNextSpawnTryTime(%f)", time);
+        SetVariantString(code);
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Sets active respawn tokens, with boolean parameter if player should be notified.
      */
-    public native void SetRespawnTokens(int tokens, bool notify);
+    public void SetRespawnTokens(int tokens, bool notify) {
+        __CheckClientValid(this.Index);
+        char code[PLATFORM_MAX_PATH];
+        FormatEx(code, sizeof(code), "self.SetRespawnTokens(%d,%s)", tokens, notify ? "true" : "false");
+        SetVariantString(code);
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Sets starting weapon when player spawns, with weapon classname, and ammo percent as integer.
      */
-    public native void SetSpawnWeapon(const char[] classname, int ammoPercent);
+    public void SetSpawnWeapon(const char[] classname, int ammoPercent) {
+        __CheckClientValid(this.Index);
+        char code[128];
+        FormatEx(code, sizeof(code), "self.SetSpawnWeapon(\"%s\",%d)", classname, ammoPercent);
+        SetVariantString(code);
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Sets overall player speed modifier, applied last.
      */
-    public native void SetSpeedModifier(float value);
+    public void SetSpeedModifier(float value) {
+        __CheckClientValid(this.Index);
+        char code[64];
+        FormatEx(code, sizeof(code), "self.SetSpeedModifier(%f)", value);
+        SetVariantString(code);
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Overrides player speed to an absolute value, ignoring all modifiers.
      */
-    public native void SetSpeedOverride(float speed);
+    public void SetSpeedOverride(float speed) {
+        __CheckClientValid(this.Index);
+        char code[64];
+        FormatEx(code, sizeof(code), "self.SetSpeedOverride(%f)", speed);
+        SetVariantString(code);
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Sets player stamina.
      */
-    public native void SetStamina(float stamina);
+    public void SetStamina(float stamina) {
+        __CheckClientValid(this.Index);
+        this.m_flStamina = stamina;
+    }
 
     /**
      * Sets the state of player using a tool.
      */
-    public native void SetUsingProgressTrigger(bool value);
+    public void SetUsingProgressTrigger(bool value) {
+        __CheckClientValid(this.Index);
+        char code[64];
+        FormatEx(code, sizeof(code), "self.SetUsingProgressTrigger(%s)", value ? "true" : "false");
+        SetVariantString(code);
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Returns true if player should ignore fall damage.
      */
-    public native bool ShouldIgnoreFallDamage();
+    public bool ShouldIgnoreFallDamage() {
+        __CheckClientValid(this.Index);
+        return RunEntVScriptBool(this.Index, "ShouldIgnoreFallDamage()");
+    }
 
     /**
      * Stops bleeding.
@@ -1214,24 +1468,42 @@ methodmap NMR_Player {
     /**
      * Throws all ammo that player owns.
      */
-    public native void ThrowAllAmmo();
+    public void ThrowAllAmmo() {
+        __CheckClientValid(this.Index);
+        SetVariantString("self.ThrowAllAmmo()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Throws all custom items that player owns.
      */
-    public native void ThrowAllCustomItems();
+    public void ThrowAllCustomItems() {
+        __CheckClientValid(this.Index);
+        SetVariantString("self.ThrowAllCustomItems()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Throws all weapons that player owns.
      *
      * @note    丢弃后会导致视图武器为丢弃前手持的武器, 无法使用拳头
      */
-    public native void ThrowAllWeapons();
+    public void ThrowAllWeapons() {
+        __CheckClientValid(this.Index);
+        SetVariantString("self.ThrowAllWeapons()");
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Tries a voice command, with boolean parameter for playing it regardless of cooldown.
      */
-    public native void VoiceCommand(int voice, bool cooldown);
+    public void VoiceCommand(int voice, bool cooldown) {
+        __CheckClientValid(this.Index);
+        char code[64];
+        FormatEx(code, sizeof(code), "self.VoiceCommand(%d,%s)", voice, cooldown ? "true" : "false");
+        SetVariantString(code);
+        AcceptEntityInput(this.Index, "RunScriptCode");
+    }
 
     /**
      * Check if the player is moving.
@@ -1306,7 +1578,11 @@ methodmap NMR_Player {
      *
      * @param velocity          The velocity output.
      */
-    public native void GetVelocity(float velocity[3]);
+    public void GetVelocity(float velocity[3]) {
+        __CheckClientValid(this.Index);
+        GetEntPropVector(this.Index, Prop_Send, "m_vecVelocity", velocity);
+    }
+
     /**
      * Sets the velocity.
      *
@@ -1314,13 +1590,29 @@ methodmap NMR_Player {
      * @param stack             True will stack new velocity onto the player current velocity.
      *                          False will reset it.
      */
-    public native void SetVelocity(float velocity[3], bool stack=false);
+    public void SetVelocity(float velocity[3], bool stack=false) {
+        __CheckClientValid(this.Index);
+        if (stack)
+        {
+            float speed[3];
+            this.GetVelocity(speed);
+            AddVectors(speed, velocity, velocity);
+        }
+        TeleportEntity(this.Index, NULL_VECTOR, NULL_VECTOR, velocity);
+    }
 
     /**
      * Gets the m_vecOrigin
      */
-    public native void GetOrigin(float position[3]);
-    public native void SetOrigin(float position[3], bool changeState=false);
+    public void GetOrigin(float position[3]) {
+        __CheckClientValid(this.Index);
+        GetEntPropVector(this.Index, Prop_Send, "m_vecOrigin", position);
+    }
+
+    public void SetOrigin(float position[3]) {
+        __CheckClientValid(this.Index);
+        SetEntPropVector(this.Index, Prop_Send, "m_vecOrigin", position);
+    }
 
     /**
      * Gets the abs origin.
@@ -1328,8 +1620,15 @@ methodmap NMR_Player {
      *
      * @param position          The origin output.
      */
-    public native void GetAbsOrigin(float position[3]);
-    public native void SetAbsOrigin(float position[3], bool changeState=false);
+    public void GetAbsOrigin(float position[3]) {
+        __CheckClientValid(this.Index);
+        GetEntPropVector(this.Index, Prop_Send, "m_vecAbsOrigin", position);
+    }
+
+    public void SetAbsOrigin(float position[3]) {
+        __CheckClientValid(this.Index);
+        SetEntPropVector(this.Index, Prop_Send, "m_vecAbsOrigin", position);
+    }
 
     /**
      * Gets the abs angle.
@@ -1337,8 +1636,15 @@ methodmap NMR_Player {
      *
      * @param angles             The angle output.
      */
-    public native void GetAbsAngles(float angles[3]);
-    public native void SetAbsAngles(float angles[3], bool changeState=false);
+    public void GetAbsAngles(float angles[3]) {
+        __CheckClientValid(this.Index);
+        GetEntPropVector(this.Index, Prop_Send, "m_angAbsRotation", angles);
+    }
+
+    public void SetAbsAngles(float angles[3]) {
+        __CheckClientValid(this.Index);
+        SetEntPropVector(this.Index, Prop_Send, "m_angAbsRotation", angles);
+    }
 
     /**
      * Gets the abs velocity.
@@ -1346,54 +1652,103 @@ methodmap NMR_Player {
      *
      * @param velocity          The velocity output.
      */
-    public native void GetAbsVelocity(float velocity[3]);
-    public native void SetAbsVelocity(float velocity[3], bool changeState=false);
+    public void GetAbsVelocity(float velocity[3]) {
+        __CheckClientValid(this.Index);
+        GetEntPropVector(this.Index, Prop_Send, "m_vecAbsVelocity", velocity);
+    }
+
+    public void SetAbsVelocity(float velocity[3]) {
+        __CheckClientValid(this.Index);
+        SetEntPropVector(this.Index, Prop_Send, "m_vecAbsVelocity", velocity);
+    }
 
     /**
      * Gets the max size vector.
+     * @note m_vecMaxs
      *
      * @param maxs              The max size vector output.
      */
-    public native void GetMaxs(float maxs[3]);
-    public native void SetMaxs(float maxs[3], bool changeState=false);
+    public void GetMaxs(float maxs[3]) {
+        __CheckClientValid(this.Index);
+        GetClientMaxs(this.Index, maxs);
+    }
+
+    public void SetMaxs(float maxs[3]) {
+        __CheckClientValid(this.Index);
+        SetEntPropVector(this.Index, Prop_Send, "m_vecMaxs", maxs);
+    }
 
     /**
      * Gets the min size vector.
+     * @note m_vecMins
      *
      * @param mins              The max size vector output.
      */
-    public native void GetMins(float mins[3]);
-    public native void SetMins(float mins[3], bool changeState=false);
+    public void GetMins(float mins[3]) {
+        __CheckClientValid(this.Index);
+        GetClientMins(this.Index, mins);
+    }
+
+    public void SetMins(float mins[3]) {
+        __CheckClientValid(this.Index);
+        SetEntPropVector(this.Index, Prop_Send, "m_vecMins", mins);
+    }
 
     /**
      * @note m_nOldButtons
      *
      * @return                  player old buttons.
      */
-    public native int GetOldButtons();
-    public native int SetOldButtons();
+    public int GetOldButtons() {
+        __CheckClientValid(this.Index);
+        return GetEntProp(this.Index, Prop_Send, "m_nOldButtons");
+    }
+
+    public int SetOldButtons(int buttons) {
+        __CheckClientValid(this.Index);
+        GetEntProp(this.Index, Prop_Send, "m_nOldButtons", buttons);
+    }
 
     /**
      * Gets the speed.
      */
-    public native float GetSpeed(bool ignoreVertical=false);
+    public float GetSpeed(bool ignoreVertical=false) {
+        __CheckClientValid(this.Index);
+        float velocity[3];
+        this.GetVelocity(velocity);
+        if (ignoreVertical)
+            velocity[2] = 0.0;
+        return GetVectorLength(velocity);
+    }
 
     /**
      * 获取玩家距离 entity 的长度
      *
      * @return                  返回玩家距离 entity 的长度
      */
-    public native float GetEntityDistance(int entity);
+    public float GetEntityDistance(int entity) {
+        __CheckClientValid(this.Index);
+        float playerPosition[3];
+        this.GetAbsOrigin(playerPosition);
+
+        float entityPosition[3];
+        GetEntPropVector(entity, Prop_Data, "m_vecAbsOrigin", entityPosition);
+        return GetVectorDistance(playerPosition, entityPosition);
+    }
 
     /**
      * @return                  True if character is infected.
      */
-    public native bool IsInfected();
+    public bool IsInfected() {
+        __CheckClientValid(this.Index);
+        return this.m_flInfectionTime != -1.0;
+    }
 
     /**
      * Simple respawn.
      */
     public void RespawnPlayer() {
+        __CheckClientValid(this.Index);
         ServerCommand("respawnplayer %d", this.UserId);
     }
 
@@ -1409,18 +1764,22 @@ methodmap NMR_Player {
     public native void ForceSpawn(int target);
 
     public bool IsGenericAdmin() {
+        __CheckClientValid(this.Index);
         return IsGenericAdmin(this.Index);
     }
 
     public void Freeze() {
+        __CheckClientValid(this.Index);
         this.m_fFlags |= NMR_FL_FROZEN;
     }
 
     public void UnFreeze() {
+        __CheckClientValid(this.Index);
         this.m_fFlags &= ~NMR_FL_FROZEN;
     }
 
     public bool IsFreeze() {
+        __CheckClientValid(this.Index);
         return (this.m_fFlags & NMR_FL_FROZEN) != 0;
     }
 
@@ -1429,14 +1788,17 @@ methodmap NMR_Player {
      * url      https://github.com/dysphie/nmrih-team-healing/blob/c68dcc687c943be9927656e07f880e66e174651f/scripting/nmrih-team-healing.sp#L844
      */
     public void IncreaseAtControls() {
+        __CheckClientValid(this.Index);
         this.m_fFlags |= NMR_FL_ATCONTROLS;
     }
 
     public void DecreaseAtControls() {
+        __CheckClientValid(this.Index);
         this.m_fFlags &= ~NMR_FL_ATCONTROLS;
     }
 
     public bool IsAtControls() {
+        __CheckClientValid(this.Index);
         return (this.m_fFlags & NMR_FL_ATCONTROLS) != 0;
     }
 }
@@ -1463,4 +1825,9 @@ stock bool IsValidClient(int client) {
 
 stock bool IsGenericAdmin(int client) {
     return CheckCommandAccess(client, "generic_admin", ADMFLAG_GENERIC, false);
+}
+
+static void __CheckClientValid(int player) {
+    if (!IsValidClient(player))
+        ThrowError("Invalid player index %d", player);
 }

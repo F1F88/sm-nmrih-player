@@ -15,7 +15,7 @@
 
 #define PLUGIN_NAME        "Library NMRiH Player"
 #define PLUGIN_DESCRIPTION "Library NMRiH Player"
-#define PLUGIN_VERSION     "1.15.3"
+#define PLUGIN_VERSION     "1.16.0"
 
 public Plugin myinfo =
 {
@@ -42,16 +42,11 @@ float   cvar_SvBleedoutJumpStamMult;
 Logger  log;
 
 #include "nmrih_player/detour.sp"
-#include "nmrih_player/netprops.sp"
 #include "nmrih_player/functions.sp"
 
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
-    /* ------- Load NetProps ------- */
-    LoadNetPropsOffset();
-    CreateNetPropsNatives();
-
     /* ------- Load Detour ------- */
     CreateDetourGlobalForwards();
 
@@ -89,7 +84,7 @@ public void OnPluginStart()
     log.AddSinkEx(new ServerConsoleSink()); // for debug
 
     // DebugNetPropsOffset();
-    log.Info("[Plugin] [" ... PLUGIN_NAME ... " (" ... PLUGIN_VERSION ... ")] loaded successfully!");
+    log.Info("Plugin \"" ... PLUGIN_NAME ... "\" (" ... PLUGIN_VERSION ... ") loaded successfully!");
 }
 
 public void OnAllPluginsLoaded()
