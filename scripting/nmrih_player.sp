@@ -15,7 +15,7 @@
 
 #define PLUGIN_NAME        "Library NMRiH Player"
 #define PLUGIN_DESCRIPTION "Library NMRiH Player"
-#define PLUGIN_VERSION     "1.16.0"
+#define PLUGIN_VERSION     "1.16.1"
 
 public Plugin myinfo =
 {

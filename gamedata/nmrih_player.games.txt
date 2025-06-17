@@ -223,46 +223,25 @@
             "CNMRiH_Player::ApplyBandage"
             {
                 "signature"     "CNMRiH_Player::ApplyBandage"
-                "callconv"      "cdecl"
+                "callconv"      "thiscall"
                 "return"        "void"
-                "this"          "ignore"
-                "arguments"
-                {
-                    "client"
-                    {
-                        "type"      "cbaseentity"
-                    }
-                }
+                "this"          "entity"
             }
 
             "CNMRiH_Player::ApplyFirstAidKit"
             {
                 "signature"     "CNMRiH_Player::ApplyFirstAidKit"
-                "callconv"      "cdecl"
+                "callconv"      "thiscall"
                 "return"        "void"
-                "this"          "ignore"
-                "arguments"
-                {
-                    "client"
-                    {
-                        "type"      "cbaseentity"
-                    }
-                }
+                "this"          "entity"
             }
 
             "CNMRiH_Player::ApplyVaccine"
             {
                 "signature"     "CNMRiH_Player::ApplyVaccine"
-                "callconv"      "cdecl"
+                "callconv"      "thiscall"
                 "return"        "void"
-                "this"          "ignore"
-                "arguments"
-                {
-                    "client"
-                    {
-                        "type"      "cbaseentity"
-                    }
-                }
+                "this"          "entity"
             }
 
             "CNMRiH_Player::BleedOut"
@@ -286,16 +265,9 @@
             "CNMRiH_Player::StopBleedingOut"
             {
                 "signature"     "CNMRiH_Player::StopBleedingOut"
-                "callconv"      "cdecl"
+                "callconv"      "thiscall"
                 "return"        "void"
-                "this"          "ignore"
-                "arguments"
-                {
-                    "client"
-                    {
-                        "type"      "cbaseentity"
-                    }
-                }
+                "this"          "entity"
             }
         }
     }

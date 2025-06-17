@@ -81,7 +81,7 @@ void LoadDetourFunctions(GameData gamedata)
 static void DetourPlayer(Handle gamedata, const char[] name, DHookCallback PreCB, DHookCallback PostCB)
 {
     DynamicDetour detour = DynamicDetour.FromConf(gamedata, name);
-    if (detour == null)
+    if (!detour)
         SetFailState("Failed to setup detour for Functions \"%s\"", name);
 
     if (!detour.Enable(Hook_Pre, PreCB))
@@ -98,8 +98,8 @@ static void DetourPlayer(Handle gamedata, const char[] name, DHookCallback PreCB
 // Note3: 使用 疫苗 后只会触发一次
 static MRESReturn CureInfection(int pThis)
 {
+    log.TraceEx("CNMRiH_Player::CureInfection this %d", pThis);
     int player = pThis;
-    log.TraceEx("player %d CureInfection", player);
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_CureInfection]);
@@ -113,8 +113,8 @@ static MRESReturn CureInfection(int pThis)
 
 static MRESReturn CureInfectionPost(int pThis)
 {
+    log.TraceEx("CNMRiH_Player::CureInfection Post this %d", pThis);
     int player = pThis;
-    log.TraceEx("player %d CureInfection Post", player);
 
     Call_StartForward(hGlobalForwards[FWD_CureInfectionPost]);
     Call_PushCell(player);
@@ -126,8 +126,8 @@ static MRESReturn CureInfectionPost(int pThis)
 // Note1: 即使已注射疫苗仍会触发此绕行
 static MRESReturn BecomeInfected(int pThis)
 {
+    log.TraceEx("CNMRiH_Player::BecomeInfected this %d", pThis);
     int player = pThis;
-    log.TraceEx("player %d BecomeInfected", player);
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_BecomeInfected]);
@@ -141,8 +141,8 @@ static MRESReturn BecomeInfected(int pThis)
 
 static MRESReturn BecomeInfectedPost(int pThis)
 {
+    log.TraceEx("CNMRiH_Player::BecomeInfected Post this %d", pThis);
     int player = pThis;
-    log.TraceEx("player %d BecomeInfected Post", player);
 
     Call_StartForward(hGlobalForwards[FWD_BecomeInfectedPost]);
     Call_PushCell(player);
@@ -153,8 +153,8 @@ static MRESReturn BecomeInfectedPost(int pThis)
 // 用 UserMessage - Cure 替代
 static MRESReturn TakePills(int pThis)
 {
+    log.TraceEx("CNMRiH_Player::TakePills this %d", pThis);
     int player = pThis;
-    log.TraceEx("player %d TakePills", player);
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_TakePills]);
@@ -168,8 +168,8 @@ static MRESReturn TakePills(int pThis)
 
 static MRESReturn TakePillsPost(int pThis)
 {
+    log.TraceEx("CNMRiH_Player::TakePills Post this %d", pThis);
     int player = pThis;
-    log.TraceEx("player %d TakePills Post", player);
 
     Call_StartForward(hGlobalForwards[FWD_TakePillsPost]);
     Call_PushCell(player);
@@ -179,9 +179,10 @@ static MRESReturn TakePillsPost(int pThis)
 
 static MRESReturn OnGrabbedBegin(int pThis, DHookParam hParams)
 {
+    log.TraceEx("CNMRiH_Player::OnGrabbedBegin this %d, params %d", pThis, hParams);
     int player = pThis;
     int causer = hParams.Get(1);
-    log.TraceEx("player %d OnGrabbedBegin by causer %d", player, causer);
+    log.TraceEx("CNMRiH_Player::OnGrabbedBegin param1 %d", causer);
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_OnGrabbedBegin]);
@@ -196,9 +197,10 @@ static MRESReturn OnGrabbedBegin(int pThis, DHookParam hParams)
 
 static MRESReturn OnGrabbedBeginPost(int pThis, DHookParam hParams)
 {
+    log.TraceEx("CNMRiH_Player::OnGrabbedBegin Post this %d, params %d", pThis, hParams);
     int player = pThis;
     int causer = hParams.Get(1);
-    log.TraceEx("player %d OnGrabbedBegin Post by causer %d", player, causer);
+    log.TraceEx("CNMRiH_Player::OnGrabbedBegin Post param1 %d", causer);
 
     Call_StartForward(hGlobalForwards[FWD_OnGrabbedBeginPost]);
     Call_PushCell(player);
@@ -207,10 +209,10 @@ static MRESReturn OnGrabbedBeginPost(int pThis, DHookParam hParams)
     return MRES_Ignored;
 }
 
-static MRESReturn ApplyBandage(DHookParam hParams)
+static MRESReturn ApplyBandage(int pThis)
 {
-    int player = hParams.Get(1);
-    log.TraceEx("player %d ApplyBandage", player);
+    log.TraceEx("CNMRiH_Player::ApplyBandage this %d", pThis);
+    int player = pThis;
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_ApplyBandage]);
@@ -222,10 +224,10 @@ static MRESReturn ApplyBandage(DHookParam hParams)
     return MRES_Ignored;
 }
 
-static MRESReturn ApplyBandagePost(DHookParam hParams)
+static MRESReturn ApplyBandagePost(int pThis)
 {
-    int player = hParams.Get(1);
-    log.TraceEx("player %d ApplyBandage Post", player);
+    log.TraceEx("CNMRiH_Player::ApplyBandage Post this %d", pThis);
+    int player = pThis;
 
     Call_StartForward(hGlobalForwards[FWD_ApplyBandagePost]);
     Call_PushCell(player);
@@ -233,10 +235,10 @@ static MRESReturn ApplyBandagePost(DHookParam hParams)
     return MRES_Ignored;
 }
 
-static MRESReturn ApplyFirstAidKit(DHookParam hParams)
+static MRESReturn ApplyFirstAidKit(int pThis)
 {
-    int player = hParams.Get(1);
-    log.TraceEx("player %d ApplyFirstAidKit", player);
+    log.TraceEx("CNMRiH_Player::ApplyFirstAidKit this %d", pThis);
+    int player = pThis;
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_ApplyFirstAidKit]);
@@ -248,10 +250,10 @@ static MRESReturn ApplyFirstAidKit(DHookParam hParams)
     return MRES_Ignored;
 }
 
-static MRESReturn ApplyFirstAidKitPost(DHookParam hParams)
+static MRESReturn ApplyFirstAidKitPost(int pThis)
 {
-    int player = hParams.Get(1);
-    log.TraceEx("player %d ApplyFirstAidKit Post", player);
+    log.TraceEx("CNMRiH_Player::ApplyFirstAidKit Post this %d", pThis);
+    int player = pThis;
 
     Call_StartForward(hGlobalForwards[FWD_ApplyFirstAidKitPost]);
     Call_PushCell(player);
@@ -259,10 +261,10 @@ static MRESReturn ApplyFirstAidKitPost(DHookParam hParams)
     return MRES_Ignored;
 }
 
-static MRESReturn ApplyVaccine(DHookParam hParams)
+static MRESReturn ApplyVaccine(int pThis)
 {
-    int player = hParams.Get(1);
-    log.TraceEx("player %d ApplyVaccine", player);
+    log.TraceEx("CNMRiH_Player::ApplyVaccine this %d", pThis);
+    int player = pThis;
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_ApplyVaccine]);
@@ -274,10 +276,10 @@ static MRESReturn ApplyVaccine(DHookParam hParams)
     return MRES_Ignored;
 }
 
-static MRESReturn ApplyVaccinePost(DHookParam hParams)
+static MRESReturn ApplyVaccinePost(int pThis)
 {
-    int player = hParams.Get(1);
-    log.TraceEx("player %d ApplyVaccine Post", player);
+    log.TraceEx("CNMRiH_Player::ApplyVaccine Post this %d", pThis);
+    int player = pThis;
 
     Call_StartForward(hGlobalForwards[FWD_ApplyVaccinePost]);
     Call_PushCell(player);
@@ -287,8 +289,9 @@ static MRESReturn ApplyVaccinePost(DHookParam hParams)
 
 static MRESReturn BleedOut(DHookParam hParams)
 {
+    log.TraceEx("CNMRiH_Player::BleedOut params %d", hParams);
     int player = hParams.Get(1);
-    log.TraceEx("player %d BleedOut", player);
+    log.TraceEx("CNMRiH_Player::BleedOut param1 %d", player);
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_BleedOut]);
@@ -302,8 +305,9 @@ static MRESReturn BleedOut(DHookParam hParams)
 
 static MRESReturn BleedOutPost(DHookParam hParams)
 {
+    log.TraceEx("CNMRiH_Player::BleedOut Post params %d", hParams);
     int player = hParams.Get(1);
-    log.TraceEx("player %d BleedOut Post", player);
+    log.TraceEx("CNMRiH_Player::BleedOut Post param1 %d", player);
 
     Call_StartForward(hGlobalForwards[FWD_BleedOutPost]);
     Call_PushCell(player);
@@ -317,10 +321,10 @@ static MRESReturn BleedOutPost(DHookParam hParams)
 // Note3: 使用 绷带、医疗包 后会连续触发两次
 // Note4: 使用 医疗箱治疗后 只会触发一次
 // Note5: 玩家 撤离后 只会触发一次
-static MRESReturn StopBleedingOut(DHookParam hParams)
+static MRESReturn StopBleedingOut(int pThis)
 {
-    int player = hParams.Get(1);
-    log.TraceEx("player %d StopBleedingOut", player);
+    log.TraceEx("CNMRiH_Player::StopBleedingOut this %d", pThis);
+    int player = pThis;
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_StopBleedingOut]);
@@ -332,10 +336,10 @@ static MRESReturn StopBleedingOut(DHookParam hParams)
     return MRES_Ignored;
 }
 
-static MRESReturn StopBleedingOutPost(DHookParam hParams)
+static MRESReturn StopBleedingOutPost(int pThis)
 {
-    int player = hParams.Get(1);
-    log.TraceEx("player %d StopBleedingOut Post", player);
+    log.TraceEx("CNMRiH_Player::StopBleedingOut Post this %d", pThis);
+    int player = pThis;
 
     Call_StartForward(hGlobalForwards[FWD_StopBleedingOutPost]);
     Call_PushCell(player);
