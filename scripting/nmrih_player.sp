@@ -15,7 +15,7 @@
 
 #define PLUGIN_NAME        "Library NMRiH Player"
 #define PLUGIN_DESCRIPTION "Library NMRiH Player"
-#define PLUGIN_VERSION     "1.16.1"
+#define PLUGIN_VERSION     "1.16.2"
 
 public Plugin myinfo =
 {
@@ -36,7 +36,7 @@ public Plugin myinfo =
 // int OS;
 int     cvar_InvMaxcarry;
 int     cvar_InvAmmoweight;
-
+int     cvar_SvStamJumpcost;
 float   cvar_SvBleedoutJumpStamMult;
 
 Logger  log;
@@ -104,6 +104,9 @@ static void LoadConVars()
     if (!LoadIntConVar("inv_ammoweight", OnCvarInvAmmoweightChange, cvar_InvAmmoweight))
         SetFailState("Failed to load convar inv_maxcarry");
 
+    if (!LoadIntConVar("sv_stam_jumpcost", OnCvarSvStamJumpcostChange, cvar_SvStamJumpcost))
+        SetFailState("Failed to load convar sv_stam_jumpcost");
+
     if (!LoadFloatConVar("sv_bleedout_jump_stam_mult", OnCvarSvBleedoutJumpStamMult, cvar_SvBleedoutJumpStamMult))
         SetFailState("Failed to load convar sv_bleedout_jump_stam_mult");
 }
@@ -116,6 +119,11 @@ static void OnCvarInvMaxcarryChange(ConVar convar, const char[] oldValue, const 
 static void OnCvarInvAmmoweightChange(ConVar convar, const char[] oldValue, const char[] newValue)
 {
     cvar_InvAmmoweight = convar.IntValue;
+}
+
+static void OnCvarSvStamJumpcostChange(ConVar convar, const char[] oldValue, const char[] newValue)
+{
+    cvar_SvStamJumpcost = convar.IntValue;
 }
 
 static void OnCvarSvBleedoutJumpStamMult(ConVar convar, const char[] oldValue, const char[] newValue)

@@ -306,11 +306,13 @@ static int Native_GetAmmoCarryWeight(Handle plugin, int numParams)
 
 static any Native_GetJumpStaminaCost(Handle plugin, int numParams)
 {
-    int player = GetNativeCell(1);
+    NMR_Player player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return cvar_SvBleedoutJumpStamMult;
+    if (!player.IsBleedingOut())
+        return cvar_SvStamJumpcost;
+    return cvar_SvStamJumpcost * cvar_SvBleedoutJumpStamMult;
 }
 
 static int Native_GetLastObserverMode(Handle plugin, int numParams)
