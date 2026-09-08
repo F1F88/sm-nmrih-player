@@ -15,14 +15,18 @@
 
             "CBaseEntity::IsMoving"
             {
-                "windows"   "77"
-                "linux"     "78"
+                "windows"   "81"
+                "windows64" "81"
+                "linux"     "82"
+                "linux64"   "82"
             }
 
             "CBaseCombatCharacter::GetAliveDuration"
             {
-                "windows"   "283"
-                "linux"     "284"
+                "windows"   "286"
+                "windows64" "286"
+                "linux"     "287"
+                "linux64"   "287"
             }
 
             // CBaseCombatCharacter::HasEverBeenInjured(int) const
@@ -30,56 +34,72 @@
 
             "CSDKPlayer::FlashlightIsOn"
             {
-                "windows"   "372"
-                "linux"     "373"
+                "windows"   "375"
+                "windows64" "375"
+                "linux"     "376"
+                "linux64"   "376"
             }
 
             "CSDKPlayer::FlashlightTurnOn"
             {
-                "windows"   "373"
-                "linux"     "374"
+                "windows"   "376"
+                "windows64" "376"
+                "linux"     "377"
+                "linux64"   "377"
             }
 
             "CSDKPlayer::FlashlightTurnOff"
             {
-                "windows"   "374"
-                "linux"     "375"
+                "windows"   "376"
+                "windows64" "376"
+                "linux"     "377"
+                "linux64"   "377"
             }
 
             "CBasePlayer::IsValidObserverTarget"
             {
-                "windows"   "398"
-                "linux"     "399"
+                "windows"   "402"
+                "windows64" "402"
+                "linux"     "403"
+                "linux64"   "403"
             }
 
             "CNMRiH_Player::CanSprint"
             {
-                "windows"   "495"
-                "linux"     "496"
+                "windows"   "502"
+                "windows64" "502"
+                "linux"     "503"
+                "linux64"   "503"
             }
 
             "CNMRiH_Player::HasFlashlight"
             {
-                "windows"   "502"
-                "linux"     "503"
+                "windows"   "507"
+                "windows64" "507"
+                "linux"     "508"
+                "linux64"   "508"
             }
 
             "CNMRiH_Player::HasWalkieTalkie"
             {
-                "windows"   "503"
-                "linux"     "504"
+                "windows"   "508"
+                "linux"     "509"
             }
 
             "CNMRiH_Player::EnableSprint"
             {
-                "windows"   "509"
-                "linux"     "510"
+                "windows"   "514"
+                "windows64" "514"
+                "linux"     "515"
+                "linux64"   "515"
             }
 
             "CNMRiH_Player::GetLastObserverMode"
             {
-                "windows"   "514"
-                "linux"     "515"
+                "windows"   "519"
+                "windows64" "519"
+                "linux"     "520"
+                "linux64"   "520"
             }
 
             // "CNMRiH_Player::IsBarricading"
@@ -91,88 +111,193 @@
 
         "Signatures"
         {
+            // windows sig:
+            // search string is "InfectionCured".
             "CNMRiH_Player::CureInfection"
             {
                 "library"   "server"
-                "windows"   "\x55\x8B\xEC\x83\xEC\x20\x56\x8B\xF1\xE8\x2A\x2A\x2A\x2A\x8D\x4D\xE0"
+
+                "windows"   "\x55\x8B\xEC\x83\xEC\x2A\x56\x8B\xF1\xE8\x2A\x2A\x2A\x2A\x8D\x4D"
+                /* 55 8B EC 83 EC ? 56 8B F1 E8 ? ? ? ? 8D 4D */
+
+                "windows64" "\x40\x53\x48\x83\xEC\x2A\x48\x8B\xD9\xE8\x2A\x2A\x2A\x2A\x48\x8D\x4C\x24\x2A\xE8"
+                /* 40 53 48 83 EC ? 48 8B D9 E8 ? ? ? ? 48 8D 4C 24 ? E8 */
+
                 "linux"     "@_ZN13CNMRiH_Player13CureInfectionEv"
+                "linux64"   "@_ZN13CNMRiH_Player13CureInfectionEv"
             }
 
+            // windows sig:
+            // search string is "BecameInfected".
             "CNMRiH_Player::BecomeInfected"
             {
                 "library"   "server"
-                "windows"   "\x55\x8B\xEC\x83\xEC\x20\x56\x8B\xF1\xF7\x86\x08\x01\x00\x00\x00\x80\x00\x00"
+
+                "windows"   "\x55\x8B\xEC\x83\xEC\x2A\x56\x8B\xF1\xF7\x86\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x75"
+                /* 55 8B EC 83 EC ? 56 8B F1 F7 86 ? ? ? ? ? ? ? ? 75 */
+
+                "windows64" "\x40\x53\x48\x83\xEC\x2A\xF7\x81\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x48\x8B\xD9\x75\x2A\x80\xB9\x2A\x2A\x2A\x2A\x2A\x75"
+                /* 40 53 48 83 EC ? F7 81 ? ? ? ? ? ? ? ? 48 8B D9 75 ? 80 B9 ? ? ? ? ? 75 */
+
                 "linux"     "@_ZN13CNMRiH_Player14BecomeInfectedEv"
+                "linux64"   "@_ZN13CNMRiH_Player14BecomeInfectedEv"
             }
 
+            // windows sig:
+            // search string is "pills_taken". 
+            // there's multiple result matches, choose the one that contains only one single event string "pills_taken".
             "CNMRiH_Player::TakePills"
             {
                 "library"   "server"
-                "windows"   "\x56\x8B\xF1\x8B\x06\x8B\x80\x38\x05\x00\x00"
+
+                "windows"   "\x55\x8B\xEC\x83\xEC\x2A\x56\x8B\xF1\x8B\x06\x8B\x80\x2A\x2A\x2A\x2A\xFF\xD0\x84\xC0\x0F\x84\x2A\x2A\x2A\x2A\x57"
+                /* 55 8B EC 83 EC ? 56 8B F1 8B 06 8B 80 ? ? ? ? FF D0 84 C0 0F 84 ? ? ? ? 57 */
+
+                "windows64" "\x40\x53\x48\x83\xEC\x2A\x48\x8B\x01\x48\x8B\xD9\xFF\x90\x2A\x2A\x2A\x2A\x84\xC0\x0F\x84\x2A\x2A\x2A\x2A\x48\x8B\xCB"
+                /* 40 53 48 83 EC ? 48 8B 01 48 8B D9 FF 90 ? ? ? ? 84 C0 0F 84 ? ? ? ? 48 8B CB */
+
                 "linux"     "@_ZN13CNMRiH_Player9TakePillsEv"
+                "linux64"   "@_ZN13CNMRiH_Player9TakePillsEv"
             }
 
+            // windows sig:
+            // the only caller is CNMRiH_Player::TakePills.
+            // It is right on the top of the inlined CNMRiH_Player::TakePillsEffects, a function with only `this` passed.
             "CInfectableCharacter::TakePills"
             {
                 "library"   "server"
-                "windows"   "\x56\x8B\xF1\x8B\x06\x8B\x80\x38\x05\x00\x00"
+
+                "windows"   "\x55\x8B\xEC\x83\xEC\x2A\xA1\x2A\x2A\x2A\x2A\x56\x8D\xB1\x2A\x2A\x2A\x2A\xF3\x0F\x10\x48"
+                /* 55 8B EC 83 EC ? A1 ? ? ? ? 56 8D B1 ? ? ? ? F3 0F 10 48 */
+
+                "windows64" "\x40\x53\x48\x83\xEC\x2A\x48\x8B\x05\x2A\x2A\x2A\x2A\x48\x8D\x99\x2A\x2A\x2A\x2A\x0F\x29\x74\x24\x2A\xF3\x0F\x10\x70"
+                /* 40 53 48 83 EC ? 48 8B 05 ? ? ? ? 48 8D 99 ? ? ? ? 0F 29 74 24 ? F3 0F 10 70 */
+
                 "linux"     "@_ZN20CInfectableCharacter9TakePillsEv"
+                "linux64"   "@_ZN20CInfectableCharacter9TakePillsEv"
             }
 
+            // win32/64 inlined.
             "CNMRiH_Player::TakePillsEffects"
             {
                 "library"   "server"
-                "windows"   "\x55\x8B\xEC\x83\xEC\x24\xD9\x05\x2A\x2A\x2A\x2A"
                 "linux"     "@_ZN13CNMRiH_Player16TakePillsEffectsEv"
+                "linux64"   "@_ZN13CNMRiH_Player16TakePillsEffectsEv"
             }
 
+            // windows sig:
+            // search for string "weapon_reload" to find CNMRiH_WeaponBase::Reload (the one with single event string "weapon_reload" in it).
+            // search downwards, there's function with (3, 0) passed, this is CSDKPlayer::DoAnimationEvent.
+            // go xref it, one of them is CNMRiH_Player::OnGrabbedBegin, inside of it, (40, 0) is passed to CSDKPlayer::DoAnimationEvent.
             "CNMRiH_Player::OnGrabbedBegin"
             {
                 "library"   "server"
-                "windows"   "\x55\x8B\xEC\x51\x56\x8B\xF1\xC6\x45\xFF\x01\x8D\x4D\xFF\x57\x8A\x86\x32\x13\x00\x00"
+
+                "windows"   "\x55\x8B\xEC\x56\x8B\xF1\x80\xBE\x2A\x2A\x2A\x2A\x2A\x57\x8D\xBE\x2A\x2A\x2A\x2A\x74\x2A\x57"
+                /* 55 8B EC 56 8B F1 80 BE ? ? ? ? ? 57 8D BE ? ? ? ? 74 ? 57 */
+
+                "windows64" "\x48\x89\x5C\x24\x2A\x48\x89\x74\x24\x2A\x57\x48\x83\xEC\x2A\x80\xB9\x2A\x2A\x2A\x2A\x2A\x48\x8B\xFA"
+                /* 48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 80 B9 ? ? ? ? ? 48 8B FA */
+
                 "linux"     "@_ZN13CNMRiH_Player14OnGrabbedBeginEP11CBaseEntity"
+                "linux64"   "@_ZN13CNMRiH_Player14OnGrabbedBeginEP11CBaseEntity"
             }
 
+            // windows sig:
+            // search for string "NMRPlayer.TakeBandages" to find CItem_Bandages::GetInstantApplySound
+            // go inside the vtable of CItem_Bandages, CItem_Bandages::ApplyMedicalItem_Internal is 2 functions up ahead of it, click in.
+            // it only calls one function, which is CNMRiH_Player::ApplyBandage.
+            // note: CNMRiH_Player::StopBleedingOut is inlined in CNMRiH_Player::ApplyBandage, so you can just search for string "NMRPlayer.BleedOut", but there will be multiple result matches.
             "CNMRiH_Player::ApplyBandage"
             {
                 "library"   "server"
-                "windows"   "\x56\x8B\xF1\x80\xBE\x33\x13\x00\x00\x00\x74\x2A"
+
+                "windows"   "\x56\x8B\xF1\x80\xBE\x2A\x2A\x2A\x2A\x2A\x57\x8D\xBE\x2A\x2A\x2A\x2A\x74\x2A\xA1"
+                /* 56 8B F1 80 BE ? ? ? ? ? 57 8D BE ? ? ? ? 74 ? A1 */
+
+                "windows64" "\\x48\x89\x5C\x24\x2A\x57\x48\x83\xEC\x2A\x80\xB9\x2A\x2A\x2A\x2A\x2A\x48\x8B\xD9\x74\x2A\x48\x8B\x05"
+                /* 48 89 5C 24 ? 57 48 83 EC ? 80 B9 ? ? ? ? ? 48 8B D9 74 ? 48 8B 05 */
+
                 "linux"     "@_ZN13CNMRiH_Player12ApplyBandageEv"
+                "linux64"   "@_ZN13CNMRiH_Player12ApplyBandageEv"
             }
 
+            // windows sig:
+            // every step is same as CNMRiH_Player::ApplyBandage, replace the string "NMRPlayer.TakeBandages" with "NMRPlayer.TakeFirstAidKit".
             "CNMRiH_Player::ApplyFirstAidKit"
             {
                 "library"   "server"
-                "windows"   "\x55\x8B\xEC\x51\xA1\x2A\x2A\x2A\x2A\x56\x8B\xF1\x57\x8B\x78\x30"
-                "linux"     "@_ZN13CNMRiH_Player16ApplyFirstAidKitEv"
-            }
 
+                // on win32 this function is inlined into CItem_FirstAidKit::ApplyMedicalItem_Internal.
+                //"windows"   "\x55\x8B\xEC\x51\xA1\x2A\x2A\x2A\x2A\x56\x8B\xF1\x57\x8B\x78\x30"
+
+                "windows64" "\x48\x89\x5C\x24\x2A\x57\x48\x83\xEC\x2A\x48\x8B\x05\x2A\x2A\x2A\x2A\x48\x8B\xD9\x8B\x78"
+                /* 48 89 5C 24 ? 57 48 83 EC ? 48 8B 05 ? ? ? ? 48 8B D9 8B 78 */
+
+                "linux"     "@_ZN13CNMRiH_Player16ApplyFirstAidKitEv"
+                "linux64"   "@_ZN13CNMRiH_Player16ApplyFirstAidKitEv"
+            }
+            
+            // windows sig:
+            // search string is "vaccine_taken". (the one with only one single event string "vaccine_taken" in it)
             "CNMRiH_Player::ApplyVaccine"
             {
                 "library"   "server"
-                "windows"   "\x55\x8B\xEC\x83\xEC\x10\x53\x8B\xD9\xC6\x45\xFF\x01"
+
+                "windows"   "\x55\x8B\xEC\x83\xEC\x2A\x53\x56\x57\x8B\xF9\x80\xBF\x2A\x2A\x2A\x2A\x2A\x8D\xB7\x2A\x2A\x2A\x2A\x74\x2A\x56\xE8\x2A\x2A\x2A\x2A\xC6\x06\x2A\x8B\x07"
+                /* 55 8B EC 83 EC ? 53 56 57 8B F9 80 BF ? ? ? ? ? 8D B7 ? ? ? ? 74 ? 56 E8 ? ? ? ? C6 06 ? 8B 07 */
+
+                "windows64" "\x48\x89\x5C\x24\x2A\x55\x56\x57\x48\x83\xEC\x2A\x80\xB9\x2A\x2A\x2A\x2A\x2A\x48\x8B\xF9"
+                /* 48 89 5C 24 ? 55 56 57 48 83 EC ? 80 B9 ? ? ? ? ? 48 8B F9 */
+
                 "linux"     "@_ZN13CNMRiH_Player12ApplyVaccineEv"
+                "linux64"   "@_ZN13CNMRiH_Player12ApplyVaccineEv"
             }
 
+            // windows sig:
+            // search for string "NMRPlayer.Female.Pain" to find CNMRiH_Player::OnTakeDamage_Alive
+            // down the bottun, notice this statement:
+            //   v16 = *(float *)(dword_106FF734 + 44);
+            //   if ( v16 > 0.0 )
+            // retrieving a float value from a convar and compare it with 0.0.
+            // above this statement is CNMRiH_Player::BleedOut
             "CNMRiH_Player::BleedOut"
             {
                 "library"   "server"
-                "windows"   "\x55\x8B\xEC\x83\xEC\x74\x56\x8B\xF1\x80\xBE\x33\x13\x00\x00\x00"
-                "linux"     "@_ZN13CNMRiH_Player8BleedOutEv.part.131"
+
+                "windows"   "\x56\x8B\xF1\xF7\x86\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x75\x2A\x80\xBE\x2A\x2A\x2A\x2A\x2A\x57"
+                /* 56 8B F1 F7 86 ? ? ? ? ? ? ? ? 75 ? 80 BE ? ? ? ? ? 57 */
+
+                "windows64" "\x40\x53\x48\x83\xEC\x2A\xF7\x81\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x48\x8B\xD9\x75\x2A\x80\xB9\x2A\x2A\x2A\x2A\x2A\x48\x89\x7C\x24"
+                /* 40 53 48 83 EC ? F7 81 ? ? ? ? ? ? ? ? 48 8B D9 75 ? 80 B9 ? ? ? ? ? 48 89 7C 24 */
+
+                "linux"     "@_ZN13CNMRiH_Player8BleedOutEv.part.0"
+                "linux64"   "@_ZN13CNMRiH_Player8BleedOutEv.part.0"
             }
 
+            // win32/64 inlined.
             "CNMRiH_Player::StopBleedingOut"
             {
                 "library"   "server"
-                "windows"   "\x55\x8B\xEC\x51\x56\x57\x8B\xF9\xC6\x45\xFF\x00\x8D\x4D\xFF\x8A\x87\x33\x13\x00\x00\x3A\x01\x74\x2A\x8B\xCF\x80\x79\x54\x00\x74\x2A\x80\x49\x58\x01\xEB\x2A\x8B\x51\x18\x85\xD2\x74\x2A\x8D\x87\x33\x13\x00\x00\x2B\xC1\x8B\xCA\x50\xE8\x2A\x2A\x2A\x2A\xC6\x87\x33\x13\x00\x00\x00\xD9\xEE\x68\x2A\x2A\x2A\x2A\x51\xD9\x1C\x24\x6A\x00\x8B\xCF\xE8\x2A\x2A\x2A\x2A\x5F"
                 "linux"     "@_ZN13CNMRiH_Player15StopBleedingOutEv"
+                "linux64"   "@_ZN13CNMRiH_Player15StopBleedingOutEv"
             }
 
+            // windows sig:
+            // search for string "Not enough parameters.\n" to find respawnplayer, choose the one with string "-force".
+            // there's a function with 0 passed, this is CSDKPlayer::State_Transition.
             "CSDKPlayer::State_Transition"
             {
                 "library"   "server"
-                "windows"   "\x55\x8B\xEC\x56\x8B\xF1\x8B\x8E\xE4\x12\x00\x00\x85\xC9\x74"
+
+                "windows"   "\x55\x8B\xEC\x56\x8B\xF1\x8B\x8E\x2A\x2A\x2A\x2A\x85\xC9\x74\x2A\x8B\x41"
+                /* 55 8B EC 56 8B F1 8B 8E ? ? ? ? 85 C9 74 ? 8B 41 */
+
+                "windows64" "\x48\x89\x5C\x24\x2A\x57\x48\x83\xEC\x2A\x48\x8B\x81\x2A\x2A\x2A\x2A\x8B\xFA"
+                /* 48 89 5C 24 ? 57 48 83 EC ? 48 8B 81 ? ? ? ? 8B FA */
+
                 "linux"     "@_ZN10CSDKPlayer16State_TransitionE14SDKPlayerState"
+                "linux64"   "@_ZN10CSDKPlayer16State_TransitionE14SDKPlayerState"
             }
         }
 
