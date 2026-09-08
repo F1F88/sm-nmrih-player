@@ -397,7 +397,7 @@ methodmap NMR_Player {
     }
 
     property int m_iHealth {
-        public get()            { GetClientHealth(this.Index); }
+        public get()            { return GetClientHealth(this.Index); }
         public set(int value)   { SetEntityHealth(this.Index, value); }
     }
 
@@ -1704,7 +1704,7 @@ methodmap NMR_Player {
         return GetEntProp(this.Index, Prop_Send, "m_nOldButtons");
     }
 
-    public int SetOldButtons(int buttons) {
+    public void SetOldButtons(int buttons) {
         __CheckClientValid(this.Index);
         GetEntProp(this.Index, Prop_Send, "m_nOldButtons", buttons);
     }
