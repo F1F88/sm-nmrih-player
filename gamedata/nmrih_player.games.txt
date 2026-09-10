@@ -277,10 +277,18 @@
                 "linux64"   "@_ZN13CNMRiH_Player8BleedOutEv.part.0"
             }
 
-            // win32/64 inlined.
+            // windows sig:
+            // search for string "StopBleedingOut" to direct to GetScriptDesc.
+            // It's the second function down the the function with (0, 0) passed.
             "CNMRiH_Player::StopBleedingOut"
             {
                 "library"   "server"
+                "windows"   "\x56\x57\x8B\xF9\x80\xBF\x2A\x2A\x2A\x2A\x2A\x8D\xB7\x2A\x2A\x2A\x2A\x74\x2A\x56\xE8\x2A\x2A\x2A\x2A\xC6\x06\x2A\xD9\xEE"
+                /* 56 57 8B F9 80 BF ? ? ? ? ? 8D B7 ? ? ? ? 74 ? 56 E8 ? ? ? ? C6 06 ? D9 EE */
+
+                "windows64" "\x48\x89\x5C\x24\x2A\x57\x48\x83\xEC\x2A\x80\xB9\x2A\x2A\x2A\x2A\x2A\x48\x8B\xF9\x74\x2A\x48\x8D\x91\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\xC6\x87"
+                /* 48 89 5C 24 ? 57 48 83 EC ? 80 B9 ? ? ? ? ? 48 8B F9 74 ? 48 8D 91 ? ? ? ? E8 ? ? ? ? C6 87 */
+
                 "linux"     "@_ZN13CNMRiH_Player15StopBleedingOutEv"
                 "linux64"   "@_ZN13CNMRiH_Player15StopBleedingOutEv"
             }
