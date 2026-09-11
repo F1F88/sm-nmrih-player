@@ -69,6 +69,7 @@ void LoadFunctionsNatives()
     CreateNative("NMR_Player.GetMaxCarriedWeight", Native_GetMaxCarriedWeight);
     // TODO CreateNative("NMR_Player.GetThrowVector", Native_GetThrowVector);
     CreateNative("NMR_Player.HasFlashlight", Native_HasFlashlight);
+    CreateNative("NMR_Player.HasWalkieTalkie", Native_HasWalkieTalkie);
     CreateNative("NMR_Player.StopBleedingOut", Native_StopBleedingOut);
 
     CreateNative("NMR_Player.IsMoving", Native_IsMoving);
@@ -356,6 +357,18 @@ static any Native_HasFlashlight(Handle plugin, int numParams)
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     return SDKCall(hCallers[HDL_HasFlashlight], player);
+}
+
+static any Native_HasWalkieTalkie(Handle plugin, int numParams)
+{
+    int player = GetNativeCell(1);
+    if (!IsValidClient(player))
+    {
+        log.LogStackTraceEx(LogLevel_Error, "invalid player %d", player);
+        ThrowNativeError(SP_ERROR_NATIVE, "invalid player %d", player);
+    }
+
+    return SDKCall(hCallers[HDL_HasWalkieTalkie], player);
 }
 
 static void Native_StopBleedingOut(Handle plugin, int numParams)
