@@ -180,7 +180,8 @@ void LoadFunctionsCalls(GameData gamedata)
     if ((hCallers[HDL_TakePillsInner] = EndPrepSDKCall()) == null)
         SetFailState("Failed to load offset CInfectableCharacter::TakePills");
 
-    if (OS == 1)
+    // only linux
+    if (OS != 0 && OS != 1)
     {
         StartPrepSDKCall(SDKCall_Player);
         PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::TakePillsEffects");
@@ -194,11 +195,21 @@ void LoadFunctionsCalls(GameData gamedata)
     if ((hCallers[HDL_ApplyBandage] = EndPrepSDKCall()) == null)
         SetFailState("Failed to load signature CNMRiH_Player::ApplyBandage");
 
-    StartPrepSDKCall(SDKCall_Static);
-    PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::ApplyFirstAidKit");
-    PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
-    if ((hCallers[HDL_ApplyFirstAidKit] = EndPrepSDKCall()) == null)
-        SetFailState("Failed to load signature CNMRiH_Player::ApplyFirstAidKit");
+    // win32
+    if (OS == 0)
+    {
+        // ApplyFirstAidKit just equal to ApplyBandage, except the HP Regain.
+        // Since we were unable to retrieve the sig on win32 platform, use this trick.
+        hCallers[HDL_ApplyFirstAidKit] = hCallers[HDL_ApplyBandage];
+    }
+    else
+    {
+        StartPrepSDKCall(SDKCall_Static);
+        PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::ApplyFirstAidKit");
+        PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
+        if ((hCallers[HDL_ApplyFirstAidKit] = EndPrepSDKCall()) == null)
+            SetFailState("Failed to load signature CNMRiH_Player::ApplyFirstAidKit");
+    }
 
     StartPrepSDKCall(SDKCall_Static);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::ApplyVaccine");
@@ -236,7 +247,34 @@ static void Native_ApplyFirstAidKit(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    SDKCall(hCallers[HDL_ApplyFirstAidKit], player);
+    // win32
+    if (OS == 0)
+    {
+        // ApplyBandage needs bleedingout to be called.
+        if (!GetEntProp(player, Prop_Send, "_bleedingOut"))
+            SetEntProp(player, Prop_Send, "_bleedingOut", 1);
+
+        SDKCall(hCallers[HDL_ApplyFirstAidKit], player);    // calls ApplyBandage. set _bleedingOut to 0.
+
+        static ConVar sv_bandage_heal_amt = null;
+        static ConVar sv_first_aid_heal_amt = null;
+
+        if (!sv_first_aid_heal_amt || !sv_bandage_heal_amt)
+        {
+            sv_bandage_heal_amt = FindConVar("sv_bandage_heal_amt");
+            sv_first_aid_heal_amt = FindConVar("sv_first_aid_heal_amt");
+        }
+
+        int bandageHP = sv_bandage_heal_amt.IntValue;
+        int firstaidkitHP = sv_first_aid_heal_amt.IntValue;
+
+        int HPAdd = firstaidkitHP - bandageHP;
+        SetEntityHealth(player, GetEntProp(player, Prop_Data, "m_iHealth") + HPAdd);
+    }
+    else
+    {
+        SDKCall(hCallers[HDL_ApplyFirstAidKit], player);
+    }
 }
 
 static void Native_ApplyVaccine(Handle plugin, int numParams)
@@ -460,15 +498,15 @@ static void Native_TakePillsEffects(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    // Linux
-    if (OS == 1)
-    {
-        SDKCall(hCallers[HDL_TakePillsEffects], player);
-    }
     // Windows
-    else if (OS == 0)
+    if (OS == 0 || OS == 1)
     {
         TakePillsEffects(player);
+    }
+    // Linux
+    else
+    {
+        SDKCall(hCallers[HDL_TakePillsEffects], player);
     }
 }
 

@@ -9,8 +9,9 @@
             "OS"
             {
                 "windows"   "0"
-                "linux"     "1"
-                "mac"       "2"
+                "windows64" "1"
+                "linux"     "2"
+                "linux64"   "3"
             }
 
             "CBaseEntity::IsMoving"
@@ -231,7 +232,7 @@
                 "library"   "server"
 
                 // on win32 this function is inlined into CItem_FirstAidKit::ApplyMedicalItem_Internal.
-                //"windows"   "\x55\x8B\xEC\x51\xA1\x2A\x2A\x2A\x2A\x56\x8B\xF1\x57\x8B\x78\x30"
+                //"windows"   ""
 
                 "windows64" "\x48\x89\x5C\x24\x2A\x57\x48\x83\xEC\x2A\x48\x8B\x05\x2A\x2A\x2A\x2A\x48\x8B\xD9\x8B\x78"
                 /* 48 89 5C 24 ? 57 48 83 EC ? 48 8B 05 ? ? ? ? 48 8B D9 8B 78 */
