@@ -195,14 +195,8 @@ void LoadFunctionsCalls(GameData gamedata)
     if ((hCallers[HDL_ApplyBandage] = EndPrepSDKCall()) == null)
         SetFailState("Failed to load signature CNMRiH_Player::ApplyBandage");
 
-    // win32
-    if (OS == 0)
-    {
-        // ApplyFirstAidKit just equal to ApplyBandage, except the HP Regain.
-        // Since we were unable to retrieve the sig on win32 platform, use this trick.
-        hCallers[HDL_ApplyFirstAidKit] = hCallers[HDL_ApplyBandage];
-    }
-    else
+    // disabled in win32.
+    if (OS != 0)
     {
         StartPrepSDKCall(SDKCall_Static);
         PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::ApplyFirstAidKit");
@@ -247,34 +241,7 @@ static void Native_ApplyFirstAidKit(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    // win32
-    if (OS == 0)
-    {
-        // ApplyBandage needs bleedingout to be called.
-        if (!GetEntProp(player, Prop_Send, "_bleedingOut"))
-            SetEntProp(player, Prop_Send, "_bleedingOut", 1);
-
-        SDKCall(hCallers[HDL_ApplyFirstAidKit], player);    // calls ApplyBandage. set _bleedingOut to 0.
-
-        static ConVar sv_bandage_heal_amt = null;
-        static ConVar sv_first_aid_heal_amt = null;
-
-        if (!sv_first_aid_heal_amt || !sv_bandage_heal_amt)
-        {
-            sv_bandage_heal_amt = FindConVar("sv_bandage_heal_amt");
-            sv_first_aid_heal_amt = FindConVar("sv_first_aid_heal_amt");
-        }
-
-        int bandageHP = sv_bandage_heal_amt.IntValue;
-        int firstaidkitHP = sv_first_aid_heal_amt.IntValue;
-
-        int HPAdd = firstaidkitHP - bandageHP;
-        SetEntityHealth(player, GetEntProp(player, Prop_Data, "m_iHealth") + HPAdd);
-    }
-    else
-    {
-        SDKCall(hCallers[HDL_ApplyFirstAidKit], player);
-    }
+    SDKCall(hCallers[HDL_ApplyFirstAidKit], player);
 }
 
 static void Native_ApplyVaccine(Handle plugin, int numParams)
@@ -581,15 +548,15 @@ static void Native_ForceSpawn(Handle plugin, int numParams)
     TeleportEntity(player.Index, pos, ang, vel);
 }
 
-static stock void TakePillsEffects(int player)
+static void TakePillsEffects(int player)
 {
     UTIL_ScreenFade(player, 240, 240, 255, 255, 1.0, 0.3, 17);  // flags == 0x11, 17
     UTIL_Cure(player, GetCureLength(player), GetEntPropFloat(player, Prop_Send, "m_flInfectionDeathTime"));
 }
 
-static stock void UTIL_Cure(int player, float cureLength, float infectionLength)
+static void UTIL_Cure(int player, float cureLength, float infectionLength)
 {
-    if (player <= 0 || player > MaxClients || !IsClientInGame(player))
+    if (!IsValidClient(player))
         return;
 
     BfWrite hBuffer = view_as<BfWrite>(StartMessageOne("Cure", player));
@@ -599,9 +566,9 @@ static stock void UTIL_Cure(int player, float cureLength, float infectionLength)
 }
 
 #define SCREENFADE_FRACBITS 9
-static stock void UTIL_ScreenFade(int player, int r, int g, int b, int a, float fadeTime, float fadeHold, int flags)
+static void UTIL_ScreenFade(int player, int r, int g, int b, int a, float fadeTime, float fadeHold, int flags)
 {
-    if (player <= 0 || player > MaxClients || !IsClientInGame(player))
+    if (!IsValidClient(player))
         return;
 
     BfWrite hBuffer = view_as<BfWrite>(StartMessageOne("Fade", player));
@@ -615,7 +582,7 @@ static stock void UTIL_ScreenFade(int player, int r, int g, int b, int a, float 
     EndMessage();
 }
 
-static stock int FixedUnsigned16( float value, float scale )
+static int FixedUnsigned16( float value, float scale )
 {
     float scaled = value * scale;
 
@@ -628,7 +595,7 @@ static stock int FixedUnsigned16( float value, float scale )
     return RoundToZero(scaled);
 }
 
-static stock float GetCureLength(int player)
+static float GetCureLength(int player)
 {
     static int s_iOff_m_flInfectionDeathTime = -1;
     if (s_iOff_m_flInfectionDeathTime == -1)
