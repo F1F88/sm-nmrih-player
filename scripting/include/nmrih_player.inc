@@ -146,7 +146,7 @@ forward  void  OnPlayerApplyBandagePost(int client);
 
 /**
  * Call when a client applies the effect of using a first aid kit.
- * 
+ *
  * @note            Unable to use in win32-v1150.
  *
  * @param client    client index.
@@ -854,7 +854,7 @@ methodmap NMR_Player {
 
     /**
      * Applies the effect of using a first aid kit.
-     * 
+     *
      * @note        Unable to use in win32-v1150.
      */
     public native void ApplyFirstAidKit();
@@ -1709,7 +1709,7 @@ methodmap NMR_Player {
 
     public void SetOldButtons(int buttons) {
         __CheckClientValid(this.Index);
-        GetEntProp(this.Index, Prop_Send, "m_nOldButtons", buttons);
+        SetEntProp(this.Index, Prop_Send, "m_nOldButtons", buttons);
     }
 
     /**
