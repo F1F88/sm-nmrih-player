@@ -44,14 +44,9 @@ enum OperatingSystem
 }
 
 
-OS      os;
-int     cvar_InvMaxcarry;
-int     cvar_InvAmmoweight;
-int     cvar_SvStamJumpcost;
-float   cvar_SvBleedoutJumpStamMult;
-
 OperatingSystem OS;
 Logger          log;
+
 
 #include "nmrih_player/detour.sp"
 #include "nmrih_player/functions.sp"
@@ -83,7 +78,7 @@ public void OnPluginStart()
     delete gamedata;
 
     /* ------- Load ConVar ------- */
-    LoadConVars();
+    ValidConVars();
     CreateConVar("sm_lib_nmrih_player_version", PLUGIN_VERSION, PLUGIN_DESCRIPTION, FCVAR_SPONLY | FCVAR_DONTRECORD);
 
     /* ------- Register Libray ------- */
@@ -108,60 +103,21 @@ public void OnAllPluginsLoaded()
 }
 
 
-static void LoadConVars()
+/* 不必要，但能更早的发现问题 */
+static void ValidConVars()
 {
-    if (!LoadIntConVar("inv_maxcarry", OnCvarInvMaxcarryChange, cvar_InvMaxcarry))
-        SetFailState("Failed to load convar inv_maxcarry");
+    char convars[][] = {
+        "inv_maxcarry",
+        "inv_ammoweight",
+        "sv_stam_jumpcost",
+        "sv_bleedout_jump_stam_mult"
+    };
 
-    if (!LoadIntConVar("inv_ammoweight", OnCvarInvAmmoweightChange, cvar_InvAmmoweight))
-        SetFailState("Failed to load convar inv_maxcarry");
-
-    if (!LoadIntConVar("sv_stam_jumpcost", OnCvarSvStamJumpcostChange, cvar_SvStamJumpcost))
-        SetFailState("Failed to load convar sv_stam_jumpcost");
-
-    if (!LoadFloatConVar("sv_bleedout_jump_stam_mult", OnCvarSvBleedoutJumpStamMult, cvar_SvBleedoutJumpStamMult))
-        SetFailState("Failed to load convar sv_bleedout_jump_stam_mult");
-}
-
-static void OnCvarInvMaxcarryChange(ConVar convar, const char[] oldValue, const char[] newValue)
-{
-    cvar_InvMaxcarry = convar.IntValue;
-}
-
-static void OnCvarInvAmmoweightChange(ConVar convar, const char[] oldValue, const char[] newValue)
-{
-    cvar_InvAmmoweight = convar.IntValue;
-}
-
-static void OnCvarSvStamJumpcostChange(ConVar convar, const char[] oldValue, const char[] newValue)
-{
-    cvar_SvStamJumpcost = convar.IntValue;
-}
-
-static void OnCvarSvBleedoutJumpStamMult(ConVar convar, const char[] oldValue, const char[] newValue)
-{
-    cvar_SvBleedoutJumpStamMult = convar.FloatValue;
-}
-
-
-stock bool LoadIntConVar(const char[] name, ConVarChanged callback, int &value)
-{
-    ConVar convar = FindConVar(name);
-    if (convar == null)
-        return false;
-
-    convar.AddChangeHook(callback);
-    value = convar.IntValue;
-    return true;
-}
-
-stock bool LoadFloatConVar(const char[] name, ConVarChanged callback, float &value)
-{
-    ConVar convar = FindConVar(name);
-    if (convar == null)
-        return false;
-
-    convar.AddChangeHook(callback);
-    value = convar.FloatValue;
-    return true;
+    for (int i = 0; i < sizeof(convars); ++i)
+    {
+        if (FindConVar(convars[i]) == null)
+        {
+            SetFailState("Failed to load convar %s", convars[i]);
+        }
+    }
 }

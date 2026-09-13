@@ -279,23 +279,28 @@ static int Native_GetAmmoCarryWeight(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
+    static ConVar convar = null;
+    if (!convar)
+        convar = FindConVar("inv_ammoweight");
+
     NMR_Player temp = NMR_Player(player);
 
-    int weigth = temp.GetAmmoCarryCount(1) * cvar_InvAmmoweight;// 9MM
-    weigth += temp.GetAmmoCarryCount(2) * cvar_InvAmmoweight;   // 45ACP
-    weigth += temp.GetAmmoCarryCount(3) * cvar_InvAmmoweight;   // 357
-    weigth += temp.GetAmmoCarryCount(4) * cvar_InvAmmoweight;   // 12Gauge
-    weigth += temp.GetAmmoCarryCount(5) * cvar_InvAmmoweight;   // 22LR
-    weigth += temp.GetAmmoCarryCount(6) * cvar_InvAmmoweight;   // 308
-    weigth += temp.GetAmmoCarryCount(7) * cvar_InvAmmoweight;   // 556
-    weigth += temp.GetAmmoCarryCount(8) * cvar_InvAmmoweight;   // 762
-    // weigth += temp.GetAmmoCarryCount(9) * cvar_InvAmmoweight;   // Grenade
-    // weigth += temp.GetAmmoCarryCount(10) * cvar_InvAmmoweight;  // Molotov
-    // weigth += temp.GetAmmoCarryCount(11) * cvar_InvAmmoweight;  // TNT
-    weigth += temp.GetAmmoCarryCount(12) * cvar_InvAmmoweight;  // Arrow
-    weigth += temp.GetAmmoCarryCount(13) * cvar_InvAmmoweight;  // Fuel
-    weigth += temp.GetAmmoCarryCount(14) * cvar_InvAmmoweight;  // Boards
-    weigth += temp.GetAmmoCarryCount(15) * cvar_InvAmmoweight;  // Flares
+    int ammoWeigth = convar.IntValue;
+    int weigth = temp.GetAmmoCarryCount(1) * ammoWeigth;// 9MM
+    weigth += temp.GetAmmoCarryCount(2) * ammoWeigth;   // 45ACP
+    weigth += temp.GetAmmoCarryCount(3) * ammoWeigth;   // 357
+    weigth += temp.GetAmmoCarryCount(4) * ammoWeigth;   // 12Gauge
+    weigth += temp.GetAmmoCarryCount(5) * ammoWeigth;   // 22LR
+    weigth += temp.GetAmmoCarryCount(6) * ammoWeigth;   // 308
+    weigth += temp.GetAmmoCarryCount(7) * ammoWeigth;   // 556
+    weigth += temp.GetAmmoCarryCount(8) * ammoWeigth;   // 762
+    // weigth += temp.GetAmmoCarryCount(9) * ammoWeigth;  // Grenade
+    // weigth += temp.GetAmmoCarryCount(10) *ammoWeigth;  // Molotov
+    // weigth += temp.GetAmmoCarryCount(11) *ammoWeigth;  // TNT
+    weigth += temp.GetAmmoCarryCount(12) * ammoWeigth;  // Arrow
+    weigth += temp.GetAmmoCarryCount(13) * ammoWeigth;  // Fuel
+    weigth += temp.GetAmmoCarryCount(14) * ammoWeigth;  // Boards
+    weigth += temp.GetAmmoCarryCount(15) * ammoWeigth;  // Flares
 
     return weigth;
 }
@@ -319,9 +324,17 @@ static any Native_GetJumpStaminaCost(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
+    static ConVar svStamJumpcost = null;
+    if (!svStamJumpcost)
+        svStamJumpcost = FindConVar("sv_stam_jumpcost");
+
+    static ConVar svBleedoutJumpStamMult = null;
+    if (!svBleedoutJumpStamMult)
+        svBleedoutJumpStamMult = FindConVar("sv_bleedout_jump_stam_mult");
+
     if (!player.IsBleedingOut())
-        return cvar_SvStamJumpcost;
-    return cvar_SvStamJumpcost * cvar_SvBleedoutJumpStamMult;
+        return svStamJumpcost.IntValue;
+    return svStamJumpcost.IntValue * svBleedoutJumpStamMult.FloatValue;
 }
 
 static int Native_GetLastObserverMode(Handle plugin, int numParams)
@@ -339,7 +352,10 @@ static int Native_GetMaxCarriedWeight(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    return cvar_InvMaxcarry;
+    static ConVar convar = null;
+    if (!convar)
+        convar = FindConVar("inv_maxcarry");
+    return convar.IntValue;
 }
 
 // TODO
