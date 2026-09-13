@@ -195,8 +195,8 @@
             {
                 "library"   "server"
 
-                "windows"   "\x55\x8B\xEC\x56\x8B\xF1\x80\xBE\x2A\x2A\x2A\x2A\x2A\x57\x8D\xBE\x2A\x2A\x2A\x2A\x74\x2A\x57"
-                /* 55 8B EC 56 8B F1 80 BE ? ? ? ? ? 57 8D BE ? ? ? ? 74 ? 57 */
+                "windows"   "\x55\x8B\xEC\x56\x8B\xF1\x80\xBE\x8E\x14\x00\x00\x01"
+                /* 55 8B EC 56 8B F1 80 BE 8E 14 00 00 01 */
 
                 "windows64" "\x48\x89\x5C\x24\x2A\x48\x89\x74\x24\x2A\x57\x48\x83\xEC\x2A\x80\xB9\x2A\x2A\x2A\x2A\x2A\x48\x8B\xFA"
                 /* 48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 80 B9 ? ? ? ? ? 48 8B FA */
@@ -218,6 +218,7 @@
                 /* 56 8B F1 80 BE ? ? ? ? ? 57 8D BE ? ? ? ? 74 ? A1 */
 
                 "windows64" "\\x48\x89\x5C\x24\x2A\x57\x48\x83\xEC\x2A\x80\xB9\x2A\x2A\x2A\x2A\x2A\x48\x8B\xD9\x74\x2A\x48\x8B\x05"
+                "windows64" "\x48\x89\x5C\x24\x2A\x57\x48\x83\xEC\x2A\x80\xB9\x2A\x2A\x2A\x2A\x2A\x48\x8B\xD9\x74\x2A\x48\x8B\x05"
                 /* 48 89 5C 24 ? 57 48 83 EC ? 80 B9 ? ? ? ? ? 48 8B D9 74 ? 48 8B 05 */
 
                 "linux"     "@_ZN13CNMRiH_Player12ApplyBandageEv"
