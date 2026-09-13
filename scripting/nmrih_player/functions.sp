@@ -182,7 +182,7 @@ void LoadFunctionsCalls(GameData gamedata)
         SetFailState("Failed to load offset CInfectableCharacter::TakePills");
 
     // only linux
-    if (OS != 0 && OS != 1)
+    if (OS == OS_Linux32 || OS == OS_Linux64)
     {
         StartPrepSDKCall(SDKCall_Player);
         PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::TakePillsEffects");
@@ -197,7 +197,7 @@ void LoadFunctionsCalls(GameData gamedata)
         SetFailState("Failed to load signature CNMRiH_Player::ApplyBandage");
 
     // disabled in win32.
-    if (OS != 0)
+    if (OS != OS_Win32)
     {
         StartPrepSDKCall(SDKCall_Static);
         PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::ApplyFirstAidKit");
@@ -479,7 +479,7 @@ static void Native_TakePillsEffects(Handle plugin, int numParams)
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
     // Windows
-    if (OS == 0 || OS == 1)
+    if (OS == OS_Win32 || OS == OS_Win64)
     {
         TakePillsEffects(player);
     }

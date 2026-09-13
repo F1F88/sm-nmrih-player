@@ -10,8 +10,10 @@
             {
                 "windows"   "0"
                 "windows64" "1"
-                "linux"     "2"
-                "linux64"   "3"
+                "linux"     "11"
+                "linux64"   "12"
+                "mac"       "20"
+                "mac64"     "21"
             }
 
             "CBaseEntity::IsMoving"
@@ -147,7 +149,7 @@
             }
 
             // windows sig:
-            // search string is "pills_taken". 
+            // search string is "pills_taken".
             // there's multiple result matches, choose the one that contains only one single event string "pills_taken".
             "CNMRiH_Player::TakePills"
             {
@@ -240,7 +242,7 @@
                 "linux"     "@_ZN13CNMRiH_Player16ApplyFirstAidKitEv"
                 "linux64"   "@_ZN13CNMRiH_Player16ApplyFirstAidKitEv"
             }
-            
+
             // windows sig:
             // search string is "vaccine_taken". (the one with only one single event string "vaccine_taken" in it)
             "CNMRiH_Player::ApplyVaccine"

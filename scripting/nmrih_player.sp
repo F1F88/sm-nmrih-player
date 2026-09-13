@@ -1,3 +1,6 @@
+#pragma newdecls required
+#pragma semicolon 1
+
 #include <sourcemod>
 #include <dhooks>
 #include <sdkhooks>
@@ -10,9 +13,6 @@
 #undef REQUIRE_PLUGIN
 #include <nmrih_gamerules>
 
-#pragma newdecls required
-#pragma semicolon 1
-
 #define PLUGIN_NAME        "Library NMRiH Player"
 #define PLUGIN_DESCRIPTION "Library NMRiH Player"
 #define PLUGIN_VERSION     "1.16.2"
@@ -23,7 +23,7 @@ public Plugin myinfo =
     author      = "F1F88",
     description = PLUGIN_DESCRIPTION,
     version     = PLUGIN_VERSION,
-    url         = "https://github.com/F1F88/"
+    url         = "https://github.com/F1F88/sm-nmrih-player"
 };
 
 
@@ -32,14 +32,26 @@ public Plugin myinfo =
 #define LIB_PLAYER_LOGGER_MAX_FILE_SIZE     1024 * 1024 * 8         // MB
 #define LIB_PLAYER_LOGGER_MAX_FILES         2
 
+enum OperatingSystem
+{
+    OS_Unknown  = -1,
+    OS_Win32    = 0,
+    OS_Win64    = 1,
+    OS_Linux32  = 10,
+    OS_Linux64  = 11,
+    OS_Mac32    = 20,
+    OS_Mac64    = 21
+}
 
-int     OS;
+
+OS      os;
 int     cvar_InvMaxcarry;
 int     cvar_InvAmmoweight;
 int     cvar_SvStamJumpcost;
 float   cvar_SvBleedoutJumpStamMult;
 
-Logger  log;
+OperatingSystem OS;
+Logger          log;
 
 #include "nmrih_player/detour.sp"
 #include "nmrih_player/functions.sp"
@@ -63,7 +75,7 @@ public void OnPluginStart()
     if (!gamedata)
         SetFailState("Couldn't find nmrih_player.games gamedata");
 
-    if ((OS = gamedata.GetOffset("OS")) == -1)
+    if ((OS = view_as<OperatingSystem>(gamedata.GetOffset("OS"))) == OS_Unknown)
         SetFailState("Failed to read gamedata offset of \"OS\"");
 
     LoadFunctionsCalls(gamedata);
