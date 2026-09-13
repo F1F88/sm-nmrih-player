@@ -146,6 +146,8 @@ forward  void  OnPlayerApplyBandagePost(int client);
 
 /**
  * Call when a client applies the effect of using a first aid kit.
+ * 
+ * @note            Unable to use in win32-v1150.
  *
  * @param client    client index.
  * @return          Return Plugin_Continue Continue with the original action, otherwise skip real function.
@@ -397,7 +399,7 @@ methodmap NMR_Player {
     }
 
     property int m_iHealth {
-        public get()            { GetClientHealth(this.Index); }
+        public get()            { return GetClientHealth(this.Index); }
         public set(int value)   { SetEntityHealth(this.Index, value); }
     }
 
@@ -852,6 +854,8 @@ methodmap NMR_Player {
 
     /**
      * Applies the effect of using a first aid kit.
+     * 
+     * @note        Unable to use in win32-v1150.
      */
     public native void ApplyFirstAidKit();
 
@@ -1564,7 +1568,6 @@ methodmap NMR_Player {
      * 使用药丸的效果，类似于闪光弹造成的白屏，但时间很短。
      *
      * @note 未感染时调用也有效
-     * @note 暂不支持 windows
      */
     public native void TakePillsEffects();
 
@@ -1704,7 +1707,7 @@ methodmap NMR_Player {
         return GetEntProp(this.Index, Prop_Send, "m_nOldButtons");
     }
 
-    public int SetOldButtons(int buttons) {
+    public void SetOldButtons(int buttons) {
         __CheckClientValid(this.Index);
         GetEntProp(this.Index, Prop_Send, "m_nOldButtons", buttons);
     }

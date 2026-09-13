@@ -180,10 +180,14 @@ void LoadFunctionsCalls(GameData gamedata)
     if ((hCallers[HDL_TakePillsInner] = EndPrepSDKCall()) == null)
         SetFailState("Failed to load offset CInfectableCharacter::TakePills");
 
-    StartPrepSDKCall(SDKCall_Player);
-    PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::TakePillsEffects");
-    if ((hCallers[HDL_TakePillsEffects] = EndPrepSDKCall()) == null)
-        SetFailState("Failed to load offset CNMRiH_Player::TakePillsEffects");
+    // only linux
+    if (OS != 0 && OS != 1)
+    {
+        StartPrepSDKCall(SDKCall_Player);
+        PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::TakePillsEffects");
+        if ((hCallers[HDL_TakePillsEffects] = EndPrepSDKCall()) == null)
+            SetFailState("Failed to load offset CNMRiH_Player::TakePillsEffects");
+    }
 
     StartPrepSDKCall(SDKCall_Static);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::ApplyBandage");
@@ -191,11 +195,15 @@ void LoadFunctionsCalls(GameData gamedata)
     if ((hCallers[HDL_ApplyBandage] = EndPrepSDKCall()) == null)
         SetFailState("Failed to load signature CNMRiH_Player::ApplyBandage");
 
-    StartPrepSDKCall(SDKCall_Static);
-    PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::ApplyFirstAidKit");
-    PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
-    if ((hCallers[HDL_ApplyFirstAidKit] = EndPrepSDKCall()) == null)
-        SetFailState("Failed to load signature CNMRiH_Player::ApplyFirstAidKit");
+    // disabled in win32.
+    if (OS != 0)
+    {
+        StartPrepSDKCall(SDKCall_Static);
+        PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::ApplyFirstAidKit");
+        PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
+        if ((hCallers[HDL_ApplyFirstAidKit] = EndPrepSDKCall()) == null)
+            SetFailState("Failed to load signature CNMRiH_Player::ApplyFirstAidKit");
+    }
 
     StartPrepSDKCall(SDKCall_Static);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::ApplyVaccine");
@@ -457,7 +465,16 @@ static void Native_TakePillsEffects(Handle plugin, int numParams)
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
 
-    SDKCall(hCallers[HDL_TakePillsEffects], player);
+    // Windows
+    if (OS == 0 || OS == 1)
+    {
+        TakePillsEffects(player);
+    }
+    // Linux
+    else
+    {
+        SDKCall(hCallers[HDL_TakePillsEffects], player);
+    }
 }
 
 static any Native_IsValidObserverTarget(Handle plugin, int numParams)
@@ -529,4 +546,62 @@ static void Native_ForceSpawn(Handle plugin, int numParams)
     player.State_Transition(0); // TODO STATE_ACTIVE
 
     TeleportEntity(player.Index, pos, ang, vel);
+}
+
+static void TakePillsEffects(int player)
+{
+    UTIL_ScreenFade(player, 240, 240, 255, 255, 1.0, 0.3, 17);  // flags == 0x11, 17
+    UTIL_Cure(player, GetCureLength(player), GetEntPropFloat(player, Prop_Send, "m_flInfectionDeathTime"));
+}
+
+static void UTIL_Cure(int player, float cureLength, float infectionLength)
+{
+    if (!IsValidClient(player))
+        return;
+
+    BfWrite hBuffer = view_as<BfWrite>(StartMessageOne("Cure", player));
+    hBuffer.WriteFloat(cureLength);
+    hBuffer.WriteFloat(infectionLength);
+    EndMessage();
+}
+
+#define SCREENFADE_FRACBITS 9
+static void UTIL_ScreenFade(int player, int r, int g, int b, int a, float fadeTime, float fadeHold, int flags)
+{
+    if (!IsValidClient(player))
+        return;
+
+    BfWrite hBuffer = view_as<BfWrite>(StartMessageOne("Fade", player));
+    hBuffer.WriteShort(FixedUnsigned16(fadeTime, float(1 << SCREENFADE_FRACBITS)));     // 7.9 fixed
+    hBuffer.WriteShort(FixedUnsigned16(fadeHold, float(1 << SCREENFADE_FRACBITS)));
+    hBuffer.WriteShort(flags);
+    hBuffer.WriteByte(r);
+    hBuffer.WriteByte(g);
+    hBuffer.WriteByte(b);
+    hBuffer.WriteByte(a);
+    EndMessage();
+}
+
+static int FixedUnsigned16( float value, float scale )
+{
+    float scaled = value * scale;
+
+    if (scaled <= 0.0)
+        return 0;
+
+    if (scaled >= 65535.0)
+        return 0xFFFF;
+
+    return RoundToZero(scaled);
+}
+
+static float GetCureLength(int player)
+{
+    static int s_iOff_m_flInfectionDeathTime = -1;
+    if (s_iOff_m_flInfectionDeathTime == -1)
+    {
+        s_iOff_m_flInfectionDeathTime = FindSendPropInfo("CNMRiH_Player", "m_flInfectionDeathTime");    // 2228
+    }
+
+    return GetEntDataFloat(player, s_iOff_m_flInfectionDeathTime + 4);  // 2232
 }

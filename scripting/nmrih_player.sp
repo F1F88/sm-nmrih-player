@@ -33,7 +33,7 @@ public Plugin myinfo =
 #define LIB_PLAYER_LOGGER_MAX_FILES         2
 
 
-// int OS;
+int     OS;
 int     cvar_InvMaxcarry;
 int     cvar_InvAmmoweight;
 int     cvar_SvStamJumpcost;
@@ -63,8 +63,8 @@ public void OnPluginStart()
     if (!gamedata)
         SetFailState("Couldn't find nmrih_player.games gamedata");
 
-    // if ((OS = gamedata.GetOffset("OS")) == -1)
-    //     SetFailState("Failed to read gamedata offset of \"OS\"");
+    if ((OS = gamedata.GetOffset("OS")) == -1)
+        SetFailState("Failed to read gamedata offset of \"OS\"");
 
     LoadFunctionsCalls(gamedata);
     LoadDetourFunctions(gamedata);
