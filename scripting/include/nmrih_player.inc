@@ -96,11 +96,11 @@ forward  void  OnPlayerCureInfectionPost(int client);
  * Call when a character becomes infected.
  *
  * @note 如果想让某个玩家免疫感染, 可以将 offset _vaccinated 的值设为 1
- * @note 已注射疫苗也会触发
+ * @note 即使已注射疫苗，使用指令 infect 时依然会触发
  * @note 此 Detour 的是 CNMRiH_Player::BecomeInfected, 如需检测由未感染变为感染
- *       要回调内判断 GetEntData(client, 285) & 128 != 0 && _vaccinated == 0
+ *       需要在 callback 内判断 GetEntData(client, 285) & 128 != 0 && _vaccinated == 0
  *       或 Detour 真正的工作函数 ( CInfectableCharacter::BecomeInfected
- *       更推荐的做法是使用 User message - BecameInfected
+ *       更推荐的做法是监听 User message - BecameInfected
  *       HookUserMessage(GetUserMessageId("BecameInfected"), UserMsg_BecameInfected)
  *
  * @param client    client index.
@@ -112,7 +112,9 @@ forward  void  OnPlayerBecomeInfectedPost(int client);
 /**
  * Call when a client take pills.
  *
- * @note 检测 GetEntData(client, 1340) != 0
+ * @note 仅当 GetEntData(client, offset) != 0 时执行内部逻辑
+ *       Win32 offset = 1348
+ *       Linux64 offset = 1352
  *
  * @param client    client index.
  * @return          Return Plugin_Continue Continue with the original action, otherwise skip real function.
@@ -124,7 +126,7 @@ forward  void  OnPlayerTakePillsPost(int client);
  * Call when a client is caught by a zombie.
  *
  * @note If you need to use the OnGrabbedEnd, you can achieve it by using event "grab_end"
- * @note IsGrabbed == 0
+ * @note 仅当 client IsGrabbed == 0 时执行内部逻辑
  *
  * @param client    client index.
  * @param causer    causer index.
@@ -136,7 +138,7 @@ forward  void  OnPlayerOnGrabbedBeginPost(int client, int causer);
 /**
  * Call when a client applies the effect of using a bandage.
  *
- * @note _bleedingOut == 1
+ * @note 仅当 client _bleedingOut != 0 时执行内部逻辑
  *
  * @param client    client index.
  * @return          Return Plugin_Continue Continue with the original action, otherwise skip real function.
@@ -147,7 +149,7 @@ forward  void  OnPlayerApplyBandagePost(int client);
 /**
  * Call when a client applies the effect of using a first aid kit.
  *
- * @note            Unable to use in win32-v1150.
+ * @note Unable to use in Win32.
  *
  * @param client    client index.
  * @return          Return Plugin_Continue Continue with the original action, otherwise skip real function.
@@ -159,7 +161,7 @@ forward  void  OnPlayerApplyFirstAidKitPost(int client);
 /**
  * Call when a client applies the effect of gene therapy vaccine, cures and immunizes infection.
  *
- * @note _vaccinated == 0
+ * @note 仅当 client _vaccinated == 0 时执行内部逻辑
  *
  * @param client    client index.
  * @return          Return Plugin_Continue Continue with the original action, otherwise skip real function.
@@ -173,6 +175,8 @@ forward  void  OnPlayerApplyVaccinePost(int client);
  * @note 绕行的是实际工作的函数，但使用指令 bleedout 会在已流血的情况下触发，而 OnTakeDamage_Alive 不会
  *       因此在检查从未流血变为流血时，需要判断 _bleedingOut 是否为 false
  *
+ * @note Supports only Linux32 & Linux64.
+ *
  * @param client    client index.
  * @return          Return Plugin_Continue Continue with the original action, otherwise skip real function.
  */
@@ -185,7 +189,8 @@ forward  void  OnPlayerBleedOutPost(int client);
  * @note called 0 times, on death, spawn
  * @note called 1 times, on extract, use medical box
  * @note called 2 times, on bandage taken, on firstAidKit taken
- * @note _bleedingOut == 1
+ * @note 仅当 client _bleedingOut != 0 时执行内部逻辑
+ * @note Supports only Linux32 & Linux64.
  *
  * @param client    client index.
  * @return          Return Plugin_Continue Continue with the original action, otherwise skip real function.
@@ -380,9 +385,9 @@ methodmap NMR_Player {
     }
 
     /**
-     * Note1: 感染结束时间, 达到这个时间玩家就会死亡, 尸体变为 npc
-     * Note2: You can use GetGameTime() to calculate this value.
-     *        This value should always be in the future, it normally depends on "sv_infectionlength".
+     * @note 感染结束时间, 达到这个时间玩家就会死亡, 尸体变为 npc
+     * @note You can use GetGameTime() to calculate this value.
+     *       This value should always be in the future, it normally depends on "sv_infectionlength".
      */
     property float m_flInfectionDeathTime {
         public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flInfectionDeathTime"); }
@@ -390,8 +395,8 @@ methodmap NMR_Player {
     }
 
     /**
-     * Note1: 感染开始时间
-     * Note2: You can subtract this from GetGameTime() to get the number of seconds since infection.
+     * @note 感染开始时间
+     * @note You can subtract this from GetGameTime() to get the number of seconds since infection.
      */
     property float m_flInfectionTime {
         public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flInfectionTime"); }
@@ -621,7 +626,7 @@ methodmap NMR_Player {
     }
 
     /**
-     * Note: default full stamina = 130.0
+     * @note default full stamina = 130.0
      */
     property float m_flStamina {
         public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flStamina"); }
@@ -649,7 +654,7 @@ methodmap NMR_Player {
     }
 
     /**
-     * Note: The clients dead body will come back to life as a dead npc zombie.
+     * @note The clients dead body will come back to life as a dead npc zombie.
      */
     property bool m_bDiedWhileInfected {
         public get()            { return GetEntProp(this.Index, Prop_Send, "m_bDiedWhileInfected") != 0 ? true : false; }
@@ -672,8 +677,8 @@ methodmap NMR_Player {
     }
 
     /**
-     * Note1: 仅一号背包，不包括弹药重量。
-     * Note2: 最大值为 1000。
+     * @note 仅一号背包，不包括弹药重量。
+     * @note 最大值为 1000。
      */
     property int _carriedWeight {
         public get()            { return GetEntProp(this.Index, Prop_Send, "_carriedWeight"); }
@@ -721,10 +726,10 @@ methodmap NMR_Player {
     }
 
     /**
-     * Note1: 玩家因注射疫苗部分失明，距离恢复光明的时间
-     * Note2: 游戏中到达此时间后不会立即恢复光明，而是几秒内缓慢恢复
-     * Note3: You can subtract GetGameTime() from this to get the number of seconds left.
-     *        This value is always in the future, it normally depends on "sv_vaccine_partial_blind_duration".
+     * @note 玩家因注射疫苗部分失明，距离恢复光明的时间
+     * @note 游戏中到达此时间后不会立即恢复光明，而是几秒内缓慢恢复
+     * @note You can subtract GetGameTime() from this to get the number of seconds left.
+     *       This value is always in the future, it normally depends on "sv_vaccine_partial_blind_duration".
      */
     property float m_flPartialBlindnessEffectEnd {
         public get()            { return GetEntPropFloat(this.Index, Prop_Send, "m_flPartialBlindnessEffectEnd"); }
@@ -855,7 +860,7 @@ methodmap NMR_Player {
     /**
      * Applies the effect of using a first aid kit.
      *
-     * @note        Unable to use in win32-v1150.
+     * @note        Unable to use in Win32.
      */
     public native void ApplyFirstAidKit();
 
@@ -866,6 +871,8 @@ methodmap NMR_Player {
 
     /**
      * Inflicts bleeding.
+     *
+     * @note Supports only Linux32 & Linux64.
      */
     public native void BleedOut();
 
@@ -1283,7 +1290,7 @@ methodmap NMR_Player {
 
     /**
      * Removes carried inventory weight.
-     * Note: 似乎不起作用
+     * @note 似乎不起作用
      */
     public void RemoveCarriedWeight(int weight) {
         __CheckClientValid(this.Index);
@@ -1466,6 +1473,8 @@ methodmap NMR_Player {
 
     /**
      * Stops bleeding.
+     *
+     * @note Supports only Linux32 & Linux64.
      */
     public native void StopBleedingOut();
 
@@ -1568,6 +1577,7 @@ methodmap NMR_Player {
      * 使用药丸的效果，类似于闪光弹造成的白屏，但时间很短。
      *
      * @note 未感染时调用也有效
+     * @note Simulated implementation in Win32 & Win64.
      */
     public native void TakePillsEffects();
 

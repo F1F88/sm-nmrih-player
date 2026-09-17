@@ -181,13 +181,16 @@ void LoadFunctionsCalls(GameData gamedata)
     if ((hCallers[HDL_TakePillsInner] = EndPrepSDKCall()) == null)
         SetFailState("Failed to load offset CInfectableCharacter::TakePills");
 
-    // only linux
     if (OS == OS_Linux32 || OS == OS_Linux64)
     {
         StartPrepSDKCall(SDKCall_Player);
         PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::TakePillsEffects");
         if ((hCallers[HDL_TakePillsEffects] = EndPrepSDKCall()) == null)
             SetFailState("Failed to load offset CNMRiH_Player::TakePillsEffects");
+    }
+    else
+    {
+        log.Info("Simulating the implementation of the CNMRiH_Player::TakePillsEffects function in Win32 & Win64.");
     }
 
     StartPrepSDKCall(SDKCall_Static);
@@ -196,14 +199,17 @@ void LoadFunctionsCalls(GameData gamedata)
     if ((hCallers[HDL_ApplyBandage] = EndPrepSDKCall()) == null)
         SetFailState("Failed to load signature CNMRiH_Player::ApplyBandage");
 
-    // disabled in win32.
-    if (OS != OS_Win32)
+    if (OS == OS_Linux32 || OS == OS_Linux64 || OS == OS_Win64)
     {
         StartPrepSDKCall(SDKCall_Static);
         PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::ApplyFirstAidKit");
         PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
         if ((hCallers[HDL_ApplyFirstAidKit] = EndPrepSDKCall()) == null)
             SetFailState("Failed to load signature CNMRiH_Player::ApplyFirstAidKit");
+    }
+    else
+    {
+        log.Info("The CNMRiH_Player::ApplyFirstAidKit function does not work on Win32.");
     }
 
     StartPrepSDKCall(SDKCall_Static);
@@ -212,17 +218,25 @@ void LoadFunctionsCalls(GameData gamedata)
     if ((hCallers[HDL_ApplyVaccine] = EndPrepSDKCall()) == null)
         SetFailState("Failed to load signature CNMRiH_Player::ApplyVaccine");
 
-    StartPrepSDKCall(SDKCall_Static);
-    PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::BleedOut");
-    PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
-    if ((hCallers[HDL_BleedOut] = EndPrepSDKCall()) == null)
-        SetFailState("Failed to load signature CNMRiH_Player::BleedOut");
+    if (OS == OS_Linux32 || OS == OS_Linux64)
+    {
+        StartPrepSDKCall(SDKCall_Static);
+        PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::BleedOut");
+        PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
+        if ((hCallers[HDL_BleedOut] = EndPrepSDKCall()) == null)
+            SetFailState("Failed to load signature CNMRiH_Player::BleedOut");
 
-    StartPrepSDKCall(SDKCall_Static);
-    PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::StopBleedingOut");
-    PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
-    if ((hCallers[HDL_StopBleedingOut] = EndPrepSDKCall()) == null)
-        SetFailState("Failed to load signature CNMRiH_Player::StopBleedingOut");
+        StartPrepSDKCall(SDKCall_Static);
+        PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::StopBleedingOut");
+        PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
+        if ((hCallers[HDL_StopBleedingOut] = EndPrepSDKCall()) == null)
+            SetFailState("Failed to load signature CNMRiH_Player::StopBleedingOut");
+    }
+    else
+    {
+        log.Info("The CNMRiH_Player::BleedOut function does not work on Win32 & Win64.");
+        log.Info("The CNMRiH_Player::StopBleedingOut function does not work on Win32 & Win64.");
+    }
 }
 
 /* ------- Function ------- */
@@ -259,6 +273,9 @@ static void Native_BleedOut(Handle plugin, int numParams)
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
+
+    if (!(OS == OS_Linux32 || OS == OS_Linux64))
+        log.ThrowError(LogLevel_Error, "Supports only Linux32 & Linux64.");
 
     SDKCall(hCallers[HDL_BleedOut], player);
 }
@@ -392,6 +409,9 @@ static void Native_StopBleedingOut(Handle plugin, int numParams)
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         log.ThrowErrorEx(LogLevel_Error, "invalid player %d", player);
+
+    if (!(OS == OS_Linux32 || OS == OS_Linux64))
+        log.ThrowError(LogLevel_Error, "Supports only Linux32 & Linux64.");
 
     SDKCall(hCallers[HDL_StopBleedingOut], player);
 }

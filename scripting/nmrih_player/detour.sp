@@ -70,10 +70,28 @@ void LoadDetourFunctions(GameData gamedata)
     DetourPlayer(gamedata, "CNMRiH_Player::TakePills",              TakePills,              TakePillsPost);
     DetourPlayer(gamedata, "CNMRiH_Player::OnGrabbedBegin",         OnGrabbedBegin,         OnGrabbedBeginPost);
     DetourPlayer(gamedata, "CNMRiH_Player::ApplyBandage",           ApplyBandage,           ApplyBandagePost);
-    DetourPlayer(gamedata, "CNMRiH_Player::ApplyFirstAidKit",       ApplyFirstAidKit,       ApplyFirstAidKitPost);
+
+    if (OS == OS_Linux32 || OS == OS_Linux64 || OS == OS_Win64)
+    {
+        DetourPlayer(gamedata, "CNMRiH_Player::ApplyFirstAidKit",   ApplyFirstAidKit,       ApplyFirstAidKitPost);
+    }
+    else
+    {
+        log.Info("The CNMRiH_Player::ApplyFirstAidKit detour does not work on Win32.");
+    }
+
     DetourPlayer(gamedata, "CNMRiH_Player::ApplyVaccine",           ApplyVaccine,           ApplyVaccinePost);
-    DetourPlayer(gamedata, "CNMRiH_Player::BleedOut",               BleedOut,               BleedOutPost);
-    DetourPlayer(gamedata, "CNMRiH_Player::StopBleedingOut",        StopBleedingOut,        StopBleedingOutPost);
+
+    if (OS == OS_Linux32 || OS == OS_Linux64)
+    {
+        DetourPlayer(gamedata, "CNMRiH_Player::BleedOut",           BleedOut,               BleedOutPost);
+        DetourPlayer(gamedata, "CNMRiH_Player::StopBleedingOut",    StopBleedingOut,        StopBleedingOutPost);
+    }
+    else
+    {
+        log.Info("The CNMRiH_Player::BleedOut detour does not work on Win32 & Win64.");
+        log.Info("The CNMRiH_Player::BleedOut StopBleedingOut does not work on Win32 & Win64.");
+    }
 
     // DetourPlayer(gamedata, "CNMRiH_Player::", , Post))
 }
