@@ -1,0 +1,115 @@
+name: Build plugin - nmrih_player
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'scripting/**'
+      - 'gamedata/**'
+      - '.github/workflows/**'
+  push:
+    paths:
+      - 'scripting/**'
+      - 'gamedata/**'
+      - '.github/workflows/**'
+  workflow_call:
+    inputs:
+      source_ref:
+        required: false
+        type: string
+
+jobs:
+  build:
+    name: build with ${{ matrix.sm_version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sm_version: [sm_latest, sm_1_12, sm_1_11]
+        include:
+          - sm_version: sm_latest
+            sm_ref: "1.13.x"
+          - sm_version: sm_1_12
+            sm_ref: "1.12.x"
+          - sm_version: sm_1_11
+            sm_ref: "1.11.x"
+
+    steps:
+      - name: Check out Log4sp
+        uses: actions/checkout@v6
+        with:
+          repository: F1F88/sm-ext-log4sp
+          path: log4sp
+          ref: v1.11.2
+
+      - name: Check out vscript_proxy
+        uses: actions/checkout@v6
+        with:
+          repository: dysphie/nmrih-vscript-proxy
+          path: vscript-proxy
+
+      - name: Check out NMRiH Gamerules
+        uses: actions/checkout@v6
+        with:
+          repository: F1F88/sm-nmrih-gamerules
+          path: nmrih_gamerules
+
+      - name: Check out NMRiH Player
+        uses: actions/checkout@v6
+        with:
+          path: nmrih_player
+          ref: ${{ inputs.source_ref || github.ref }}
+
+      - name: Setup SourcePawn Compiler
+        id: setup_sp
+        uses: rumblefrog/setup-sp@master
+        with:
+          version: ${{ matrix.sm_ref }}
+          version-file: nmrih_player/scripting/nmrih_player.sp
+          define-name: PLUGIN_VERSION
+
+      - name: Compile plugin
+        working-directory: nmrih_player
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          OUTPUT_DIR="build/nmrih_player.plugin"
+          mkdir -p "$OUTPUT_DIR"
+
+          COMPILE_ARGS=(
+            "scripting/nmrih_player.sp"
+            -i "scripting/include"
+            -i "scripting/nmrih_player"
+            -i "${{ github.workspace }}/log4sp/sourcemod/scripting/include"
+            -i "${{ github.workspace }}/vscript-proxy"
+            -i "${{ github.workspace }}/nmrih_gamerules/scripting/include"
+            -o "$OUTPUT_DIR/nmrih_player.smx"
+            "NDEBUG="
+          )
+
+          spcomp "${COMPILE_ARGS[@]}"
+
+      - name: Package
+        id: package
+        shell: bash
+        working-directory: nmrih_player
+        run: |
+          set -euo pipefail
+
+          mkdir -p "build/package/addons/sourcemod/plugins"
+          mkdir -p "build/package/addons/sourcemod/scripting"
+          mkdir -p "build/package/addons/sourcemod/gamedata"
+
+          cp "build/nmrih_player.plugin/nmrih_player.smx" "build/package/addons/sourcemod/plugins/"
+          cp -r "scripting/include" "build/package/addons/sourcemod/scripting/"
+          cp "gamedata/nmrih_player.games.txt" "build/package/addons/sourcemod/gamedata/"
+
+          echo "short_hash=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload package
+        uses: actions/upload-artifact@v7
+        with:
+          name: sm-plugin-nmrih_player-${{ steps.setup_sp.outputs.plugin-version }}.${{ steps.package.outputs.short_hash }}-${{ matrix.sm_version }}
+          path: nmrih_player/build/package
+          if-no-files-found: error
