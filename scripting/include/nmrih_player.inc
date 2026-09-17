@@ -1181,7 +1181,7 @@ methodmap NMR_Player {
      */
     public bool IsDucking() {
         __CheckClientValid(this.Index);
-        return this.m_fFlags & NMR_FL_DUCKING;
+        return view_as<bool>(this.m_fFlags & NMR_FL_DUCKING);
     }
 
     /**
@@ -1331,7 +1331,7 @@ methodmap NMR_Player {
      */
     public int RespawnTokenCount() {
         __CheckClientValid(this.Index);
-    return RunEntVScriptInt(this.Index, "RespawnTokenCount()");
+        return RunEntVScriptInt(this.Index, "RespawnTokenCount()");
     }
 
     /**

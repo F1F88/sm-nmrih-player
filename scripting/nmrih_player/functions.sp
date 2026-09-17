@@ -287,34 +287,37 @@ void LoadFunctionsCalls(GameData gamedata)
 
 /* ------- Function ------- */
 
-static void Native_ApplyBandage(Handle plugin, int numParams)
+static any Native_ApplyBandage(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         Log(LogLevel_Error, "invalid player %d", player);
 
     SDKCall(hCallers[HDL_ApplyBandage], player);
+    return 0;
 }
 
-static void Native_ApplyFirstAidKit(Handle plugin, int numParams)
+static any Native_ApplyFirstAidKit(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         Log(LogLevel_Error, "invalid player %d", player);
 
     SDKCall(hCallers[HDL_ApplyFirstAidKit], player);
+    return 0;
 }
 
-static void Native_ApplyVaccine(Handle plugin, int numParams)
+static any Native_ApplyVaccine(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         Log(LogLevel_Error, "invalid player %d", player);
 
     SDKCall(hCallers[HDL_ApplyVaccine], player);
+    return 0;
 }
 
-static void Native_BleedOut(Handle plugin, int numParams)
+static any Native_BleedOut(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -324,9 +327,10 @@ static void Native_BleedOut(Handle plugin, int numParams)
         Log(LogLevel_Error, "Supports only Linux32 & Linux64.");
 
     SDKCall(hCallers[HDL_BleedOut], player);
+    return 0;
 }
 
-static void Native_EnableSprint(Handle plugin, int numParams)
+static any Native_EnableSprint(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -334,6 +338,7 @@ static void Native_EnableSprint(Handle plugin, int numParams)
 
     bool value = GetNativeCell(2);
     SDKCall(hCallers[HDL_EnableSprint], player, value);
+    return 0;
 }
 
 static int Native_GetAmmoCarryWeight(Handle plugin, int numParams)
@@ -368,7 +373,7 @@ static int Native_GetAmmoCarryWeight(Handle plugin, int numParams)
     return weigth;
 }
 
-// static void Native_GetCarriedItems(Handle plugin, int numParams)
+// static any Native_GetCarriedItems(Handle plugin, int numParams)
 // {
 //     int player = GetNativeCell(1);
 //     if (!IsValidClient(player))
@@ -379,12 +384,13 @@ static int Native_GetAmmoCarryWeight(Handle plugin, int numParams)
 //     char code[64];
 //     FormatEx(code, sizeof(code), "GetCarriedItems(%d)", handle);
 //     RunEntVScriptInt(player, code);
+//     return 0;
 // }
 
 static any Native_GetJumpStaminaCost(Handle plugin, int numParams)
 {
     NMR_Player player = GetNativeCell(1);
-    if (!IsValidClient(player))
+    if (!player.IsValid)
         Log(LogLevel_Error, "invalid player %d", player);
 
     static ConVar svStamJumpcost = null;
@@ -447,7 +453,7 @@ static any Native_HasWalkieTalkie(Handle plugin, int numParams)
     return SDKCall(hCallers[HDL_HasWalkieTalkie], player);
 }
 
-static void Native_StopBleedingOut(Handle plugin, int numParams)
+static any Native_StopBleedingOut(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -457,6 +463,7 @@ static void Native_StopBleedingOut(Handle plugin, int numParams)
         Log(LogLevel_Error, "Supports only Linux32 & Linux64.");
 
     SDKCall(hCallers[HDL_StopBleedingOut], player);
+    return 0;
 }
 
 static any Native_IsMoving(Handle plugin, int numParams)
@@ -486,25 +493,27 @@ static any Native_FlashlightIsOn(Handle plugin, int numParams)
     return SDKCall(hCallers[HDL_FlashlightIsOn], player);
 }
 
-static void Native_FlashlightTurnOn(Handle plugin, int numParams)
+static any Native_FlashlightTurnOn(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         Log(LogLevel_Error, "invalid player %d", player);
 
     SDKCall(hCallers[HDL_FlashlightTurnOn], player);
+    return 0;
 }
 
-static void Native_FlashlightTurnOff(Handle plugin, int numParams)
+static any Native_FlashlightTurnOff(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         Log(LogLevel_Error, "invalid player %d", player);
 
     SDKCall(hCallers[HDL_FlashlightTurnOff], player);
+    return 0;
 }
 
-static void Native_State_Transition(Handle plugin, int numParams)
+static any Native_State_Transition(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -513,45 +522,50 @@ static void Native_State_Transition(Handle plugin, int numParams)
     int state = GetNativeCell(2);
 
     SDKCall(hCallers[HDL_State_Transition], player, state);
+    return 0;
 }
 
-static void Native_CureInfection(Handle plugin, int numParams)
+static any Native_CureInfection(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         Log(LogLevel_Error, "invalid player %d", player);
 
     SDKCall(hCallers[HDL_CureInfection], player);
+    return 0;
 }
 
-static void Native_BecomeInfected(Handle plugin, int numParams)
+static any Native_BecomeInfected(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         Log(LogLevel_Error, "invalid player %d", player);
 
     SDKCall(hCallers[HDL_BecomeInfected], player);
+    return 0;
 }
 
-static void Native_TakePills(Handle plugin, int numParams)
+static any Native_TakePills(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         Log(LogLevel_Error, "invalid player %d", player);
 
     SDKCall(hCallers[HDL_TakePills], player);
+    return 0;
 }
 
-static void Native_TakePillsInner(Handle plugin, int numParams)
+static any Native_TakePillsInner(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
         Log(LogLevel_Error, "invalid player %d", player);
 
     SDKCall(hCallers[HDL_TakePillsInner], player);
+    return 0;
 }
 
-static void Native_TakePillsEffects(Handle plugin, int numParams)
+static any Native_TakePillsEffects(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
@@ -567,6 +581,7 @@ static void Native_TakePillsEffects(Handle plugin, int numParams)
     {
         SDKCall(hCallers[HDL_TakePillsEffects], player);
     }
+    return 0;
 }
 
 static any Native_IsValidObserverTarget(Handle plugin, int numParams)
@@ -591,14 +606,14 @@ static any Native_CanSprint(Handle plugin, int numParams)
     return SDKCall(hCallers[HDL_CanSprint], player);
 }
 
-static void Native_ForceSpawn(Handle plugin, int numParams)
+static any Native_ForceSpawn(Handle plugin, int numParams)
 {
     NMR_Player player = GetNativeCell(1);
     if (!player.IsValid)
         Log(LogLevel_Error, "invalid player %d", player);
 
     if (player.IsAlive && player.m_iPlayerState == 0) // TODO STATE_ACTIVE
-        return;
+        return 0;
 
     if (!LibraryExists("nmrih_gamerules"))
         Log(LogLevel_Error, "The plugin 'nmrih_gamerules' does not exist, NMR_Player.ForceSpawn is unavailable.");
@@ -640,6 +655,7 @@ static void Native_ForceSpawn(Handle plugin, int numParams)
     player.State_Transition(0); // TODO STATE_ACTIVE
 
     TeleportEntity(player.Index, pos, ang, vel);
+    return 0;
 }
 
 
