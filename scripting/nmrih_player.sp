@@ -27,11 +27,6 @@ public Plugin myinfo =
 };
 
 
-#define LIB_PLAYER_LOGGER_NAME              "lib-player"
-#define LIB_PLAYER_LOGGER_FILE              "logs/lib/player.log"
-#define LIB_PLAYER_LOGGER_MAX_FILE_SIZE     1024 * 1024 * 8         // MB
-#define LIB_PLAYER_LOGGER_MAX_FILES         2
-
 enum OperatingSystem
 {
     OS_Unknown  = -1,
@@ -45,7 +40,6 @@ enum OperatingSystem
 
 
 OperatingSystem OS;
-Logger          log;
 
 
 #include "nmrih_player/detour.sp"
@@ -68,10 +62,12 @@ public void OnPluginStart()
     /* ------- Load GameData ------- */
     GameData gamedata = new GameData("nmrih_player.games");
     if (!gamedata)
-        SetFailState("Couldn't find nmrih_player.games gamedata");
+        Log(LogLevel_Fatal, "Couldn't find nmrih_player.games gamedata");
 
     if ((OS = view_as<OperatingSystem>(gamedata.GetOffset("OS"))) == OS_Unknown)
-        SetFailState("Failed to read gamedata offset of \"OS\"");
+        Log(LogLevel_Fatal, "Failed to read gamedata offset of \"OS\"");
+    else
+        Log(LogLevel_Debug, "Read gamedata \"OS\" offset %d.", OS);
 
     LoadFunctionsCalls(gamedata);
     LoadDetourFunctions(gamedata);
@@ -84,21 +80,72 @@ public void OnPluginStart()
     /* ------- Register Libray ------- */
     RegPluginLibrary("nmrih_player");
 
-    /* ------- Log Debug ------- */
-    char path[PLATFORM_MAX_PATH];
-    BuildPath(Path_SM, path, sizeof(path), LIB_PLAYER_LOGGER_FILE);
-    log = RotatingFileSink.CreateLogger(LIB_PLAYER_LOGGER_NAME, path, LIB_PLAYER_LOGGER_MAX_FILE_SIZE, LIB_PLAYER_LOGGER_MAX_FILES);
-    log.AddSinkEx(new ServerConsoleSink()); // for debug
-
-    // DebugNetPropsOffset();
-    log.Info("Plugin \"" ... PLUGIN_NAME ... "\" (" ... PLUGIN_VERSION ... ") loaded successfully!");
+    Log(LogLevel_Info, "[SM] " ... PLUGIN_NAME ... " (" ... PLUGIN_VERSION ... ") initialize complete!");
 }
 
 public void OnAllPluginsLoaded()
 {
     if (!LibraryExists("nmrih_gamerules"))
     {
-        log.Warn("The library \"nmrih_gamerules\" does not exist, NMR_Player.ForceSpawn is unavailable.");
+        Log(LogLevel_Warn, "The library \"nmrih_gamerules\" does not exist, NMR_Player.ForceSpawn is unavailable.");
+    }
+}
+
+
+/* Stocks */
+stock void Log(LogLevel lvl, const char[] fmt, any ...)
+{
+    static Logger logger = null;
+
+    if (!logger)
+    {
+        char name[] = "lib-player";
+        char file[] = "logs/lib/player.log";
+        const int maxFileSize = 1024 * 1024 * 8; // MB
+        const int maxFiles    = 2;
+
+        char filename[PLATFORM_MAX_PATH];
+        BuildPath(Path_SM, filename, sizeof(filename), file);
+        RotatingFileSink rotatingFileSink = new RotatingFileSink(filename, maxFileSize, maxFiles);
+        ServerConsoleSink serverConsoleSink = new ServerConsoleSink();
+
+        logger = new Logger(name);
+        logger.AddSink(rotatingFileSink);
+        logger.AddSink(serverConsoleSink);
+
+#if defined DEBUG || defined __DEBUG
+        logger.SetLevel(LogLevel_Trace);
+        logger.FlushOn(LogLevel_Trace);
+#else
+        serverConsoleSink.SetLevel(LogLevel_Warn);
+#endif
+        rotatingFileSink.Close();
+        serverConsoleSink.Close();
+    }
+
+    if (!logger.ShouldLog(lvl))
+        return;
+
+    char buffer[1024];
+#if defined __sourcepawn2
+    FormatEx(buffer, sizeof(buffer), fmt, ...);
+#else
+    VFormat(buffer, sizeof(buffer), fmt, 3);
+#endif
+
+    if (lvl <= LogLevel_Warn)
+    {
+        logger.Log(lvl, buffer);
+    }
+    else if (lvl == LogLevel_Error)
+    {
+        logger.LogStackTrace(lvl, buffer);
+        ThrowError("%s", buffer);
+    }
+    else if (lvl >= LogLevel_Fatal)
+    {
+        logger.LogStackTrace(lvl, buffer);
+        SetFailState("%s", buffer);
     }
 }
 
@@ -115,9 +162,9 @@ static void ValidConVars()
 
     for (int i = 0; i < sizeof(convars); ++i)
     {
-        if (FindConVar(convars[i]) == null)
+        if (!FindConVar(convars[i]))
         {
-            SetFailState("Failed to load convar %s", convars[i]);
+            Log(LogLevel_Fatal, "Failed to load convar %s", convars[i]);
         }
     }
 }
