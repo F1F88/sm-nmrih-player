@@ -6,10 +6,6 @@
 
 #include <vscript_proxy>
 
-#pragma newdecls required
-#pragma semicolon 1
-
-
 #define NMR_MAXPLAYERS              9
 
 #define NMR_IN_DROP_WEAPON          (1 << 15)   // key g "+dropweapon"
