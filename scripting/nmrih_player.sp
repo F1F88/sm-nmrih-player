@@ -39,7 +39,7 @@ enum OperatingSystem
 }
 
 
-OperatingSystem OS;
+OperatingSystem g_eOS = OS_Unknown;
 
 
 #include "nmrih_player/detour.sp"
@@ -64,10 +64,11 @@ public void OnPluginStart()
     if (!gamedata)
         Log(LogLevel_Fatal, "Couldn't find nmrih_player.games gamedata");
 
-    if ((OS = view_as<OperatingSystem>(gamedata.GetOffset("OS"))) == OS_Unknown)
+    g_eOS = view_as<OperatingSystem>(gamedata.GetOffset("OS"));
+    if (g_eOS == OS_Unknown)
         Log(LogLevel_Fatal, "Failed to read gamedata offset of \"OS\"");
     else
-        Log(LogLevel_Debug, "Read gamedata \"OS\" offset %d.", OS);
+        Log(LogLevel_Debug, "Read gamedata \"OS\" offset %d.", g_eOS);
 
     LoadFunctionsCalls(gamedata);
     LoadDetourFunctions(gamedata);

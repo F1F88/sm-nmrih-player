@@ -62,7 +62,7 @@ void LoadDetourFunctions(GameData gamedata)
     DetourPlayer(gamedata, "CNMRiH_Player::OnGrabbedBegin",         OnGrabbedBegin,         OnGrabbedBeginPost);
     DetourPlayer(gamedata, "CNMRiH_Player::ApplyBandage",           ApplyBandage,           ApplyBandagePost);
 
-    if (OS == OS_Linux32 || OS == OS_Linux64 || OS == OS_Win64)
+    if (g_eOS == OS_Linux32 || g_eOS == OS_Linux64 || g_eOS == OS_Win64)
     {
         DetourPlayer(gamedata, "CNMRiH_Player::ApplyFirstAidKit",   ApplyFirstAidKit,       ApplyFirstAidKitPost);
     }
@@ -73,7 +73,7 @@ void LoadDetourFunctions(GameData gamedata)
 
     DetourPlayer(gamedata, "CNMRiH_Player::ApplyVaccine",           ApplyVaccine,           ApplyVaccinePost);
 
-    if (OS == OS_Linux32 || OS == OS_Linux64)
+    if (g_eOS == OS_Linux32 || g_eOS == OS_Linux64)
     {
         DetourPlayer(gamedata, "CNMRiH_Player::BleedOut",           BleedOut,               BleedOutPost);
         DetourPlayer(gamedata, "CNMRiH_Player::StopBleedingOut",    StopBleedingOut,        StopBleedingOutPost);

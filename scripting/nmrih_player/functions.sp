@@ -215,7 +215,7 @@ void LoadFunctionsCalls(GameData gamedata)
     else
         Log(LogLevel_Trace, "Load offset CInfectableCharacter::TakePills.");
 
-    if (OS == OS_Linux32 || OS == OS_Linux64)
+    if (g_eOS == OS_Linux32 || g_eOS == OS_Linux64)
     {
         StartPrepSDKCall(SDKCall_Player);
         PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::TakePillsEffects");
@@ -237,7 +237,7 @@ void LoadFunctionsCalls(GameData gamedata)
     else
         Log(LogLevel_Trace, "Load signature CNMRiH_Player::ApplyBandage.");
 
-    if (OS == OS_Linux32 || OS == OS_Linux64 || OS == OS_Win64)
+    if (g_eOS == OS_Linux32 || g_eOS == OS_Linux64 || g_eOS == OS_Win64)
     {
         StartPrepSDKCall(SDKCall_Static);
         PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::ApplyFirstAidKit");
@@ -260,7 +260,7 @@ void LoadFunctionsCalls(GameData gamedata)
     else
         Log(LogLevel_Trace, "Load signature CNMRiH_Player::ApplyVaccine.");
 
-    if (OS == OS_Linux32 || OS == OS_Linux64)
+    if (g_eOS == OS_Linux32 || g_eOS == OS_Linux64)
     {
         StartPrepSDKCall(SDKCall_Static);
         PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::BleedOut");
@@ -323,7 +323,7 @@ static any Native_BleedOut(Handle plugin, int numParams)
     if (!IsValidClient(player))
         Log(LogLevel_Error, "invalid player %d", player);
 
-    if (!(OS == OS_Linux32 || OS == OS_Linux64))
+    if (!(g_eOS == OS_Linux32 || g_eOS == OS_Linux64))
         Log(LogLevel_Error, "Supports only Linux32 & Linux64.");
 
     SDKCall(hCallers[HDL_BleedOut], player);
@@ -459,7 +459,7 @@ static any Native_StopBleedingOut(Handle plugin, int numParams)
     if (!IsValidClient(player))
         Log(LogLevel_Error, "invalid player %d", player);
 
-    if (!(OS == OS_Linux32 || OS == OS_Linux64))
+    if (!(g_eOS == OS_Linux32 || g_eOS == OS_Linux64))
         Log(LogLevel_Error, "Supports only Linux32 & Linux64.");
 
     SDKCall(hCallers[HDL_StopBleedingOut], player);
@@ -572,7 +572,7 @@ static any Native_TakePillsEffects(Handle plugin, int numParams)
         Log(LogLevel_Error, "invalid player %d", player);
 
     // Windows
-    if (OS == OS_Win32 || OS == OS_Win64)
+    if (g_eOS == OS_Win32 || g_eOS == OS_Win64)
     {
         TakePillsEffects(player);
     }
