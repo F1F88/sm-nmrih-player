@@ -4,7 +4,9 @@
 #endif
 #define _nmrih_player_utils_included_
 
-#include <vscript_proxy>
+#if !defined _vscriptproxy_included_
+    #error "You need to include the <vscript_proxy> (https://github.com/dysphie/nmrih-vscript-proxy) before include this one."
+#endif
 
 #define NMR_MAXPLAYERS              9
 
