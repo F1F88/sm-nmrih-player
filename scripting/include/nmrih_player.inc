@@ -1839,6 +1839,18 @@ stock bool IsGenericAdmin(int client) {
 }
 
 static void __CheckClientValid(int player) {
-    if (!IsValidClient(player))
+    if (IsValidClient(player))
+        return;
+
+#if defined _log4sp_manager_register_included
+    if (LoggerRegistry.IsAvailable()) {
+        Logger logger = LoggerRegistry.Instance().Get("lib-player");
+        logger.ErrorF("Invalid player index %d", player);
+    } else {
         ThrowError("Invalid player index %d", player);
+    }
+#else
+    #warning '<log4sp/registry> is not included, ThrowError is used instead.'
+    ThrowError("Invalid player index %d", player);
+#endif
 }
