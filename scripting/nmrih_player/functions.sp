@@ -90,198 +90,198 @@ void LoadFunctionsNatives()
 
 void LoadFunctionsCalls(GameData gamedata)
 {
-    Log(LogLevel_Trace, "Starting to load function calls ...");
+    g_hLogger.Trace("Starting to load function calls ...");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Virtual, "CBaseEntity::IsMoving");
     PrepSDKCall_SetReturnInfo(SDKType_Bool, SDKPass_Plain);
     if ((hCallers[HDL_IsMoving] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load offset CBaseEntity::IsMoving");
+        g_hLogger.Fatal("Failed to load offset CBaseEntity::IsMoving");
     else
-        Log(LogLevel_Trace, "Load offset CBaseEntity::IsMoving.");
+        g_hLogger.Trace("Load offset CBaseEntity::IsMoving.");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Virtual, "CBaseCombatCharacter::GetAliveDuration");
     PrepSDKCall_SetReturnInfo(SDKType_Float, SDKPass_Plain);
     if ((hCallers[HDL_GetAliveDuration] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load offset CBaseCombatCharacter::GetAliveDuration");
+        g_hLogger.Fatal("Failed to load offset CBaseCombatCharacter::GetAliveDuration");
     else
-        Log(LogLevel_Trace, "Load offset CBaseCombatCharacter::GetAliveDuration.");
+        g_hLogger.Trace("Load offset CBaseCombatCharacter::GetAliveDuration.");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Virtual, "CSDKPlayer::FlashlightIsOn");
     PrepSDKCall_SetReturnInfo(SDKType_Bool, SDKPass_Plain);
     if ((hCallers[HDL_FlashlightIsOn] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load offset CSDKPlayer::FlashlightIsOn");
+        g_hLogger.Fatal("Failed to load offset CSDKPlayer::FlashlightIsOn");
     else
-        Log(LogLevel_Trace, "Load offset CSDKPlayer::FlashlightIsOn.");
+        g_hLogger.Trace("Load offset CSDKPlayer::FlashlightIsOn.");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Virtual, "CSDKPlayer::FlashlightTurnOn");
     if ((hCallers[HDL_FlashlightTurnOn] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load offset CSDKPlayer::FlashlightTurnOn");
+        g_hLogger.Fatal("Failed to load offset CSDKPlayer::FlashlightTurnOn");
     else
-        Log(LogLevel_Trace, "Load offset CSDKPlayer::FlashlightTurnOn.");
+        g_hLogger.Trace("Load offset CSDKPlayer::FlashlightTurnOn.");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Virtual, "CSDKPlayer::FlashlightTurnOff");
     if ((hCallers[HDL_FlashlightTurnOff] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load offset CSDKPlayer::FlashlightTurnOff");
+        g_hLogger.Fatal("Failed to load offset CSDKPlayer::FlashlightTurnOff");
     else
-        Log(LogLevel_Trace, "Load offset CSDKPlayer::FlashlightTurnOff.");
+        g_hLogger.Trace("Load offset CSDKPlayer::FlashlightTurnOff.");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CSDKPlayer::State_Transition");
     PrepSDKCall_AddParameter(SDKType_PlainOldData, SDKPass_Plain);
     if ((hCallers[HDL_State_Transition] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load signature CSDKPlayer::State_Transition");
+        g_hLogger.Fatal("Failed to load signature CSDKPlayer::State_Transition");
     else
-        Log(LogLevel_Trace, "Load offset CSDKPlayer::State_Transition.");
+        g_hLogger.Trace("Load offset CSDKPlayer::State_Transition.");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Virtual, "CBasePlayer::IsValidObserverTarget");
     PrepSDKCall_SetReturnInfo(SDKType_Bool, SDKPass_Plain);
     PrepSDKCall_AddParameter(SDKType_CBaseEntity, SDKPass_Pointer);
     if ((hCallers[HDL_IsValidObserverTarget] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load offset CBasePlayer::IsValidObserverTarget");
+        g_hLogger.Fatal("Failed to load offset CBasePlayer::IsValidObserverTarget");
     else
-        Log(LogLevel_Trace, "Load offset CBasePlayer::IsValidObserverTarget.");
+        g_hLogger.Trace("Load offset CBasePlayer::IsValidObserverTarget.");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Virtual, "CNMRiH_Player::CanSprint");
     PrepSDKCall_SetReturnInfo(SDKType_Bool, SDKPass_Plain);
     if ((hCallers[HDL_CanSprint] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load offset CNMRiH_Player::CanSprint");
+        g_hLogger.Fatal("Failed to load offset CNMRiH_Player::CanSprint");
     else
-        Log(LogLevel_Trace, "Load offset CNMRiH_Player::CanSprint.");
+        g_hLogger.Trace("Load offset CNMRiH_Player::CanSprint.");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Virtual, "CNMRiH_Player::HasFlashlight");
     PrepSDKCall_SetReturnInfo(SDKType_Bool, SDKPass_Plain);
     if ((hCallers[HDL_HasFlashlight] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load offset CNMRiH_Player::HasFlashlight");
+        g_hLogger.Fatal("Failed to load offset CNMRiH_Player::HasFlashlight");
     else
-        Log(LogLevel_Trace, "Load offset CNMRiH_Player::HasFlashlight.");
+        g_hLogger.Trace("Load offset CNMRiH_Player::HasFlashlight.");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Virtual, "CNMRiH_Player::HasWalkieTalkie");
     PrepSDKCall_SetReturnInfo(SDKType_Bool, SDKPass_Plain);
     if ((hCallers[HDL_HasWalkieTalkie] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load offset CNMRiH_Player::HasWalkieTalkie");
+        g_hLogger.Fatal("Failed to load offset CNMRiH_Player::HasWalkieTalkie");
     else
-        Log(LogLevel_Trace, "Load offset CNMRiH_Player::HasWalkieTalkie.");
+        g_hLogger.Trace("Load offset CNMRiH_Player::HasWalkieTalkie.");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Virtual, "CNMRiH_Player::EnableSprint");
     PrepSDKCall_AddParameter(SDKType_Bool, SDKPass_Plain);
     if ((hCallers[HDL_EnableSprint] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load offset CNMRiH_Player::EnableSprint");
+        g_hLogger.Fatal("Failed to load offset CNMRiH_Player::EnableSprint");
     else
-        Log(LogLevel_Trace, "Load offset CNMRiH_Player::EnableSprint.");
+        g_hLogger.Trace("Load offset CNMRiH_Player::EnableSprint.");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Virtual, "CNMRiH_Player::GetLastObserverMode");
     PrepSDKCall_SetReturnInfo(SDKType_PlainOldData, SDKPass_Plain);
     if ((hCallers[HDL_GetLastObserverMode] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load offset CNMRiH_Player::GetLastObserverMode");
+        g_hLogger.Fatal("Failed to load offset CNMRiH_Player::GetLastObserverMode");
     else
-        Log(LogLevel_Trace, "Load offset CNMRiH_Player::GetLastObserverMode.");
+        g_hLogger.Trace("Load offset CNMRiH_Player::GetLastObserverMode.");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::CureInfection");
     if ((hCallers[HDL_CureInfection] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load offset CNMRiH_Player::CureInfection");
+        g_hLogger.Fatal("Failed to load offset CNMRiH_Player::CureInfection");
     else
-        Log(LogLevel_Trace, "Load offset CNMRiH_Player::CureInfection.");
+        g_hLogger.Trace("Load offset CNMRiH_Player::CureInfection.");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::BecomeInfected");
     if ((hCallers[HDL_BecomeInfected] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load offset CNMRiH_Player::BecomeInfected");
+        g_hLogger.Fatal("Failed to load offset CNMRiH_Player::BecomeInfected");
     else
-        Log(LogLevel_Trace, "Load offset CNMRiH_Player::BecomeInfected.");
+        g_hLogger.Trace("Load offset CNMRiH_Player::BecomeInfected.");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::TakePills");
     if ((hCallers[HDL_TakePills] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load offset CNMRiH_Player::TakePills");
+        g_hLogger.Fatal("Failed to load offset CNMRiH_Player::TakePills");
     else
-        Log(LogLevel_Trace, "Load offset CNMRiH_Player::TakePills.");
+        g_hLogger.Trace("Load offset CNMRiH_Player::TakePills.");
 
     StartPrepSDKCall(SDKCall_Player);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CInfectableCharacter::TakePills");
     if ((hCallers[HDL_TakePillsInner] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load offset CInfectableCharacter::TakePills");
+        g_hLogger.Fatal("Failed to load offset CInfectableCharacter::TakePills");
     else
-        Log(LogLevel_Trace, "Load offset CInfectableCharacter::TakePills.");
+        g_hLogger.Trace("Load offset CInfectableCharacter::TakePills.");
 
-    if (OS == OS_Linux32 || OS == OS_Linux64)
+    if (g_eOS == OS_Linux32 || g_eOS == OS_Linux64)
     {
         StartPrepSDKCall(SDKCall_Player);
         PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::TakePillsEffects");
         if ((hCallers[HDL_TakePillsEffects] = EndPrepSDKCall()) == null)
-            Log(LogLevel_Fatal, "Failed to load offset CNMRiH_Player::TakePillsEffects");
+            g_hLogger.Fatal("Failed to load offset CNMRiH_Player::TakePillsEffects");
         else
-            Log(LogLevel_Trace, "Load offset CNMRiH_Player::TakePillsEffects.");
+            g_hLogger.Trace("Load offset CNMRiH_Player::TakePillsEffects.");
     }
     else
     {
-        Log(LogLevel_Info, "Simulating the implementation of the CNMRiH_Player::TakePillsEffects function in Win32 & Win64.");
+        g_hLogger.Info("Simulating the implementation of the CNMRiH_Player::TakePillsEffects function in Win32 & Win64.");
     }
 
     StartPrepSDKCall(SDKCall_Static);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::ApplyBandage");
     PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
     if ((hCallers[HDL_ApplyBandage] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load signature CNMRiH_Player::ApplyBandage");
+        g_hLogger.Fatal("Failed to load signature CNMRiH_Player::ApplyBandage");
     else
-        Log(LogLevel_Trace, "Load signature CNMRiH_Player::ApplyBandage.");
+        g_hLogger.Trace("Load signature CNMRiH_Player::ApplyBandage.");
 
-    if (OS == OS_Linux32 || OS == OS_Linux64 || OS == OS_Win64)
+    if (g_eOS == OS_Linux32 || g_eOS == OS_Linux64 || g_eOS == OS_Win64)
     {
         StartPrepSDKCall(SDKCall_Static);
         PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::ApplyFirstAidKit");
         PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
         if ((hCallers[HDL_ApplyFirstAidKit] = EndPrepSDKCall()) == null)
-            Log(LogLevel_Fatal, "Failed to load offset CNMRiH_Player::ApplyFirstAidKit");
+            g_hLogger.Fatal("Failed to load offset CNMRiH_Player::ApplyFirstAidKit");
         else
-            Log(LogLevel_Trace, "Load offset CNMRiH_Player::ApplyFirstAidKit.");
+            g_hLogger.Trace("Load offset CNMRiH_Player::ApplyFirstAidKit.");
     }
     else
     {
-        Log(LogLevel_Info, "The CNMRiH_Player::ApplyFirstAidKit function does not work on Win32.");
+        g_hLogger.Info("The CNMRiH_Player::ApplyFirstAidKit function does not work on Win32.");
     }
 
     StartPrepSDKCall(SDKCall_Static);
     PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::ApplyVaccine");
     PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
     if ((hCallers[HDL_ApplyVaccine] = EndPrepSDKCall()) == null)
-        Log(LogLevel_Fatal, "Failed to load signature CNMRiH_Player::ApplyVaccine");
+        g_hLogger.Fatal("Failed to load signature CNMRiH_Player::ApplyVaccine");
     else
-        Log(LogLevel_Trace, "Load signature CNMRiH_Player::ApplyVaccine.");
+        g_hLogger.Trace("Load signature CNMRiH_Player::ApplyVaccine.");
 
-    if (OS == OS_Linux32 || OS == OS_Linux64)
+    if (g_eOS == OS_Linux32 || g_eOS == OS_Linux64)
     {
         StartPrepSDKCall(SDKCall_Static);
         PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::BleedOut");
         PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
         if ((hCallers[HDL_BleedOut] = EndPrepSDKCall()) == null)
-            Log(LogLevel_Fatal, "Failed to load signature CNMRiH_Player::BleedOut");
+            g_hLogger.Fatal("Failed to load signature CNMRiH_Player::BleedOut");
         else
-            Log(LogLevel_Trace, "Load signature CNMRiH_Player::BleedOut.");
+            g_hLogger.Trace("Load signature CNMRiH_Player::BleedOut.");
 
         StartPrepSDKCall(SDKCall_Static);
         PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CNMRiH_Player::StopBleedingOut");
         PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
         if ((hCallers[HDL_StopBleedingOut] = EndPrepSDKCall()) == null)
-            Log(LogLevel_Fatal, "Failed to load signature CNMRiH_Player::StopBleedingOut");
+            g_hLogger.Fatal("Failed to load signature CNMRiH_Player::StopBleedingOut");
         else
-            Log(LogLevel_Trace, "Load signature CNMRiH_Player::StopBleedingOut.");
+            g_hLogger.Trace("Load signature CNMRiH_Player::StopBleedingOut.");
     }
     else
     {
-        Log(LogLevel_Info, "The CNMRiH_Player::BleedOut function does not work on Win32 & Win64.");
-        Log(LogLevel_Info, "The CNMRiH_Player::StopBleedingOut function does not work on Win32 & Win64.");
+        g_hLogger.Info("The CNMRiH_Player::BleedOut function does not work on Win32 & Win64.");
+        g_hLogger.Info("The CNMRiH_Player::StopBleedingOut function does not work on Win32 & Win64.");
     }
 }
 
@@ -291,7 +291,7 @@ static any Native_ApplyBandage(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     SDKCall(hCallers[HDL_ApplyBandage], player);
     return 0;
@@ -301,7 +301,7 @@ static any Native_ApplyFirstAidKit(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     SDKCall(hCallers[HDL_ApplyFirstAidKit], player);
     return 0;
@@ -311,7 +311,7 @@ static any Native_ApplyVaccine(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     SDKCall(hCallers[HDL_ApplyVaccine], player);
     return 0;
@@ -321,10 +321,10 @@ static any Native_BleedOut(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
-    if (!(OS == OS_Linux32 || OS == OS_Linux64))
-        Log(LogLevel_Error, "Supports only Linux32 & Linux64.");
+    if (!(g_eOS == OS_Linux32 || g_eOS == OS_Linux64))
+        g_hLogger.ErrorF("Supports only Linux32 & Linux64.");
 
     SDKCall(hCallers[HDL_BleedOut], player);
     return 0;
@@ -334,7 +334,7 @@ static any Native_EnableSprint(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     bool value = GetNativeCell(2);
     SDKCall(hCallers[HDL_EnableSprint], player, value);
@@ -345,7 +345,7 @@ static int Native_GetAmmoCarryWeight(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     static ConVar convar = null;
     if (!convar)
@@ -377,7 +377,7 @@ static int Native_GetAmmoCarryWeight(Handle plugin, int numParams)
 // {
 //     int player = GetNativeCell(1);
 //     if (!IsValidClient(player))
-//         Log(LogLevel_Error, "invalid player %d", player);
+//         g_hLogger.ErrorF("invalid player %d", player);
 
 //     Handle handle = GetNativeCell(2);
 
@@ -391,7 +391,7 @@ static any Native_GetJumpStaminaCost(Handle plugin, int numParams)
 {
     NMR_Player player = GetNativeCell(1);
     if (!player.IsValid)
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     static ConVar svStamJumpcost = null;
     if (!svStamJumpcost)
@@ -410,7 +410,7 @@ static int Native_GetLastObserverMode(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     return SDKCall(hCallers[HDL_GetLastObserverMode], player);
 }
@@ -419,7 +419,7 @@ static int Native_GetMaxCarriedWeight(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     static ConVar convar = null;
     if (!convar)
@@ -432,14 +432,14 @@ static int Native_GetMaxCarriedWeight(Handle plugin, int numParams)
 // {
 //     int player = GetNativeCell(1);
 //     if (!IsValidClient(player))
-//         Log(LogLevel_Error, "invalid player %d", player);
+//         g_hLogger.ErrorF("invalid player %d", player);
 // }
 
 static any Native_HasFlashlight(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     return SDKCall(hCallers[HDL_HasFlashlight], player);
 }
@@ -448,7 +448,7 @@ static any Native_HasWalkieTalkie(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     return SDKCall(hCallers[HDL_HasWalkieTalkie], player);
 }
@@ -457,10 +457,10 @@ static any Native_StopBleedingOut(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
-    if (!(OS == OS_Linux32 || OS == OS_Linux64))
-        Log(LogLevel_Error, "Supports only Linux32 & Linux64.");
+    if (!(g_eOS == OS_Linux32 || g_eOS == OS_Linux64))
+        g_hLogger.ErrorF("Supports only Linux32 & Linux64.");
 
     SDKCall(hCallers[HDL_StopBleedingOut], player);
     return 0;
@@ -470,7 +470,7 @@ static any Native_IsMoving(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     return SDKCall(hCallers[HDL_IsMoving], player);
 }
@@ -479,7 +479,7 @@ static any Native_GetAliveDuration(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     return SDKCall(hCallers[HDL_GetAliveDuration], player);
 }
@@ -488,7 +488,7 @@ static any Native_FlashlightIsOn(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     return SDKCall(hCallers[HDL_FlashlightIsOn], player);
 }
@@ -497,7 +497,7 @@ static any Native_FlashlightTurnOn(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     SDKCall(hCallers[HDL_FlashlightTurnOn], player);
     return 0;
@@ -507,7 +507,7 @@ static any Native_FlashlightTurnOff(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     SDKCall(hCallers[HDL_FlashlightTurnOff], player);
     return 0;
@@ -517,7 +517,7 @@ static any Native_State_Transition(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     int state = GetNativeCell(2);
 
@@ -529,7 +529,7 @@ static any Native_CureInfection(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     SDKCall(hCallers[HDL_CureInfection], player);
     return 0;
@@ -539,7 +539,7 @@ static any Native_BecomeInfected(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     SDKCall(hCallers[HDL_BecomeInfected], player);
     return 0;
@@ -549,7 +549,7 @@ static any Native_TakePills(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     SDKCall(hCallers[HDL_TakePills], player);
     return 0;
@@ -559,7 +559,7 @@ static any Native_TakePillsInner(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     SDKCall(hCallers[HDL_TakePillsInner], player);
     return 0;
@@ -569,10 +569,10 @@ static any Native_TakePillsEffects(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     // Windows
-    if (OS == OS_Win32 || OS == OS_Win64)
+    if (g_eOS == OS_Win32 || g_eOS == OS_Win64)
     {
         TakePillsEffects(player);
     }
@@ -588,11 +588,11 @@ static any Native_IsValidObserverTarget(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     int entity = GetNativeCell(2);
     if (!IsValidEntity(entity))
-        Log(LogLevel_Error, "invalid entity %d", entity);
+        g_hLogger.ErrorF("invalid entity %d", entity);
 
     return SDKCall(hCallers[HDL_IsValidObserverTarget], player, entity);
 }
@@ -601,7 +601,7 @@ static any Native_CanSprint(Handle plugin, int numParams)
 {
     int player = GetNativeCell(1);
     if (!IsValidClient(player))
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     return SDKCall(hCallers[HDL_CanSprint], player);
 }
@@ -610,13 +610,13 @@ static any Native_ForceSpawn(Handle plugin, int numParams)
 {
     NMR_Player player = GetNativeCell(1);
     if (!player.IsValid)
-        Log(LogLevel_Error, "invalid player %d", player);
+        g_hLogger.ErrorF("invalid player %d", player);
 
     if (player.IsAlive && player.m_iPlayerState == 0) // TODO STATE_ACTIVE
         return 0;
 
     if (!LibraryExists("nmrih_gamerules"))
-        Log(LogLevel_Error, "The plugin 'nmrih_gamerules' does not exist, NMR_Player.ForceSpawn is unavailable.");
+        g_hLogger.Error("The plugin 'nmrih_gamerules' does not exist, NMR_Player.ForceSpawn is unavailable.");
 
     int target = GetNativeCell(2);
 
@@ -648,7 +648,7 @@ static any Native_ForceSpawn(Handle plugin, int numParams)
     }
     else
     {
-        Log(LogLevel_Error, "invalid target %d", target);
+        g_hLogger.ErrorF("invalid target %d", target);
     }
 
     iSpawningPlayer = player.Index;

@@ -54,7 +54,7 @@ void CreateDetourGlobalForwards()
 
 void LoadDetourFunctions(GameData gamedata)
 {
-    Log(LogLevel_Trace, "Starting to load detour functions ...");
+    g_hLogger.Trace("Starting to load detour functions ...");
 
     DetourPlayer(gamedata, "CNMRiH_Player::CureInfection",          CureInfection,          CureInfectionPost);
     DetourPlayer(gamedata, "CNMRiH_Player::BecomeInfected",         BecomeInfected,         BecomeInfectedPost);
@@ -62,26 +62,26 @@ void LoadDetourFunctions(GameData gamedata)
     DetourPlayer(gamedata, "CNMRiH_Player::OnGrabbedBegin",         OnGrabbedBegin,         OnGrabbedBeginPost);
     DetourPlayer(gamedata, "CNMRiH_Player::ApplyBandage",           ApplyBandage,           ApplyBandagePost);
 
-    if (OS == OS_Linux32 || OS == OS_Linux64 || OS == OS_Win64)
+    if (g_eOS == OS_Linux32 || g_eOS == OS_Linux64 || g_eOS == OS_Win64)
     {
         DetourPlayer(gamedata, "CNMRiH_Player::ApplyFirstAidKit",   ApplyFirstAidKit,       ApplyFirstAidKitPost);
     }
     else
     {
-        Log(LogLevel_Info, "The CNMRiH_Player::ApplyFirstAidKit detour does not work on Win32.");
+        g_hLogger.Info("The CNMRiH_Player::ApplyFirstAidKit detour does not work on Win32.");
     }
 
     DetourPlayer(gamedata, "CNMRiH_Player::ApplyVaccine",           ApplyVaccine,           ApplyVaccinePost);
 
-    if (OS == OS_Linux32 || OS == OS_Linux64)
+    if (g_eOS == OS_Linux32 || g_eOS == OS_Linux64)
     {
         DetourPlayer(gamedata, "CNMRiH_Player::BleedOut",           BleedOut,               BleedOutPost);
         DetourPlayer(gamedata, "CNMRiH_Player::StopBleedingOut",    StopBleedingOut,        StopBleedingOutPost);
     }
     else
     {
-        Log(LogLevel_Info, "The CNMRiH_Player::BleedOut detour does not work on Win32 & Win64.");
-        Log(LogLevel_Info, "The CNMRiH_Player::BleedOut StopBleedingOut does not work on Win32 & Win64.");
+        g_hLogger.Info("The CNMRiH_Player::BleedOut detour does not work on Win32 & Win64.");
+        g_hLogger.Info("The CNMRiH_Player::BleedOut StopBleedingOut does not work on Win32 & Win64.");
     }
 
     // DetourPlayer(gamedata, "CNMRiH_Player::", , Post))
@@ -91,15 +91,15 @@ static void DetourPlayer(Handle gamedata, const char[] name, DHookCallback PreCB
 {
     DynamicDetour detour = DynamicDetour.FromConf(gamedata, name);
     if (!detour)
-        Log(LogLevel_Fatal, "Failed to setup detour for Functions \"%s\"", name);
+        g_hLogger.FatalF("Failed to setup detour for Functions \"%s\"", name);
 
     if (!detour.Enable(Hook_Pre, PreCB))
-        Log(LogLevel_Fatal, "Failed to enable detour \"%s\"", name);
+        g_hLogger.FatalF("Failed to enable detour \"%s\"", name);
 
     if (!detour.Enable(Hook_Post, PostCB))
-        Log(LogLevel_Fatal, "Failed to enable detour \"%s\" Post", name);
+        g_hLogger.FatalF("Failed to enable detour \"%s\" Post", name);
 
-    Log(LogLevel_Debug, "Setup detour for function \"%s\".", name);
+    g_hLogger.DebugF("Setup detour for function \"%s\".", name);
 }
 
 
@@ -109,7 +109,7 @@ static void DetourPlayer(Handle gamedata, const char[] name, DHookCallback PreCB
 // Note3: 使用 疫苗 后只会触发一次
 static MRESReturn CureInfection(int pThis)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::CureInfection this %d", pThis);
+    g_hLogger.TraceF("CNMRiH_Player::CureInfection this %d", pThis);
     int player = pThis;
 
     Action result;
@@ -117,7 +117,7 @@ static MRESReturn CureInfection(int pThis)
     Call_PushCell(player);
     Call_Finish(result);
 
-    Log(LogLevel_Trace, "CNMRiH_Player::CureInfection result %d.", result);
+    g_hLogger.TraceF("CNMRiH_Player::CureInfection result %d.", result);
     if (result != Plugin_Continue)
         return MRES_Supercede;
     return MRES_Ignored;
@@ -125,7 +125,7 @@ static MRESReturn CureInfection(int pThis)
 
 static MRESReturn CureInfectionPost(int pThis)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::CureInfection Post this %d", pThis);
+    g_hLogger.TraceF("CNMRiH_Player::CureInfection Post this %d", pThis);
     int player = pThis;
 
     Call_StartForward(hGlobalForwards[FWD_CureInfectionPost]);
@@ -138,7 +138,7 @@ static MRESReturn CureInfectionPost(int pThis)
 // Note1: 即使已注射疫苗仍会触发此绕行
 static MRESReturn BecomeInfected(int pThis)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::BecomeInfected this %d", pThis);
+    g_hLogger.TraceF("CNMRiH_Player::BecomeInfected this %d", pThis);
     int player = pThis;
 
     Action result;
@@ -146,7 +146,7 @@ static MRESReturn BecomeInfected(int pThis)
     Call_PushCell(player);
     Call_Finish(result);
 
-    Log(LogLevel_Trace, "CNMRiH_Player::BecomeInfected result %d.", result);
+    g_hLogger.TraceF("CNMRiH_Player::BecomeInfected result %d.", result);
     if (result != Plugin_Continue)
         return MRES_Supercede;
     return MRES_Ignored;
@@ -154,7 +154,7 @@ static MRESReturn BecomeInfected(int pThis)
 
 static MRESReturn BecomeInfectedPost(int pThis)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::BecomeInfected Post this %d", pThis);
+    g_hLogger.TraceF("CNMRiH_Player::BecomeInfected Post this %d", pThis);
     int player = pThis;
 
     Call_StartForward(hGlobalForwards[FWD_BecomeInfectedPost]);
@@ -166,7 +166,7 @@ static MRESReturn BecomeInfectedPost(int pThis)
 // 用 UserMessage - Cure 替代
 static MRESReturn TakePills(int pThis)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::TakePills this %d", pThis);
+    g_hLogger.TraceF("CNMRiH_Player::TakePills this %d", pThis);
     int player = pThis;
 
     Action result;
@@ -174,7 +174,7 @@ static MRESReturn TakePills(int pThis)
     Call_PushCell(player);
     Call_Finish(result);
 
-    Log(LogLevel_Trace, "CNMRiH_Player::TakePills result %d.", result);
+    g_hLogger.TraceF("CNMRiH_Player::TakePills result %d.", result);
     if (result != Plugin_Continue)
         return MRES_Supercede;
     return MRES_Ignored;
@@ -182,7 +182,7 @@ static MRESReturn TakePills(int pThis)
 
 static MRESReturn TakePillsPost(int pThis)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::TakePills Post this %d", pThis);
+    g_hLogger.TraceF("CNMRiH_Player::TakePills Post this %d", pThis);
     int player = pThis;
 
     Call_StartForward(hGlobalForwards[FWD_TakePillsPost]);
@@ -193,10 +193,10 @@ static MRESReturn TakePillsPost(int pThis)
 
 static MRESReturn OnGrabbedBegin(int pThis, DHookParam hParams)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::OnGrabbedBegin this %d, params %d", pThis, hParams);
+    g_hLogger.TraceF("CNMRiH_Player::OnGrabbedBegin this %d, params %d", pThis, hParams);
     int player = pThis;
     int causer = hParams.Get(1);
-    Log(LogLevel_Trace, "CNMRiH_Player::OnGrabbedBegin param1 %d", causer);
+    g_hLogger.TraceF("CNMRiH_Player::OnGrabbedBegin param1 %d", causer);
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_OnGrabbedBegin]);
@@ -204,7 +204,7 @@ static MRESReturn OnGrabbedBegin(int pThis, DHookParam hParams)
     Call_PushCell(causer);
     Call_Finish(result);
 
-    Log(LogLevel_Trace, "CNMRiH_Player::OnGrabbedBegin result %d.", result);
+    g_hLogger.TraceF("CNMRiH_Player::OnGrabbedBegin result %d.", result);
     if (result != Plugin_Continue)
         return MRES_Supercede;
     return MRES_Ignored;
@@ -212,10 +212,10 @@ static MRESReturn OnGrabbedBegin(int pThis, DHookParam hParams)
 
 static MRESReturn OnGrabbedBeginPost(int pThis, DHookParam hParams)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::OnGrabbedBegin Post this %d, params %d", pThis, hParams);
+    g_hLogger.TraceF("CNMRiH_Player::OnGrabbedBegin Post this %d, params %d", pThis, hParams);
     int player = pThis;
     int causer = hParams.Get(1);
-    Log(LogLevel_Trace, "CNMRiH_Player::OnGrabbedBegin Post param1 %d", causer);
+    g_hLogger.TraceF("CNMRiH_Player::OnGrabbedBegin Post param1 %d", causer);
 
     Call_StartForward(hGlobalForwards[FWD_OnGrabbedBeginPost]);
     Call_PushCell(player);
@@ -226,7 +226,7 @@ static MRESReturn OnGrabbedBeginPost(int pThis, DHookParam hParams)
 
 static MRESReturn ApplyBandage(int pThis)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::ApplyBandage this %d", pThis);
+    g_hLogger.TraceF("CNMRiH_Player::ApplyBandage this %d", pThis);
     int player = pThis;
 
     Action result;
@@ -234,7 +234,7 @@ static MRESReturn ApplyBandage(int pThis)
     Call_PushCell(player);
     Call_Finish(result);
 
-    Log(LogLevel_Trace, "CNMRiH_Player::ApplyBandage result %d.", result);
+    g_hLogger.TraceF("CNMRiH_Player::ApplyBandage result %d.", result);
     if (result != Plugin_Continue)
         return MRES_Supercede;
     return MRES_Ignored;
@@ -242,7 +242,7 @@ static MRESReturn ApplyBandage(int pThis)
 
 static MRESReturn ApplyBandagePost(int pThis)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::ApplyBandage Post this %d", pThis);
+    g_hLogger.TraceF("CNMRiH_Player::ApplyBandage Post this %d", pThis);
     int player = pThis;
 
     Call_StartForward(hGlobalForwards[FWD_ApplyBandagePost]);
@@ -253,7 +253,7 @@ static MRESReturn ApplyBandagePost(int pThis)
 
 static MRESReturn ApplyFirstAidKit(int pThis)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::ApplyFirstAidKit this %d", pThis);
+    g_hLogger.TraceF("CNMRiH_Player::ApplyFirstAidKit this %d", pThis);
     int player = pThis;
 
     Action result;
@@ -261,7 +261,7 @@ static MRESReturn ApplyFirstAidKit(int pThis)
     Call_PushCell(player);
     Call_Finish(result);
 
-    Log(LogLevel_Trace, "CNMRiH_Player::ApplyFirstAidKit result %d.", result);
+    g_hLogger.TraceF("CNMRiH_Player::ApplyFirstAidKit result %d.", result);
     if (result != Plugin_Continue)
         return MRES_Supercede;
     return MRES_Ignored;
@@ -269,7 +269,7 @@ static MRESReturn ApplyFirstAidKit(int pThis)
 
 static MRESReturn ApplyFirstAidKitPost(int pThis)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::ApplyFirstAidKit Post this %d", pThis);
+    g_hLogger.TraceF("CNMRiH_Player::ApplyFirstAidKit Post this %d", pThis);
     int player = pThis;
 
     Call_StartForward(hGlobalForwards[FWD_ApplyFirstAidKitPost]);
@@ -280,7 +280,7 @@ static MRESReturn ApplyFirstAidKitPost(int pThis)
 
 static MRESReturn ApplyVaccine(int pThis)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::ApplyVaccine this %d", pThis);
+    g_hLogger.TraceF("CNMRiH_Player::ApplyVaccine this %d", pThis);
     int player = pThis;
 
     Action result;
@@ -288,7 +288,7 @@ static MRESReturn ApplyVaccine(int pThis)
     Call_PushCell(player);
     Call_Finish(result);
 
-    Log(LogLevel_Trace, "CNMRiH_Player::ApplyVaccine result %d.", result);
+    g_hLogger.TraceF("CNMRiH_Player::ApplyVaccine result %d.", result);
     if (result != Plugin_Continue)
         return MRES_Supercede;
     return MRES_Ignored;
@@ -296,7 +296,7 @@ static MRESReturn ApplyVaccine(int pThis)
 
 static MRESReturn ApplyVaccinePost(int pThis)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::ApplyVaccine Post this %d", pThis);
+    g_hLogger.TraceF("CNMRiH_Player::ApplyVaccine Post this %d", pThis);
     int player = pThis;
 
     Call_StartForward(hGlobalForwards[FWD_ApplyVaccinePost]);
@@ -307,16 +307,16 @@ static MRESReturn ApplyVaccinePost(int pThis)
 
 static MRESReturn BleedOut(DHookParam hParams)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::BleedOut params %d", hParams);
+    g_hLogger.TraceF("CNMRiH_Player::BleedOut params %d", hParams);
     int player = hParams.Get(1);
-    Log(LogLevel_Trace, "CNMRiH_Player::BleedOut param1 %d", player);
+    g_hLogger.TraceF("CNMRiH_Player::BleedOut param1 %d", player);
 
     Action result;
     Call_StartForward(hGlobalForwards[FWD_BleedOut]);
     Call_PushCell(player);
     Call_Finish(result);
 
-    Log(LogLevel_Trace, "CNMRiH_Player::BleedOut result %d.", result);
+    g_hLogger.TraceF("CNMRiH_Player::BleedOut result %d.", result);
     if (result != Plugin_Continue)
         return MRES_Supercede;
     return MRES_Ignored;
@@ -324,9 +324,9 @@ static MRESReturn BleedOut(DHookParam hParams)
 
 static MRESReturn BleedOutPost(DHookParam hParams)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::BleedOut Post params %d", hParams);
+    g_hLogger.TraceF("CNMRiH_Player::BleedOut Post params %d", hParams);
     int player = hParams.Get(1);
-    Log(LogLevel_Trace, "CNMRiH_Player::BleedOut Post param1 %d", player);
+    g_hLogger.TraceF("CNMRiH_Player::BleedOut Post param1 %d", player);
 
     Call_StartForward(hGlobalForwards[FWD_BleedOutPost]);
     Call_PushCell(player);
@@ -342,7 +342,7 @@ static MRESReturn BleedOutPost(DHookParam hParams)
 // Note5: 玩家 撤离后 只会触发一次
 static MRESReturn StopBleedingOut(int pThis)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::StopBleedingOut this %d", pThis);
+    g_hLogger.TraceF("CNMRiH_Player::StopBleedingOut this %d", pThis);
     int player = pThis;
 
     Action result;
@@ -350,7 +350,7 @@ static MRESReturn StopBleedingOut(int pThis)
     Call_PushCell(player);
     Call_Finish(result);
 
-    Log(LogLevel_Trace, "CNMRiH_Player::StopBleedingOut result %d.", result);
+    g_hLogger.TraceF("CNMRiH_Player::StopBleedingOut result %d.", result);
     if (result != Plugin_Continue)
         return MRES_Supercede;
     return MRES_Ignored;
@@ -358,7 +358,7 @@ static MRESReturn StopBleedingOut(int pThis)
 
 static MRESReturn StopBleedingOutPost(int pThis)
 {
-    Log(LogLevel_Trace, "CNMRiH_Player::StopBleedingOut Post this %d", pThis);
+    g_hLogger.TraceF("CNMRiH_Player::StopBleedingOut Post this %d", pThis);
     int player = pThis;
 
     Call_StartForward(hGlobalForwards[FWD_StopBleedingOutPost]);

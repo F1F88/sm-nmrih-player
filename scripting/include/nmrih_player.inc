@@ -4,11 +4,9 @@
 #endif
 #define _nmrih_player_utils_included_
 
-#include <vscript_proxy>
-
-#pragma newdecls required
-#pragma semicolon 1
-
+#if !defined _vscriptproxy_included_
+    #error "You need to include the <vscript_proxy> (https://github.com/dysphie/nmrih-vscript-proxy) before include this one."
+#endif
 
 #define NMR_MAXPLAYERS              9
 
@@ -1841,6 +1839,18 @@ stock bool IsGenericAdmin(int client) {
 }
 
 static void __CheckClientValid(int player) {
-    if (!IsValidClient(player))
+    if (IsValidClient(player))
+        return;
+
+#if defined _log4sp_manager_register_included
+    if (LoggerRegistry.IsAvailable()) {
+        Logger logger = LoggerRegistry.Instance().Get("lib-player");
+        logger.ErrorF("Invalid player index %d", player);
+    } else {
         ThrowError("Invalid player index %d", player);
+    }
+#else
+    #warning '<log4sp/registry> is not included, ThrowError is used instead.'
+    ThrowError("Invalid player index %d", player);
+#endif
 }
