@@ -35,6 +35,16 @@ jobs:
           path: artifacts/*
           if-no-files-found: error
 
+      - name: Zip artifacts packages
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: bash
+        working-directory: artifacts
+        run: |
+          set -euo pipefail
+          for d in */; do
+            zip -rq "${d%/}.zip" "$d"
+          done
+
       - name: Publish GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v3
@@ -44,4 +54,4 @@ jobs:
           target_commitish: ${{ github.sha }}
           draft: true
           generate_release_notes: true
-          files: artifacts/*
+          files: artifacts/*.zip
